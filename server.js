@@ -46,7 +46,7 @@ class Room {
     this.state = 'lobby';
     this.currentQuestion = null;
     this.questionStartTime = null;
-    this.roundDuration = 15;
+    this.roundDuration = 25;
     this.theme = 'sein'; // дефолт тема
     this.answers = new Map();
     this.createdAt = Date.now();
