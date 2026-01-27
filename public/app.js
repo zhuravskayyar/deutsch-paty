@@ -727,6 +727,7 @@ function hostStartRoundDefault() {
   socket.emit('host:start-round', { theme });
 }
   function hostCreateRoom() {
+    console.log('Кнопка "Створити кімнату" натиснута');
     socket.emit('host:create-room');
   }
   
