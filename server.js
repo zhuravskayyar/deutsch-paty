@@ -248,6 +248,17 @@ function scheduleAutoStartIfReady(room) {
 function startRound(room, theme = null) {
   if (!room || room.state === 'question') return;
 
+  // Перевірка ліміту питань: 50 на матч
+  if (room.totalQuestionsUsed >= 50) {
+    console.log(`🎉 50 питань використано! Матч завершено.`);
+    emitToRoom(room, 'match-ended', {
+      scores: room.getPlayerList(),
+      reason: 'questions-limit-reached'
+    });
+    room.matchStarted = false;
+    return;
+  }
+
   // Використовуємо глобальну логіку вибору питань
   const question = getRandomQuestionGlobal(
     room.allUsedQuestions,
@@ -276,7 +287,7 @@ function startRound(room, theme = null) {
     question,
     duration: room.roundDuration,
     round: room.totalQuestionsUsed,
-    maxRounds: getTotalQuestionsCount(),
+    maxRounds: 50,
     playerCount: room.players.size,
     scores: room.getPlayerList()
   });
