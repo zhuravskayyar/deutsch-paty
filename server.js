@@ -638,10 +638,10 @@ function endRound(roomCode) {
     results,
     scores: room.getPlayerList(),
     round: room.totalQuestionsUsed,
-    maxRounds: getTotalQuestionsCount()
+    maxRounds: 50
   });
 
-  console.log(`🏁 Питання ${room.totalQuestionsUsed}/${getTotalQuestionsCount()} завершено`);
+  console.log(`🏁 Питання ${room.totalQuestionsUsed}/50 завершено`);
 
   // ⏭ автоперехід до наступного питання
   if (room.matchStarted) {
