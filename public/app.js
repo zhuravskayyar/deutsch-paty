@@ -1534,4 +1534,15 @@ function hostStartRoundDefault() {
     if (isHost) {
     }
   });
+
+  // ===== BACKGROUND MUSIC =====
+  const bgMusic = document.getElementById('bgMusic');
+  function startMusicOnce() {
+    if (!bgMusic) return;
+    bgMusic.volume = 0.4;
+    bgMusic.play().catch(() => {});
+    document.removeEventListener('click', startMusicOnce);
+  }
+  // запуск після першої взаємодії користувача
+  document.addEventListener('click', startMusicOnce);
 })();
