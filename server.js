@@ -124,23 +124,26 @@ function getTotalQuestionsCount() {
   return total;
 }
 
-function getRandomQuestionGlobal(allUsedQuestions, lastQuestionId = null) {
+function getRandomQuestionGlobal(allUsedQuestions, lastKey = null) {
   const allQuestions = [];
+
   for (const theme in grammarQuestions) {
-    allQuestions.push(...grammarQuestions[theme]);
+    const arr = grammarQuestions[theme] || [];
+    for (const q of arr) {
+      // робимо унікальний ключ
+      const key = `${theme}:${q.id}`;
+      allQuestions.push({ ...q, _theme: theme, _key: key });
+    }
   }
-  
-  const availableQuestions = allQuestions.filter(q => !allUsedQuestions.has(q.id));
-  
-  if (availableQuestions.length === 0) {
-    return null;
+
+  const available = allQuestions.filter(q => !allUsedQuestions.has(q._key));
+  if (available.length === 0) return null;
+
+  let candidates = available;
+  if (lastKey && available.length > 1) {
+    candidates = available.filter(q => q._key !== lastKey);
   }
-  
-  let candidates = availableQuestions;
-  if (lastQuestionId !== null && availableQuestions.length > 1) {
-    candidates = availableQuestions.filter(q => q.id !== lastQuestionId);
-  }
-  
+
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
@@ -224,8 +227,8 @@ function scheduleAutoStartIfReady(room) {
 function startRound(room, theme = null) {
   if (!room || room.state === 'question') return;
 
-  if (room.totalQuestionsUsed >= 50) {
-    console.log(`🎉 50 питань використано! Матч завершено.`);
+  if (room.totalQuestionsUsed >= room.maxRounds) {
+    console.log(`🎉 ${room.maxRounds} питань використано! Матч завершено.`);
     emitToRoom(room, 'match-ended', {
       scores: room.getPlayerList(),
       reason: 'questions-limit-reached'
@@ -236,7 +239,7 @@ function startRound(room, theme = null) {
 
   const question = getRandomQuestionGlobal(
     allUsedQuestionsGlobal,
-    room.currentQuestion?.id
+    room.currentQuestion?._key
   );
 
   if (!question) {
@@ -249,7 +252,7 @@ function startRound(room, theme = null) {
     return;
   }
 
-  allUsedQuestionsGlobal.add(question.id);
+  allUsedQuestionsGlobal.add(question._key);
   room.totalQuestionsUsed++;
   room.state = 'question';
   room.currentQuestion = question;
@@ -260,7 +263,7 @@ function startRound(room, theme = null) {
     question,
     duration: room.roundDuration,
     round: room.totalQuestionsUsed,
-    maxRounds: 50,
+    maxRounds: room.maxRounds,
     playerCount: room.players.size,
     scores: room.getPlayerList()
   });
@@ -303,11 +306,11 @@ function endRound(roomCode, meta = {}) {
     resultsDetailed: resultsDetailed,
     scores: room.getPlayerList(),
     round: room.totalQuestionsUsed,
-    maxRounds: 50,
+    maxRounds: room.maxRounds,
     reason: meta.reason || 'ended'
   });
 
-  console.log(`🏁 Питання ${room.totalQuestionsUsed}/50 завершено`);
+  console.log(`🏁 Питання ${room.totalQuestionsUsed}/${room.maxRounds} завершено`);
 
   if (room.matchStarted) {
     setTimeout(() => {
