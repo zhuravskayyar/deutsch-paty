@@ -5,6 +5,79 @@
   const $$ = (sel) => document.querySelectorAll(sel);
   
   const isHost = document.title.includes("Host");
+
+  // ===== i18n =====
+  const I18N = {
+    uk: {
+      // host
+      room: "Кімната",
+      roomDesc: "Гравці заходять з телефонів по коду. Після цього запускай матч і раунди.",
+      createRoom: "Створити кімнату",
+      reset: "Скинути",
+      roomCode: "Код кімнати",
+      copy: "Копіювати",
+      players: "Гравці",
+      startMatch: "Почати матч",
+      // quiz
+      quizHost: "Quiz — Панель хоста",
+      quizDesc: "Питання, таймер, хто відповів.",
+      openForPlayers: "Відкрито для гравців",
+      timer: "Таймер",
+      round: "Раунд",
+      question: "Питання",
+      theme: "Тема",
+      difficulty: "Складність",
+      questionText: "Текст питання буде тут...",
+      number: "#",
+      player: "Гравець",
+      points: "Бали",
+      roundStats: "Статистика раунду:",
+      correct: "правильних",
+      incorrect: "неправильних",
+      noAnswer: "не відповіли",
+      // toast
+      copied: "Код скопійовано!"
+    },
+    de: {
+      room: "Raum",
+      roomDesc: "Spieler treten per Code über ihre Handys bei. Dann startest du das Match und die Runden.",
+      createRoom: "Raum erstellen",
+      reset: "Zurücksetzen",
+      roomCode: "Raumcode",
+      copy: "Kopieren",
+      players: "Spieler",
+      startMatch: "Spiel starten",
+      quizHost: "Quiz — Host-Panel",
+      quizDesc: "Fragen, Timer, wer geantwortet hat.",
+      openForPlayers: "Offen für Spieler",
+      timer: "Timer",
+      round: "Runde",
+      question: "Frage",
+      theme: "Thema",
+      difficulty: "Schwierigkeit",
+      questionText: "Fragetext wird hier stehen...",
+      number: "#",
+      player: "Spieler",
+      points: "Punkte",
+      roundStats: "Rundenstatistik:",
+      correct: "richtig",
+      incorrect: "falsch",
+      noAnswer: "nicht geantwortet",
+      copied: "Code kopiert!"
+    }
+  };
+
+  function applyLanguage(lang) {
+    const dict = I18N[lang] || I18N.uk;
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (dict[key]) el.textContent = dict[key];
+    });
+
+    try { localStorage.setItem('dp_lang', lang); } catch {}
+  }
   
   // WebSocket підключення
   const socket = io();
@@ -1297,6 +1370,54 @@ function hostStartRoundDefault() {
     }
   }
   
+  function setRoundStatsUI() {
+    const roundStatsEl = document.getElementById('roundStats');
+    if (!roundStatsEl || !window.hostRoundStats) return;
+    
+    const { correct, wrong, noAnswer } = window.hostRoundStats;
+    // Используем функцию из host.html для обновления
+    if (typeof updateRoundStats === 'function') {
+      updateRoundStats(localStorage.getItem('dp_lang') || 'uk');
+    } else {
+      // Fallback
+      roundStatsEl.textContent = `${correct} правильних • ${wrong} неправильних • ${noAnswer} не відповіли`;
+    }
+  }
+  
+  // ===== LANGUAGE SELECT (host/player) =====
+  function initLanguageOverlay() {
+    const screenLang = document.getElementById('screenLang');
+    const screenLobby = document.getElementById('screenLobby');
+
+    // 1) якщо мова вже збережена — застосувати і прибрати екран вибору
+    let saved = null;
+    try { saved = localStorage.getItem('dp_lang'); } catch {}
+    if (saved) applyLanguage(saved);
+
+    if (!screenLang) return;
+
+    if (saved) {
+      screenLang.remove(); // ✅ кнопки повністю зникають
+      return;
+    }
+
+    // 2) якщо мови нема — ховаємо лобі до вибору
+    if (screenLobby) screenLobby.classList.add('hidden');
+
+    screenLang.querySelectorAll('button[data-lang]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang || 'uk';
+        applyLanguage(lang);
+
+        // ✅ прибираємо весь екран (кнопки зникли)
+        screenLang.remove();
+
+        // показуємо лобі
+        if (screenLobby) screenLobby.classList.remove('hidden');
+      });
+    });
+  }
+  
   // ==================== ІНІЦІАЛІЗАЦІЯ ====================
   function init() {
     /* =========================
@@ -1317,6 +1438,8 @@ function hostStartRoundDefault() {
       if (window.getTotalQuestionCount) {
         console.log("Total questions:", window.getTotalQuestionCount());
       }
+
+      initLanguageOverlay();
     });
 
     // Тема
