@@ -35,6 +35,7 @@ app.get('/status', (req, res) => {
 // ==================== ПОЛІПШЕНІ СТРУКТУРИ ДАНИХ ====================
 const rooms = new Map(); // roomCode -> Room object
 const playerConnections = new Map(); // playerId -> socketId[] (всі підключення гравця)
+const allUsedQuestionsGlobal = new Set(); // Глобальний набір використаних питань для всіх кімнат
 
 // Поліпшена структура кімнати
 class Room {
@@ -59,7 +60,6 @@ class Room {
     this.usedQuestions = new Set(); // Для уникнення повторів питань
     this.roundIndex = 0;
     this.maxRounds = 10;
-    this.allUsedQuestions = new Set(); // Глобальний набір використаних питань
     this.totalQuestionsUsed = 0;
   }
   
@@ -261,7 +261,7 @@ function startRound(room, theme = null) {
 
   // Використовуємо глобальну логіку вибору питань
   const question = getRandomQuestionGlobal(
-    room.allUsedQuestions,
+    allUsedQuestionsGlobal,
     room.currentQuestion?.id
   );
 
@@ -276,7 +276,7 @@ function startRound(room, theme = null) {
     return;
   }
 
-  room.allUsedQuestions.add(question.id);
+  allUsedQuestionsGlobal.add(question.id);
   room.totalQuestionsUsed++;
   room.state = 'question';
   room.currentQuestion = question;
