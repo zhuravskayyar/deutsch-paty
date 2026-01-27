@@ -59,6 +59,8 @@ class Room {
     this.usedQuestions = new Set(); // Для уникнення повторів питань
     this.roundIndex = 0;
     this.maxRounds = 10;
+    this.allUsedQuestions = new Set(); // Глобальний набір використаних питань
+    this.totalQuestionsUsed = 0;
   }
   
   // Отримати список гравців для відображення
@@ -120,8 +122,36 @@ function findRoomByPlayerSocket(socketId) {
   return null;
 }
 
-function getQuestionsByTheme(theme) {
-  return grammarQuestions[theme] || grammarQuestions.sein;
+function getTotalQuestionsCount() {
+  let total = 0;
+  for (const theme in grammarQuestions) {
+    total += grammarQuestions[theme].length;
+  }
+  return total;
+}
+
+function getRandomQuestionGlobal(allUsedQuestions, lastQuestionId = null) {
+  // Собираем все доступные вопросы из всех тем
+  const allQuestions = [];
+  for (const theme in grammarQuestions) {
+    allQuestions.push(...grammarQuestions[theme]);
+  }
+  
+  // Фильтруем неиспользованные
+  const availableQuestions = allQuestions.filter(q => !allUsedQuestions.has(q.id));
+  
+  if (availableQuestions.length === 0) {
+    // Все вопросы использованы - возвращаем null для окончания матча
+    return null;
+  }
+  
+  // Избегаем повторения последнего вопроса
+  let candidates = availableQuestions;
+  if (lastQuestionId !== null && availableQuestions.length > 1) {
+    candidates = availableQuestions.filter(q => q.id !== lastQuestionId);
+  }
+  
+  return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
 // Функція для надсилання подій лише один раз на гравця
@@ -218,20 +248,25 @@ function scheduleAutoStartIfReady(room) {
 function startRound(room, theme = null) {
   if (!room || room.state === 'question') return;
 
-  const actualTheme = theme || room.theme;
-
-  const question = getRandomQuestionFromTheme(
-    actualTheme,
-    room.usedQuestions,
+  // Використовуємо глобальну логіку вибору питань
+  const question = getRandomQuestionGlobal(
+    room.allUsedQuestions,
     room.currentQuestion?.id
   );
 
   if (!question) {
-    console.warn('Немає питань для теми', actualTheme);
+    // Всі питання використані - завершуємо матч
+    console.log(`🎉 Всі ${getTotalQuestionsCount()} питань використані! Матч завершено.`);
+    emitToRoom(room, 'match-ended', {
+      scores: room.getPlayerList(),
+      reason: 'all-questions-used'
+    });
+    room.matchStarted = false;
     return;
   }
 
-  room.usedQuestions.add(question.id);
+  room.allUsedQuestions.add(question.id);
+  room.totalQuestionsUsed++;
   room.state = 'question';
   room.currentQuestion = question;
   room.questionStartTime = Date.now();
@@ -240,8 +275,8 @@ function startRound(room, theme = null) {
   emitToRoom(room, 'round-started', {
     question,
     duration: room.roundDuration,
-    round: room.roundIndex + 1,
-    maxRounds: room.maxRounds
+    round: room.totalQuestionsUsed,
+    maxRounds: getTotalQuestionsCount()
   });
 
   // ⏱ серверний таймер
@@ -251,7 +286,7 @@ function startRound(room, theme = null) {
     }
   }, room.roundDuration * 1000);
 
-  console.log(`⏱ Раунд ${room.roundIndex + 1} у кімнаті ${room.code}`);
+  console.log(`⏱ Питання ${room.totalQuestionsUsed}/${getTotalQuestionsCount()} у кімнаті ${room.code}`);
 }
 
 // ==================== ОСНОВНА ЛОГІКА SOCKET.IO ====================
@@ -316,15 +351,14 @@ io.on('connection', (socket) => {
     if (room.matchStarted) return; // уже запущено
 
     room.matchStarted = true;
-    room.loopQuestions = true;
+    // Не встановлюємо loopQuestions = true, використовуємо глобальну логіку питань
 
     emitToRoom(room, 'match-started', { startedAt: Date.now() });
 
-    // дефолт тема (можеш поміняти)
-    const theme = room.theme || 'sein';
-    startRound(room, theme);
+    // Запускаємо перший раунд з глобальної бази питань
+    startRound(room);
 
-    console.log(`🚀 MATCH START (loop) у кімнаті ${room.code}`);
+    console.log(`🚀 MATCH START (all questions) у кімнаті ${room.code}`);
   });
   
   // ========== PLAYER ДІЇ ==========
@@ -574,7 +608,6 @@ function endRound(roomCode) {
   if (!room) return;
 
   room.state = 'lobby';
-  room.roundIndex++;
 
   const results = Array.from(room.answers.entries()).map(([playerId, a]) => ({
     playerId,
@@ -586,29 +619,19 @@ function endRound(roomCode) {
   emitToRoom(room, 'round-ended', {
     results,
     scores: room.getPlayerList(),
-    round: room.roundIndex,
-    maxRounds: room.maxRounds
+    round: room.totalQuestionsUsed,
+    maxRounds: getTotalQuestionsCount()
   });
 
-  console.log(`🏁 Раунд ${room.roundIndex} завершено`);
+  console.log(`🏁 Питання ${room.totalQuestionsUsed}/${getTotalQuestionsCount()} завершено`);
 
-  // ⏭ автоперехід
-  if (room.loopQuestions) {
+  // ⏭ автоперехід до наступного питання
+  if (room.matchStarted) {
     setTimeout(() => {
       if (!rooms.has(room.code)) return;
       if (!room.matchStarted) return;
-      startRound(room, room.theme || 'sein');
+      startRound(room);
     }, room.roundPauseMs);
-  } else {
-    if (room.roundIndex < room.maxRounds) {
-      setTimeout(() => {
-        startRound(room, room.theme || 'sein');
-      }, 3000); // 3с пауза між питаннями
-    } else {
-      emitToRoom(room, 'match-ended', {
-        scores: room.getPlayerList()
-      });
-    }
   }
 }
 
