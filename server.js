@@ -624,7 +624,7 @@ function endRound(roomCode, meta = {}) {
     // Видаляємо інформацію про це підключення
     playerConnections.delete(socket.id);
   });
-});
+};
 
 // ==================== ФУНКЦІЇ ДЛЯ РАУНДІВ ====================
 function endRound(roomCode, meta = {}) {
