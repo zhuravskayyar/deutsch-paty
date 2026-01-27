@@ -727,7 +727,7 @@ function hostStartRoundDefault() {
   socket.emit('host:start-round', { theme });
 }
   function hostCreateRoom() {
-    console.log('Кнопка "Створити кімнату" натиснута');
+    console.log("🟡 CREATE ROOM CLICK");
     socket.emit('host:create-room');
   }
   
@@ -823,6 +823,8 @@ function hostStartRoundDefault() {
 
   // Загальні події
   socket.on('connect', () => {
+    console.log("🔌 SOCKET CONNECTED:", socket.id);
+
     state.socketId = socket.id;
     console.log('🔗 Підключено до сервера');
     if (isHost) updateServerStatus('online');
@@ -838,10 +840,23 @@ function hostStartRoundDefault() {
   });
   
   // Host події
-  socket.on('room-created', (data) => {
-    state.roomCode = data.roomCode;
-    if (roomCodeEl) roomCodeEl.textContent = data.roomCode.split('').join(' ');
-    toast('Кімната створена', `Код: ${data.roomCode}`);
+  socket.on('room-created', ({ code }) => {
+    console.log("🟢 ROOM CREATED:", code);
+
+    state.roomCode = code;
+
+    const elSmall = document.getElementById("roomCode");
+    const elBig = document.getElementById("roomCodeBig");
+
+    if (elSmall) elSmall.textContent = code;
+    if (elBig) elBig.textContent = code;
+
+    // показуємо lobby screen
+    const screenLang = document.getElementById("screenLang");
+    const screenLobby = document.getElementById("screenLobby");
+
+    if (screenLang) screenLang.classList.add("hidden");
+    if (screenLobby) screenLobby.classList.remove("hidden");
   });
   
   socket.on('player-joined', (player) => {

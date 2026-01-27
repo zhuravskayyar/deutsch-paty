@@ -14,8 +14,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"]
   },
   connectionStateRecovery: {
-    // Запобігає дублюванню під час перезавантаження
-    maxDisconnectionDuration: 2 * 60 * 1000, // 2 хвилини
+    maxDisconnectionDuration: 2 * 60 * 1000,
     skipMiddlewares: true
   }
 });
@@ -32,38 +31,36 @@ app.get('/status', (req, res) => {
   `);
 });
 
-// ==================== ПОЛІПШЕНІ СТРУКТУРИ ДАНИХ ====================
-const rooms = new Map(); // roomCode -> Room object
-const playerConnections = new Map(); // playerId -> socketId[] (всі підключення гравця)
-const allUsedQuestionsGlobal = new Set(); // Глобальний набір використаних питань для всіх кімнат
+// ==================== СТРУКТУРИ ДАНИХ ====================
+const rooms = new Map();
+const playerConnections = new Map();
+const allUsedQuestionsGlobal = new Set();
 
-// Поліпшена структура кімнати
 class Room {
   constructor(code, hostSocketId) {
     this.code = code;
     this.hostSocketId = hostSocketId;
-    this.hostConnections = [hostSocketId]; // Всі підключення хоста
-    this.players = new Map(); // playerId -> {name, ready, score, connections[]}
+    this.hostConnections = [hostSocketId];
+    this.players = new Map();
     this.state = 'lobby';
     this.currentQuestion = null;
     this.questionStartTime = null;
     this.roundDuration = 25;
-    this.theme = 'sein'; // дефолт тема
+    this.theme = 'sein';
     this.answers = new Map();
     this.createdAt = Date.now();
     this.matchStarted = false;
     this.loopQuestions = false;
-    this.roundPauseMs = 1500; // пауза між питаннями
+    this.roundPauseMs = 1500;
     this.readyCheckStartedAt = Date.now();
-    this.autoStartCountdown = null; // timeout id
-    this.autoStartDelaySec = 3;     // короткий "3..2..1"
-    this.usedQuestions = new Set(); // Для уникнення повторів питань
+    this.autoStartCountdown = null;
+    this.autoStartDelaySec = 3;
+    this.usedQuestions = new Set();
     this.roundIndex = 0;
-    this.maxRounds = 10;
+    this.maxRounds = 50;
     this.totalQuestionsUsed = 0;
   }
   
-  // Отримати список гравців для відображення
   getPlayerList() {
     return Array.from(this.players.values()).map(p => ({
       id: p.id,
@@ -74,7 +71,6 @@ class Room {
     }));
   }
   
-  // Додати підключення гравця
   addPlayerConnection(playerId, socketId) {
     if (!this.players.has(playerId)) return;
     const player = this.players.get(playerId);
@@ -83,21 +79,19 @@ class Room {
     }
   }
   
-  // Видалити підключення гравця
   removePlayerConnection(playerId, socketId) {
     if (!this.players.has(playerId)) return;
     const player = this.players.get(playerId);
     player.connections = player.connections.filter(id => id !== socketId);
-    return player.connections.length === 0; // Повертає true, якщо не залишилось підключень
+    return player.connections.length === 0;
   }
   
-  // Отримати активні сокети гравця
   getPlayerSockets(playerId) {
     return this.players.has(playerId) ? this.players.get(playerId).connections : [];
   }
 }
 
-// ==================== ПОЛІПШЕНІ ФУНКЦІЇ ====================
+// ==================== ДОПОМІЖНІ ФУНКЦІЇ ====================
 function generateRoomCode() {
   let code;
   do {
@@ -131,21 +125,17 @@ function getTotalQuestionsCount() {
 }
 
 function getRandomQuestionGlobal(allUsedQuestions, lastQuestionId = null) {
-  // Собираем все доступные вопросы из всех тем
   const allQuestions = [];
   for (const theme in grammarQuestions) {
     allQuestions.push(...grammarQuestions[theme]);
   }
   
-  // Фильтруем неиспользованные
   const availableQuestions = allQuestions.filter(q => !allUsedQuestions.has(q.id));
   
   if (availableQuestions.length === 0) {
-    // Все вопросы использованы - возвращаем null для окончания матча
     return null;
   }
   
-  // Избегаем повторения последнего вопроса
   let candidates = availableQuestions;
   if (lastQuestionId !== null && availableQuestions.length > 1) {
     candidates = availableQuestions.filter(q => q.id !== lastQuestionId);
@@ -154,37 +144,29 @@ function getRandomQuestionGlobal(allUsedQuestions, lastQuestionId = null) {
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
-// Функція для надсилання подій лише один раз на гравця
 function emitToPlayer(room, playerId, event, data) {
   const playerSockets = room.getPlayerSockets(playerId);
   if (playerSockets.length > 0) {
-    // Надсилаємо лише першому активному сокету
     io.to(playerSockets[0]).emit(event, data);
   }
 }
 
-// Функція для надсилання всім у кімнаті без дублів
 function emitToRoom(room, event, data) {
-  // Збираємо унікальні сокети
   const uniqueSockets = new Set();
   
-  // Додаємо хоста
   room.hostConnections.forEach(socketId => uniqueSockets.add(socketId));
   
-  // Додаємо гравців
   for (let player of room.players.values()) {
     if (player.connections.length > 0) {
-      uniqueSockets.add(player.connections[0]); // Тільки перше підключення
+      uniqueSockets.add(player.connections[0]);
     }
   }
   
-  // Надсилаємо
   uniqueSockets.forEach(socketId => {
     io.to(socketId).emit(event, data);
   });
 }
 
-// ==================== HELPER-ФУНКЦІЇ ДЛЯ READY-CHECK ====================
 function isEveryoneReady(room) {
   const players = Array.from(room.players.values());
   if (players.length === 0) return false;
@@ -199,11 +181,9 @@ function clearAutoStart(room) {
 }
 
 function scheduleAutoStartIfReady(room) {
-  // Не стартуємо під час питання / якщо матч уже йде
   if (room.matchStarted) return;
   if (room.state !== 'lobby') return;
 
-  // Якщо не всі ready — прибираємо таймер
   if (!isEveryoneReady(room)) {
     clearAutoStart(room);
     emitToRoom(room, 'ready-check:status', {
@@ -213,7 +193,6 @@ function scheduleAutoStartIfReady(room) {
     return;
   }
 
-  // Всі ready — ставимо countdown, якщо ще не стоїть
   if (room.autoStartCountdown) return;
 
   emitToRoom(room, 'ready-check:status', {
@@ -224,7 +203,6 @@ function scheduleAutoStartIfReady(room) {
   room.autoStartCountdown = setTimeout(() => {
     room.autoStartCountdown = null;
 
-    // Перевіряємо ще раз (хтось міг відвалитись)
     if (!isEveryoneReady(room)) {
       emitToRoom(room, 'ready-check:status', { allReady: false, countdownSec: null });
       return;
@@ -236,19 +214,16 @@ function scheduleAutoStartIfReady(room) {
       startedAt: Date.now()
     });
 
-    // (опційно) автостарт першого граматичного раунду з дефолт темою
-    // end-user: можна змінити на room.theme або останню вибрану
     const theme = room.theme || 'sein';
     startRound(room, theme);
 
   }, room.autoStartDelaySec * 1000);
 }
 
-// ==================== ФУНКЦІЯ ЗАПУСКУ РАУНДУ ====================
+// ==================== ФУНКЦІЇ ДЛЯ РАУНДІВ ====================
 function startRound(room, theme = null) {
   if (!room || room.state === 'question') return;
 
-  // Перевірка ліміту питань: 50 на матч
   if (room.totalQuestionsUsed >= 50) {
     console.log(`🎉 50 питань використано! Матч завершено.`);
     emitToRoom(room, 'match-ended', {
@@ -259,14 +234,12 @@ function startRound(room, theme = null) {
     return;
   }
 
-  // Використовуємо глобальну логіку вибору питань
   const question = getRandomQuestionGlobal(
     allUsedQuestionsGlobal,
     room.currentQuestion?.id
   );
 
   if (!question) {
-    // Всі питання використані - завершуємо матч
     console.log(`🎉 Всі ${getTotalQuestionsCount()} питань використані! Матч завершено.`);
     emitToRoom(room, 'match-ended', {
       scores: room.getPlayerList(),
@@ -292,7 +265,6 @@ function startRound(room, theme = null) {
     scores: room.getPlayerList()
   });
 
-  // ⏱ серверний таймер
   room._roundTimer = setTimeout(() => {
     if (room.state === 'question') {
       endRound(room.code);
@@ -310,13 +282,74 @@ function clearRoundTimer(room) {
 }
 
 function endRound(roomCode, meta = {}) {
+  const room = rooms.get(roomCode);
+  if (!room) return;
+  if (room.state !== 'question') return;
+
+  room.state = 'lobby';
+  clearRoundTimer(room);
+
+  const resultsSimple = Array.from(room.answers.entries()).map(([playerId, a]) => ({
+    playerId,
+    correct: a.correct,
+    points: a.points,
+    answer: a.answer
+  }));
+
+  const resultsDetailed = calculateResults(room);
+
+  emitToRoom(room, 'round-ended', {
+    results: resultsSimple,
+    resultsDetailed: resultsDetailed,
+    scores: room.getPlayerList(),
+    round: room.totalQuestionsUsed,
+    maxRounds: 50,
+    reason: meta.reason || 'ended'
+  });
+
+  console.log(`🏁 Питання ${room.totalQuestionsUsed}/50 завершено`);
+
+  if (room.matchStarted) {
+    setTimeout(() => {
+      if (!rooms.has(room.code)) return;
+      if (!room.matchStarted) return;
+      startRound(room);
+    }, room.roundPauseMs);
+  }
+}
+
+function calculateResults(room) {
+  const results = [];
+  
+  for (let [playerId, answerData] of room.answers) {
+    const player = room.players.get(playerId);
+    if (player) {
+      results.push({
+        playerId,
+        name: player.name,
+        answer: answerData.answer,
+        correct: answerData.correct,
+        points: answerData.points,
+        speedBonus: answerData.speedBonus,
+        streakBonus: answerData.streakBonus,
+        streak: answerData.streak,
+        timeLeft: answerData.timeLeft,
+        totalScore: player.score
+      });
+    }
+  }
+  
+  results.sort((a, b) => b.totalScore - a.totalScore);
+  return results;
+}
+
+// ==================== WEB SOCKET ОБРОБНИКИ ====================
+io.on('connection', (socket) => {
   console.log(`🔌 Нове підключення: ${socket.id}`);
   
-  // Таймер для відстеження дублів
   const connectionId = Date.now();
   socket.connectionId = connectionId;
   
-  // Відстежуємо всі підключення
   if (!playerConnections.has(socket.id)) {
     playerConnections.set(socket.id, {
       connectedAt: Date.now(),
@@ -328,27 +361,27 @@ function endRound(roomCode, meta = {}) {
   
   // ========== HOST ДІЇ ==========
   socket.on('host:create-room', () => {
-    // Перевіряємо, чи вже є кімната у цього хоста
+    console.log("🎯 host:create-room from", socket.id);
+
     const existingRoom = findRoomByHostSocket(socket.id);
     if (existingRoom) {
-      socket.emit('room-created', { roomCode: existingRoom.code });
+      socket.emit("room-created", { code: existingRoom.code });
       return;
     }
-    
-    const roomCode = generateRoomCode();
-    const room = new Room(roomCode, socket.id);
-    
-    rooms.set(roomCode, room);
-    socket.join(roomCode);
-    
-    // Оновлюємо інформацію про підключення
-    playerConnections.get(socket.id).roomCode = roomCode;
+
+    const code = generateRoomCode();
+    const room = new Room(code, socket.id);
+
+    rooms.set(code, room);
+    socket.join(code);
+
+    // Зберігаємо інформацію про хоста
+    playerConnections.get(socket.id).roomCode = code;
     playerConnections.get(socket.id).isHost = true;
-    
-    socket.emit('room-created', { roomCode });
-    socket.emit('player-list-updated', room.getPlayerList());
-    
-    console.log(`🎮 Хост ${socket.id} створив кімнату ${roomCode}`);
+
+    console.log("✅ Room created:", code);
+
+    socket.emit("room-created", { code });
   });
   
   socket.on('host:start-round', ({ theme }) => {
@@ -368,17 +401,47 @@ function endRound(roomCode, meta = {}) {
     const room = findRoomByHostSocket(socket.id);
     if (!room) return;
 
-    if (room.matchStarted) return; // уже запущено
+    if (room.matchStarted) return;
 
     room.matchStarted = true;
-    // Не встановлюємо loopQuestions = true, використовуємо глобальну логіку питань
 
     emitToRoom(room, 'match-started', { startedAt: Date.now() });
 
-    // Запускаємо перший раунд з глобальної бази питань
     startRound(room);
 
     console.log(`🚀 MATCH START (all questions) у кімнаті ${room.code}`);
+  });
+  
+  socket.on('host:reset-room', () => {
+    const room = findRoomByHostSocket(socket.id);
+    if (!room) return;
+    
+    // Скидаємо стан кімнати
+    room.state = 'lobby';
+    room.matchStarted = false;
+    room.answers.clear();
+    clearAutoStart(room);
+    clearRoundTimer(room);
+    
+    // Скидаємо готовність всіх гравців
+    for (let player of room.players.values()) {
+      player.ready = false;
+    }
+    
+    emitToRoom(room, 'room-reset');
+    emitToRoom(room, 'player-list-updated', room.getPlayerList());
+    
+    console.log(`🔄 Кімната ${room.code} скинута`);
+  });
+  
+  socket.on('host:show-results', () => {
+    const room = findRoomByHostSocket(socket.id);
+    if (!room) return;
+    
+    // Якщо є активне питання - завершуємо його
+    if (room.state === 'question') {
+      endRound(room.code, { reason: 'manual' });
+    }
   });
   
   // ========== PLAYER ДІЇ ==========
@@ -389,10 +452,8 @@ function endRound(roomCode, meta = {}) {
       return;
     }
     
-    // Генеруємо унікальний ID гравця, якщо не надано
     const actualPlayerId = playerId || `player_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    // Перевіряємо, чи гравець вже в кімнаті
     let player = room.players.get(actualPlayerId);
     
     if (player) {
@@ -400,7 +461,6 @@ function endRound(roomCode, meta = {}) {
       player.connections.push(socket.id);
       console.log(`↪️ Повторне підключення: ${player.name} (${actualPlayerId})`);
     } else {
-      // Новий гравець
       player = {
         id: actualPlayerId,
         name: name.substring(0, 14),
@@ -417,14 +477,12 @@ function endRound(roomCode, meta = {}) {
       console.log(`👤 Новий гравець: ${player.name} (${actualPlayerId})`);
     }
     
-    // Оновлюємо інформацію про підключення
     playerConnections.get(socket.id).roomCode = roomCode;
     playerConnections.get(socket.id).isHost = false;
     playerConnections.get(socket.id).playerId = actualPlayerId;
     
     socket.join(roomCode);
     
-    // Надсилаємо відповідь клієнту
     socket.emit('joined', {
       roomCode,
       playerId: actualPlayerId,
@@ -433,7 +491,6 @@ function endRound(roomCode, meta = {}) {
       isReconnect: !!playerId
     });
     
-    // Хост отримує оновлення (тільки якщо це новий гравець або перше підключення)
     if (player.connections.length === 1) {
       io.to(room.hostSocketId).emit('player-joined', {
         playerId: actualPlayerId,
@@ -442,10 +499,7 @@ function endRound(roomCode, meta = {}) {
       });
     }
     
-    // Всім у кімнаті - оновлений список
     emitToRoom(room, 'player-list-updated', room.getPlayerList());
-
-    // якщо прийшов новий гравець — автостарт таймер скинути
     scheduleAutoStartIfReady(room);
   });
   
@@ -467,6 +521,9 @@ function endRound(roomCode, meta = {}) {
     });
 
     console.log(`✅ ${player.name} готовий`);
+    
+    // Перевіряємо, чи можна запустити автостарт
+    scheduleAutoStartIfReady(room);
   });
   
   socket.on('player:answer', ({ playerId, answer, timeLeft }) => {
@@ -480,7 +537,6 @@ function endRound(roomCode, meta = {}) {
     const player = room.players.get(actualPlayerId);
     if (!player) return;
     
-    // Перевіряємо, чи гравець вже відповів
     if (room.answers.has(actualPlayerId)) {
       socket.emit('error', { message: 'Ви вже відповіли на це питання' });
       return;
@@ -518,7 +574,6 @@ function endRound(roomCode, meta = {}) {
       timestamp: Date.now()
     });
     
-    // Хост отримує відповідь
     io.to(room.hostSocketId).emit('player-answered', {
       playerId: actualPlayerId,
       playerName: player.name,
@@ -531,15 +586,12 @@ function endRound(roomCode, meta = {}) {
       totalScore: player.score
     });
     
-    // Гравцю - підтвердження (тільки на активний сокет)
     socket.emit('answer-received', { correct: isCorrect });
     
     console.log(`📝 ${player.name} відповів: ${answer} (${isCorrect ? 'правильно' : 'помилка'})`);
   });
   
-  // ========== ДОДАТКОВІ ПОДІЇ ==========
   socket.on('player:reconnect', ({ playerId, roomCode }) => {
-    // Клієнт намагається перепідключитися
     const room = rooms.get(roomCode);
     if (!room) {
       socket.emit('error', { message: 'Кімнату не знайдено' });
@@ -566,7 +618,37 @@ function endRound(roomCode, meta = {}) {
     }
   });
   
-  // ========== DISCONNECT ЛОГІКА ==========
+  socket.on('time_up', () => {
+    const connInfo = playerConnections.get(socket.id);
+    if (!connInfo?.playerId) return;
+    
+    const room = rooms.get(connInfo.roomCode);
+    if (!room || room.state !== 'question') return;
+    
+    const player = room.players.get(connInfo.playerId);
+    if (!player) return;
+    
+    // Якщо гравець ще не відповів - рахуємо як невідповідь
+    if (!room.answers.has(connInfo.playerId)) {
+      player.wrongCount++;
+      player.streak = 0;
+      
+      room.answers.set(connInfo.playerId, {
+        answer: null,
+        timeLeft: 0,
+        correct: false,
+        points: 0,
+        speedBonus: 0,
+        streakBonus: 0,
+        streak: 0,
+        timestamp: Date.now()
+      });
+      
+      console.log(`⏱ ${player.name} не встиг відповісти`);
+    }
+  });
+  
+  // ========== DISCONNECT ==========
   socket.on('disconnect', (reason) => {
     console.log(`❌ Відключення: ${socket.id} (${reason})`);
     
@@ -587,23 +669,19 @@ function endRound(roomCode, meta = {}) {
     }
     
     if (isHost) {
-      // Хост відключається
       room.hostConnections = room.hostConnections.filter(id => id !== socket.id);
       
       if (room.hostConnections.length === 0) {
-        // Немає активних підключень хоста - закриваємо кімнату
         emitToRoom(room, 'host-disconnected');
         rooms.delete(roomCode);
         console.log(`🚫 Кімната ${roomCode} закрита (хост вийшов)`);
       }
     } else if (playerId) {
-      // Гравець відключається
       const player = room.players.get(playerId);
       if (player) {
         const noConnectionsLeft = room.removePlayerConnection(playerId, socket.id);
         
         if (noConnectionsLeft) {
-          // Гравець повністю вийшов
           room.players.delete(playerId);
           
           emitToRoom(room, 'player-left', {
@@ -612,8 +690,6 @@ function endRound(roomCode, meta = {}) {
           });
           
           console.log(`👋 ${player.name} повністю вийшов з ${roomCode}`);
-
-          // Після видалення гравця — перевіряємо ready-check
           scheduleAutoStartIfReady(room);
         } else {
           console.log(`📴 ${player.name} відключив один пристрій, залишилось: ${player.connections.length}`);
@@ -621,76 +697,9 @@ function endRound(roomCode, meta = {}) {
       }
     }
     
-    // Видаляємо інформацію про це підключення
     playerConnections.delete(socket.id);
   });
-};
-
-// ==================== ФУНКЦІЇ ДЛЯ РАУНДІВ ====================
-function endRound(roomCode, meta = {}) {
-  const room = rooms.get(roomCode);
-  if (!room) return;
-  if (room.state !== 'question') return;
-
-  room.state = 'lobby';
-  clearRoundTimer(room);
-
-  // ✅ старий формат (щоб фронт не падав)
-  const resultsSimple = Array.from(room.answers.entries()).map(([playerId, a]) => ({
-    playerId,
-    correct: a.correct,
-    points: a.points,
-    answer: a.answer
-  }));
-
-  // ✅ новий детальний (для хоста/лідерборда, якщо треба)
-  const resultsDetailed = calculateResults(room);
-
-  emitToRoom(room, 'round-ended', {
-    results: resultsSimple,              // <-- як було раніше
-    resultsDetailed: resultsDetailed,    // <-- додатково
-    scores: room.getPlayerList(),
-    round: room.totalQuestionsUsed,
-    maxRounds: 50,
-    reason: meta.reason || 'ended'
-  });
-
-  console.log(`🏁 Питання ${room.totalQuestionsUsed}/50 завершено`);
-
-  // ⏭ автоперехід до наступного питання
-  if (room.matchStarted) {
-    setTimeout(() => {
-      if (!rooms.has(room.code)) return;
-      if (!room.matchStarted) return;
-      startRound(room);
-    }, room.roundPauseMs);
-  }
-}
-
-function calculateResults(room) {
-  const results = [];
-  
-  for (let [playerId, answerData] of room.answers) {
-    const player = room.players.get(playerId);
-    if (player) {
-      results.push({
-        playerId,
-        name: player.name,
-        answer: answerData.answer,
-        correct: answerData.correct,
-        points: answerData.points,
-        speedBonus: answerData.speedBonus,
-        streakBonus: answerData.streakBonus,
-        streak: answerData.streak,
-        timeLeft: answerData.timeLeft,
-        totalScore: player.score
-      });
-    }
-  }
-  
-  results.sort((a, b) => b.totalScore - a.totalScore);
-  return results;
-}
+});
 
 // ==================== СЕРВЕР ====================
 const PORT = process.env.PORT || 3000;
