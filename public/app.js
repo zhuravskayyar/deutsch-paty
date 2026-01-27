@@ -372,7 +372,7 @@ const PartyDuel = {
       if (btnStartMatch) {
         btnStartMatch.onclick = () => {
           // Критично: відправляємо подію на сервер
-          socket.emit('host_start_match');
+          socket.emit('host:start-match');
         };
       }
   const roomInput = $("#roomInput");
@@ -1424,6 +1424,9 @@ function hostStartRoundDefault() {
        PATCH B: Init
        ========================= */
     document.addEventListener("DOMContentLoaded", () => {
+      // Дефолт язык, якщо не встановлений
+      if (!localStorage.getItem('dp_lang')) localStorage.setItem('dp_lang', 'uk');
+
       PartyDuel.mountHUD();
 
       // 1) стартові значення
