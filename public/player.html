@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="uk" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Deutsch Party — Player</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="player">
+  <div class="app">
+    <div class="shell">
+
+      <div class="topbar">
+        <div class="topbar-inner">
+          <div class="brand">
+            <div class="logo-gear" aria-hidden="true"></div>
+            <div style="min-width:0">
+              <h1>Deutsch Party — Player</h1>
+              <p id="playerSub">Вхід • Лобі • Раунд</p>
+            </div>
+          </div>
+
+          <div class="topbar-spacer"></div>
+
+          <div class="pill" title="Кімната">
+            <span class="label">Код</span>
+            <span class="value" id="pillRoom">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- JOIN -->
+      <section class="card" id="joinCard">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Вхід у кімнату</h2>
+            <p class="card-sub">Введи код і нік. Потім натисни “Готовий”.</p>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <form class="form" autocomplete="off">
+            <div class="field">
+              <label for="roomInput">Код кімнати</label>
+              <input class="input" id="roomInput" inputmode="numeric" placeholder="Напр. 483921" />
+              <div class="helper">6 цифр, без пробілів.</div>
+            </div>
+
+            <div class="field">
+              <label for="nameInput">Нік</label>
+              <input class="input" id="nameInput" maxlength="14" placeholder="Твій нік" />
+              <div class="helper">Коротко, щоб помістилось у таблицю.</div>
+            </div>
+
+            <button class="btn primary full" id="btnJoin" type="button">Увійти</button>
+          </form>
+        </div>
+
+        <div class="card-foot">
+          <div class="note" id="joinNote">Після входу чекай на старт від вчителя.</div>
+        </div>
+      </section>
+
+      <!-- LOBBY -->
+      <section class="card hidden" id="lobbyCard">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Очікування</h2>
+            <p class="card-sub">Кімната: <b id="roomText">—</b> • Ти: <b id="meText">—</b></p>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="btn-row">
+            <button class="btn primary full" id="btnReady" type="button">Готовий</button>
+          </div>
+          <div style="height:12px"></div>
+          <div class="note">Після старту з’явиться завдання. Відповідь — одним натисканням.</div>
+        </div>
+      </section>
+
+      <!-- PLAY -->
+      <section class="card hidden" id="answerCard">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Раунд</h2>
+            <p class="card-sub" id="roundMeta">—</p>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="round">
+            <div class="timer"><div id="timerFill" style="width:100%"></div></div>
+
+            <div class="question" id="qText">
+              —
+              <small id="qSub">Обери правильну відповідь</small>
+            </div>
+
+            <div class="answers" id="answersWrap"></div>
+
+            <div id="feedback" class="feedback"></div>
+
+            <div class="note" id="hintText">—</div>
+          </div>
+        </div>
+
+        <div class="card-foot">
+          <button class="btn full" id="btnSubmit" type="button" disabled>Обери відповідь</button>
+        </div>
+      </section>
+
+      <!-- RESULT -->
+      <section class="card hidden" id="resultCard">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Результат</h2>
+            <p class="card-sub" id="resultSub">—</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="results-container"></div>
+          <div class="note" id="resultExplain">—</div>
+        </div>
+        <div class="card-foot">
+          <button class="btn primary full" id="btnResultOk" type="button">Ок</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./questions.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="uk" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Deutsch Party — Host</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app">
+    <div class="shell">
+
+      <div class="topbar">
+        <div class="topbar-inner">
+          <div class="brand">
+            <div class="logo-gear" aria-hidden="true"></div>
+            <div style="min-width:0">
+              <h1>Deutsch Party — Host</h1>
+              <p id="hostSub">Кімната • Лобі • Матч</p>
+            </div>
+          </div>
+
+          <div class="topbar-spacer"></div>
+
+          <div class="pill" id="serverPill" title="Статус підключення">
+            <span class="label">Сервер</span>
+            <span class="value" id="serverStatus">offline</span>
+          </div>
+
+          <div class="pill theme-toggle" title="Змінити тему" id="themeToggle">
+            <span class="value" id="themeIcon">🌙</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Кімната</h2>
+              <p class="card-sub">Гравці заходять з телефонів по коду. Після цього запускай матч і раунди.</p>
+            </div>
+            <div class="btn-row">
+              <button class="btn primary" id="btnCreateRoom" type="button">Створити кімнату</button>
+              <button class="btn" id="btnReset" type="button">Скинути</button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="codebox">
+              <div>
+                <div class="hint">Код кімнати</div>
+                <div class="code" id="roomCode">— — — — — —</div>
+              </div>
+              <button class="btn" id="btnCopy" type="button">Копіювати</button>
+            </div>
+
+            <div style="height:14px"></div>
+
+            <div class="card-title" style="margin:0 0 10px">Гравці</div>
+            <div class="list" id="playersList"></div>
+          </div>
+
+          <div id="hostRound" class="host-round hidden">
+            <h3 id="hostQuestion"></h3>
+
+            <div id="hostOptions" class="host-options"></div>
+
+            <div class="host-timer">
+              ⏱ <span id="hostTime">0</span>s
+            </div>
+
+            <div class="host-answers">
+              <h4>Відповіли:</h4>
+              <ul id="answeredList"></ul>
+            </div>
+          </div>
+
+          <div class="card-foot">
+            <div class="btn-row">
+              <button class="btn primary" id="btnStartMatch" type="button">Почати матч</button>
+            </div>
+
+            <div style="height:10px"></div>
+            <div class="note" id="hostHint">
+              Натисни "Почати матч" — питання підуть нонстоп.
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./questions.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

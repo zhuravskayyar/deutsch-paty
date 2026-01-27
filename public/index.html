@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <title>Deutsch Party - Status</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    .room { background: var(--card-bg); padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid var(--card-border); }
+    .player { margin-left: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Deutsch Party Server Status</h1>
+  <p>Активні кімнати: <span id="roomCount">0</span></p>
+  <div id="rooms"></div>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    
+    socket.on('connect', () => {
+      console.log('Підключено до сервера моніторингу');
+    });
+    
+    // Це для адміністративних цілей - можна додати події для моніторингу
+  </script>
+</body>
+</html>
