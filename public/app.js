@@ -1537,12 +1537,16 @@ function hostStartRoundDefault() {
 
   // ===== BACKGROUND MUSIC =====
   const bgMusic = document.getElementById('bgMusic');
+
   function startMusicOnce() {
     if (!bgMusic) return;
-    bgMusic.volume = 0.4;
-    bgMusic.play().catch(() => {});
+    bgMusic.volume = 0.35;
+    bgMusic.play().catch(() => {
+      // autoplay blocked — ок
+    });
     document.removeEventListener('click', startMusicOnce);
   }
-  // запуск після першої взаємодії користувача
+
+  // браузер дозволить звук тільки після першого кліку
   document.addEventListener('click', startMusicOnce);
 })();
