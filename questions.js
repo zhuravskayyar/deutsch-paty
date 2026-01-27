@@ -2080,20 +2080,36 @@ for (const theme in grammarQuestions) {
   totalQuestions += grammarQuestions[theme].length;
 }
 console.log(`📚 Всього питань: ${totalQuestions}`);
-function getRandomQuestionFromTheme(theme, usedQuestions = new Set()) {
+function getRandomQuestionFromTheme(theme, usedQuestions = new Set(), lastQuestionId = null) {
   if (!grammarQuestions[theme] || grammarQuestions[theme].length === 0) {
     return null;
   }
   
   const availableQuestions = grammarQuestions[theme].filter(q => !usedQuestions.has(q.id));
   
-  // Якщо всі питання використані, очищуємо список
-  if (availableQuestions.length === 0) {
+  let selectedQuestion;
+  
+  if (availableQuestions.length > 0) {
+    // Фільтруємо, щоб уникнути повторення останнього питання
+    let candidates = availableQuestions;
+    if (lastQuestionId !== null && availableQuestions.length > 1) {
+      candidates = availableQuestions.filter(q => q.id !== lastQuestionId);
+    }
+    
+    selectedQuestion = candidates[Math.floor(Math.random() * candidates.length)];
+  } else {
+    // Всі питання використані - дозволяємо повторення, але уникаємо останнього
+    let candidates = grammarQuestions[theme];
+    if (lastQuestionId !== null && grammarQuestions[theme].length > 1) {
+      candidates = grammarQuestions[theme].filter(q => q.id !== lastQuestionId);
+    }
+    
+    selectedQuestion = candidates[Math.floor(Math.random() * candidates.length)];
+    // Очищуємо usedQuestions для нового циклу
     usedQuestions.clear();
-    return grammarQuestions[theme][Math.floor(Math.random() * grammarQuestions[theme].length)];
   }
   
-  return availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
+  return selectedQuestion;
 }
 
 // Функція для отримання всіх тем

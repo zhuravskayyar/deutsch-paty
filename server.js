@@ -222,7 +222,8 @@ function startRound(room, theme = null) {
 
   const question = getRandomQuestionFromTheme(
     actualTheme,
-    room.usedQuestions
+    room.usedQuestions,
+    room.currentQuestion?.id
   );
 
   if (!question) {
