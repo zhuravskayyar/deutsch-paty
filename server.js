@@ -302,8 +302,14 @@ function startRound(room, theme = null) {
   console.log(`⏱ Питання ${room.totalQuestionsUsed}/${getTotalQuestionsCount()} у кімнаті ${room.code}`);
 }
 
-// ==================== ОСНОВНА ЛОГІКА SOCKET.IO ====================
-io.on('connection', (socket) => {
+function clearRoundTimer(room) {
+  if (room._roundTimer) {
+    clearTimeout(room._roundTimer);
+    room._roundTimer = null;
+  }
+}
+
+function endRound(roomCode, meta = {}) {
   console.log(`🔌 Нове підключення: ${socket.id}`);
   
   // Таймер для відстеження дублів
@@ -621,24 +627,32 @@ io.on('connection', (socket) => {
 });
 
 // ==================== ФУНКЦІЇ ДЛЯ РАУНДІВ ====================
-function endRound(roomCode) {
+function endRound(roomCode, meta = {}) {
   const room = rooms.get(roomCode);
   if (!room) return;
+  if (room.state !== 'question') return;
 
   room.state = 'lobby';
+  clearRoundTimer(room);
 
-  const results = Array.from(room.answers.entries()).map(([playerId, a]) => ({
+  // ✅ старий формат (щоб фронт не падав)
+  const resultsSimple = Array.from(room.answers.entries()).map(([playerId, a]) => ({
     playerId,
     correct: a.correct,
     points: a.points,
     answer: a.answer
   }));
 
+  // ✅ новий детальний (для хоста/лідерборда, якщо треба)
+  const resultsDetailed = calculateResults(room);
+
   emitToRoom(room, 'round-ended', {
-    results,
+    results: resultsSimple,              // <-- як було раніше
+    resultsDetailed: resultsDetailed,    // <-- додатково
     scores: room.getPlayerList(),
     round: room.totalQuestionsUsed,
-    maxRounds: 50
+    maxRounds: 50,
+    reason: meta.reason || 'ended'
   });
 
   console.log(`🏁 Питання ${room.totalQuestionsUsed}/50 завершено`);
