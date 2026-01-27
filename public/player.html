@@ -71,6 +71,15 @@
         </div>
 
         <div class="card-body">
+          <!-- WOW Waiting -->
+          <div class="waiting-ui" aria-live="polite">
+            <div class="waiting-gear" aria-hidden="true"></div>
+            <div class="waiting-main">
+              <div class="waiting-title">Очікуємо старт…</div>
+              <div class="waiting-sub" id="lobbyStatus">Попроси вчителя натиснути старт раунду</div>
+            </div>
+            <div class="waiting-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          </div>
           <div class="btn-row">
             <button class="btn primary full" id="btnReady" type="button">Готовий</button>
           </div>
@@ -89,8 +98,11 @@
         </div>
 
         <div class="card-body">
-          <div class="round">
-            <div class="timer"><div id="timerFill" style="width:100%"></div></div>
+            <div class="round">
+            <div class="timer big">
+              <div class="timer-fill" id="timerFill" style="width:100%"></div>
+              <div class="timer-label"><span>Час</span><b id="timerText">—</b></div>
+            </div>
 
             <div class="question" id="qText">
               —
@@ -134,5 +146,9 @@
   <script src="./questions.js"></script>
   <script src="./app.js"></script>
 </body>
+  <div class="hud-signature">
+    <span class="sig-text">by Yaroslav Zhuravskyi © 2026</span>
+    <a class="sig-ig" href="https://instagram.com/delta.yarick" target="_blank" rel="noopener">inst @delta.yarick</a>
+  </div>
 </html>
 

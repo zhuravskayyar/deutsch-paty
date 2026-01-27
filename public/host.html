@@ -6,7 +6,7 @@
   <title>Deutsch Party — Host</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
-<body>
+<body class="broadcast">
   <div class="app">
     <div class="shell">
 
@@ -34,7 +34,9 @@
       </div>
 
       <div class="grid">
-        <section class="card">
+
+        <!-- ===== Screen 1: HOST LOBBY (перший екран) ===== -->
+        <section class="card screen screen-lobby" id="screenLobby">
           <div class="card-header">
             <div>
               <h2 class="card-title">Кімната</h2>
@@ -61,21 +63,6 @@
             <div class="list" id="playersList"></div>
           </div>
 
-          <div id="hostRound" class="host-round hidden">
-            <h3 id="hostQuestion"></h3>
-
-            <div id="hostOptions" class="host-options"></div>
-
-            <div class="host-timer">
-              ⏱ <span id="hostTime">0</span>s
-            </div>
-
-            <div class="host-answers">
-              <h4>Відповіли:</h4>
-              <ul id="answeredList"></ul>
-            </div>
-          </div>
-
           <div class="card-foot">
             <div class="btn-row">
               <button class="btn primary" id="btnStartMatch" type="button">Почати матч</button>
@@ -87,6 +74,84 @@
             </div>
           </div>
         </section>
+
+        <!-- ===== Screen 2: QUIZ DASHBOARD (другий екран) ===== -->
+        <section class="card screen screen-quiz hidden" id="screenQuiz">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Quiz — Панель хоста</h2>
+              <p class="card-sub">Питання, таймер, хто відповів.</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Верхня панель з кодом і статистикою -->
+            <div class="quiz-top">
+              <div class="roomcode">
+                <div class="label">Кімната</div>
+                <div class="codebig" id="roomCodeBig">— — — — — —</div>
+                <div class="label">Відкрито для гравців</div>
+              </div>
+              <div class="roundbox">
+                <div class="stat">
+                  <div class="label">Раунд</div>
+                  <div class="value" id="roundNumber">—/—</div>
+                </div>
+                <div class="stat">
+                  <div class="label">Таймер</div>
+                  <div class="value" id="quizTimer">15s</div>
+                </div>
+                <div class="stat">
+                  <div class="label">Гравці</div>
+                  <div class="value" id="playersCount">0/8</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Основна частина з питанням і результатами -->
+            <div class="quiz-main">
+              <!-- Ліва колонка - питання та варіанти -->
+              <div class="questionbox">
+                <div class="q-head">
+                  <div class="pill">Питання</div>
+                  <div class="pill alt" id="questionTheme">Grammar</div>
+                  <div class="pill" id="questionDifficulty">Легко</div>
+                </div>
+                <div class="q-text" id="quizQuestion">
+                  Текст питання буде тут...
+                </div>
+                <!-- BIG TIMER BAR (broadcast) -->
+                <div class="big-timer" aria-hidden="true">
+                  <div class="big-timer-fill" id="quizTimerFill"></div>
+                </div>
+                <div class="answers" id="quizAnswers">
+                  <!-- Варіанти відповідей JS -->
+                </div>
+              </div>
+              <!-- Права колонка - таблиця результатів -->
+              <div class="scorebox">
+                <div class="scoretable">
+                  <div class="srow head">
+                    <div>#</div>
+                    <div>Гравець</div>
+                    <div class="right">Бали</div>
+                  </div>
+                  <div id="scoreList">
+                    <!-- Список гравців з балами -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-foot">
+            <div class="note">
+              <strong>Статистика раунду:</strong> 
+              <span id="roundStats">0 правильних • 0 неправильних • 0 не відповіли</span>
+            </div>
+          </div>
+        </section>
+
       </div>
 
     </div>
@@ -95,5 +160,115 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="./questions.js"></script>
   <script src="./app.js"></script>
+
+  <script>
+    // Додатковий скрипт для синхронізації та управління UI
+    let hostTimerInterval = null;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Синхронізація коду кімнати між двома екранами
+      const roomCodeEl = document.getElementById('roomCode');
+      const roomCodeBig = document.getElementById('roomCodeBig');
+      const btnCopyBig = document.getElementById('btnCopyBig');
+      const btnBack = document.getElementById('btnBackToLobby');
+      const screenLobby = document.getElementById('screenLobby');
+      const screenQuiz = document.getElementById('screenQuiz');
+
+      // Функція синхронізації коду
+      function syncRoomCode() {
+        if (!roomCodeEl || !roomCodeBig) return;
+        roomCodeBig.textContent = roomCodeEl.textContent;
+      }
+
+      // Спостерігач за змінами коду кімнати
+      if (roomCodeEl) {
+        new MutationObserver(syncRoomCode).observe(roomCodeEl, {
+          childList: true,
+          characterData: true,
+          subtree: true
+        });
+      }
+
+      // Копіювання коду з другого екрану
+      btnCopyBig?.addEventListener('click', async function() {
+        const code = (roomCodeEl?.textContent || '').replace(/\s+/g, '').trim();
+        if (!code) return;
+        try {
+          await navigator.clipboard.writeText(code);
+          // Показати toast повідомлення
+          showToast('Код скопійовано!', code);
+        } catch (err) {
+          showToast('Помилка копіювання', 'Спробуйте вручну');
+        }
+      });
+
+      // Кнопка назад до лобі
+      btnBack?.addEventListener('click', function() {
+        // Явно показуємо лобі та ховаємо quiz
+        screenLobby?.classList.remove('hidden');
+        screenQuiz?.classList.add('hidden');
+        
+        // Зупиняємо таймер якщо він працює
+        const hostRound = document.getElementById('hostRound');
+        if (hostRound) {
+          hostRound.classList.add('hidden');
+          clearInterval(hostTimerInterval); // Додаємо глобальну змінну
+        }
+        
+        // Повертаємо кнопку "Почати матч"
+        const btnStartMatch = document.getElementById('btnStartMatch');
+        if (btnStartMatch) {
+          btnStartMatch.style.display = '';
+        }
+      });
+
+      // Функція для показу toast повідомлень
+      function showToast(title, message) {
+        // Створюємо toast елемент якщо його немає
+        let toastEl = document.querySelector('.toast');
+        if (!toastEl) {
+          toastEl = document.createElement('div');
+          toastEl.className = 'toast';
+          toastEl.innerHTML = '<b></b><div class="muted"></div>';
+          document.body.appendChild(toastEl);
+        }
+
+        toastEl.querySelector('b').textContent = title;
+        toastEl.querySelector('.muted').textContent = message;
+        toastEl.classList.add('show');
+
+        clearTimeout(toastEl.timeout);
+        toastEl.timeout = setTimeout(() => {
+          toastEl.classList.remove('show');
+        }, 2000);
+      }
+
+      // Оновлення статусу сервера
+      function updateServerStatus(status) {
+        const serverPill = document.getElementById('serverPill');
+        const serverStatus = document.getElementById('serverStatus');
+        
+        if (serverPill && serverStatus) {
+          serverStatus.textContent = status;
+          serverPill.className = `pill ${status === 'online' ? 'online' : 'offline'}`;
+        }
+      }
+
+      // Ініціалізація статусу сервера
+      updateServerStatus('offline');
+
+      // Перехід на quiz екран при старті матчу
+      document.getElementById('btnStartMatch')?.addEventListener('click', function() {
+        setTimeout(() => {
+          screenLobby?.classList.add('hidden');
+          screenQuiz?.classList.remove('hidden');
+        }, 500);
+      });
+    });
+  </script>
 </body>
+  <div class="hud-signature">
+    <span class="sig-text">by Yaroslav Zhuravskyi © 2026</span>
+    <a class="sig-ig" href="https://instagram.com/delta.yarick" target="_blank" rel="noopener">inst @delta.yarick</a>
+  </div>
 </html>

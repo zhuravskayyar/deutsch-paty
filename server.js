@@ -276,7 +276,9 @@ function startRound(room, theme = null) {
     question,
     duration: room.roundDuration,
     round: room.totalQuestionsUsed,
-    maxRounds: getTotalQuestionsCount()
+    maxRounds: getTotalQuestionsCount(),
+    playerCount: room.players.size,
+    scores: room.getPlayerList()
   });
 
   // ⏱ серверний таймер
@@ -327,6 +329,7 @@ io.on('connection', (socket) => {
     playerConnections.get(socket.id).isHost = true;
     
     socket.emit('room-created', { roomCode });
+    socket.emit('player-list-updated', room.getPlayerList());
     
     console.log(`🎮 Хост ${socket.id} створив кімнату ${roomCode}`);
   });

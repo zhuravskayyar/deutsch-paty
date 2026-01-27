@@ -21,10 +21,269 @@
     selectedAnswer: null,
     timeLeft: 0,
     timerInterval: null,
-    usedQuestions: new Set() // Для уникнення повторів питань
+    // usedQuestions: new Set() // Для уникнення повторів питань — ПЕРЕНЕСЕНО НА СЕРВЕР
   };
   
   let hostTimerInterval = null;
+
+/* =========================
+   PATCH A: Duel/Party Engine
+   ========================= */
+
+// Безпечні доступи до questions.js
+const Q = (typeof window !== "undefined" ? window.grammarQuestions : null);
+const getRand = (typeof window !== "undefined" ? window.getRandomQuestion : null);
+const getMixRand = (typeof window !== "undefined" ? window.getRandomMixQuestion : null);
+const DUEL = (typeof window !== "undefined" ? window.DUEL_SETTINGS : null);
+
+function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+function nowMs() { return (typeof performance !== "undefined" ? performance.now() : Date.now()); }
+
+const PartyDuel = {
+  // Налаштування режиму
+  mode: "party", // "party" | "duel"
+  theme: "sein",
+  level: null, // "A1" | "A2" | null
+  difficulty: null, // "easy"|"normal"|"hard"|null
+
+  // Стан раунду
+  usedByTheme: new Map(), // theme -> Set(ids)
+  current: null,
+  questionStartedAt: 0,
+  timeLimitSec: 14,
+  timeLeftSec: 14,
+  timerId: null,
+
+  // Гравці / очки
+  players: [
+    { name: "P1", score: 0, streak: 0, bestStreak: 0 },
+    { name: "P2", score: 0, streak: 0, bestStreak: 0 }
+  ],
+  activePlayerIndex: 0, // для duel
+  round: 0,
+
+  // UI hooks (створимо якщо нема)
+  ui: {
+    hud: null,
+    score: null,
+    streak: null,
+    timer: null,
+    turn: null,
+    toast: null
+  },
+
+  ensureUsedSet(theme) {
+    if (!this.usedByTheme.has(theme)) this.usedByTheme.set(theme, new Set());
+    return this.usedByTheme.get(theme);
+  },
+
+  // Створює HUD поверх сторінки, якщо ти не маєш свого
+  mountHUD() {
+    if (this.ui.hud) return;
+
+    const hud = document.createElement("div");
+    hud.id = "partyduel-hud";
+    hud.innerHTML = `
+      <div class="pd-row">
+        <div class="pd-box">
+          <div class="pd-label">SCORE</div>
+          <div id="pd-score" class="pd-value">0</div>
+        </div>
+        <div class="pd-box">
+          <div class="pd-label">STREAK</div>
+          <div id="pd-streak" class="pd-value">0</div>
+        </div>
+        <div class="pd-box">
+          <div class="pd-label">TIME</div>
+          <div id="pd-timer" class="pd-value">00</div>
+        </div>
+        <div class="pd-box pd-turn">
+          <div class="pd-label">TURN</div>
+          <div id="pd-turn" class="pd-value">P1</div>
+        </div>
+      </div>
+      <div id="pd-toast" class="pd-toast" style="display:none"></div>
+    `;
+    document.body.appendChild(hud);
+
+    this.ui.hud = hud;
+    this.ui.score = hud.querySelector("#pd-score");
+    this.ui.streak = hud.querySelector("#pd-streak");
+    this.ui.timer = hud.querySelector("#pd-timer");
+    this.ui.turn = hud.querySelector("#pd-turn");
+    this.ui.toast = hud.querySelector("#pd-toast");
+
+    this.renderHUD();
+  },
+
+  toast(msg) {
+    if (!this.ui.toast) return;
+    this.ui.toast.textContent = msg;
+    this.ui.toast.style.display = "block";
+    clearTimeout(this._toastT);
+    this._toastT = setTimeout(() => {
+      this.ui.toast.style.display = "none";
+    }, 1100);
+  },
+
+  setMode(mode) {
+    this.mode = (mode === "duel") ? "duel" : "party";
+    this.activePlayerIndex = 0;
+    this.renderHUD();
+  },
+
+  setTheme(theme, opts = {}) {
+    this.theme = theme;
+    this.level = opts.level ?? this.level;
+    this.difficulty = opts.difficulty ?? this.difficulty;
+  },
+
+  resetScores() {
+    this.players[0].score = 0; this.players[0].streak = 0; this.players[0].bestStreak = 0;
+    this.players[1].score = 0; this.players[1].streak = 0; this.players[1].bestStreak = 0;
+    this.activePlayerIndex = 0;
+    this.round = 0;
+    this.renderHUD();
+  },
+
+  // Отримати нове питання (без повторів по темі)
+  nextQuestion() {
+    if (!Q || !getMixRand) {
+      console.error("questions.js не підключений (window.grammarQuestions / window.getRandomMixQuestion).");
+      return null;
+    }
+    const q = getMixRand();
+    if (!q) return null;
+    this.current = q;
+    this.round += 1;
+  // Тема більше не впливає на вибір питання
+
+    // Таймер з питання або з дефолтів
+    const baseLimit =
+      (q.timeLimitSec != null ? q.timeLimitSec :
+        (DUEL?.time?.byDifficulty?.[q.difficulty] ?? 14));
+
+    this.timeLimitSec = clamp(baseLimit, 6, 30);
+    this.timeLeftSec = this.timeLimitSec;
+    this.questionStartedAt = nowMs();
+
+    this.renderHUD();
+    this.startTimer();
+
+    return q;
+  },
+
+  // Розрахунок очок: base * combo * speedBonus
+  calcPoints(isCorrect) {
+    const p = this.players[this.activePlayerIndex];
+    const q = this.current;
+    const base = (q?.points ?? 1);
+
+    if (!isCorrect) return 0;
+
+    const mult = (DUEL?.combo?.getMultiplier ? DUEL.combo.getMultiplier(p.streak) : 1.0);
+
+    // speed bonus: від 0 до +30% (чим швидше — тим більше)
+    const elapsed = (nowMs() - this.questionStartedAt) / 1000;
+    const t = clamp(elapsed / this.timeLimitSec, 0, 1);
+    const speedBonus = 1.0 + (0.30 * (1 - t)); // 1.30 при миттєвій відповіді, 1.0 під кінець
+
+    const raw = base * mult * speedBonus;
+    return Math.max(1, Math.round(raw));
+  },
+
+  applyAnswer(selected) {
+    if (!this.current) return { ok: false, reason: "no_question" };
+
+    const q = this.current;
+    const isCorrect = (selected === q.correct);
+
+    this.stopTimer();
+
+    const p = this.players[this.activePlayerIndex];
+
+    if (isCorrect) {
+      p.streak += 1;
+      p.bestStreak = Math.max(p.bestStreak, p.streak);
+
+      const pts = this.calcPoints(true);
+      p.score += pts;
+
+      // UX: короткий фідбек
+      const mult = (DUEL?.combo?.getMultiplier ? DUEL.combo.getMultiplier(p.streak) : 1.0);
+      const tag = mult >= 2 ? "🔥" : (mult >= 1.5 ? "⚡" : (mult >= 1.2 ? "✨" : ""));
+      this.toast(`+${pts} ${tag}`);
+    } else {
+      p.streak = 0;
+      this.toast("✖");
+    }
+
+    // У duel — передаємо хід
+    if (this.mode === "duel") {
+      this.activePlayerIndex = (this.activePlayerIndex === 0 ? 1 : 0);
+    }
+
+    this.renderHUD();
+
+    return {
+      ok: true,
+      correct: isCorrect,
+      correctAnswer: q.correct,
+      explanation: q.explanation,
+      hint: q.hint
+    };
+  },
+
+  onTimeUp() {
+    // Тайм-ап = помилка: streak скидається, у duel передається хід
+    const p = this.players[this.activePlayerIndex];
+    p.streak = 0;
+    this.toast("⏱");
+
+    if (this.mode === "duel") {
+      this.activePlayerIndex = (this.activePlayerIndex === 0 ? 1 : 0);
+    }
+    this.renderHUD();
+  },
+
+  startTimer() {
+    this.stopTimer();
+    this.timerId = setInterval(() => {
+      const elapsed = (nowMs() - this.questionStartedAt) / 1000;
+      this.timeLeftSec = clamp(this.timeLimitSec - elapsed, 0, this.timeLimitSec);
+      this.renderHUD();
+
+      if (this.timeLeftSec <= 0.001) {
+        this.stopTimer();
+        this.onTimeUp();
+        // Ти сам вирішуєш: авто-наступне питання чи чекати кліку "Next"
+        // Залишаю нейтрально: просто timeUp, без auto-next.
+      }
+    }, 100);
+  },
+
+  stopTimer() {
+    if (this.timerId) clearInterval(this.timerId);
+    this.timerId = null;
+  },
+
+  renderHUD() {
+    if (!this.ui.score) return;
+
+    const p = this.players[this.activePlayerIndex];
+    const activeName = p?.name ?? "P1";
+
+    // Score: в party — один скор, в duel — показуємо активного (внизу можеш розширити до 2)
+    this.ui.score.textContent =
+      this.mode === "party"
+        ? String(this.players[0].score)
+        : `${this.players[0].score} : ${this.players[1].score}`;
+
+    this.ui.streak.textContent = String(p.streak);
+    this.ui.timer.textContent = String(Math.ceil(this.timeLeftSec)).padStart(2, "0");
+    this.ui.turn.textContent = (this.mode === "duel") ? activeName : "—";
+  }
+};
   
   // ==================== DOM ЕЛЕМЕНТИ ====================
   // Player
@@ -33,6 +292,16 @@
   const answerCard = $("#answerCard");
   const resultsCard = $("#resultCard");
   
+      // Додаємо логіку для quiz-переходу
+      const btnStartMatch = document.getElementById('btnStartMatch');
+
+
+      if (btnStartMatch) {
+        btnStartMatch.onclick = () => {
+          // Критично: відправляємо подію на сервер
+          socket.emit('host_start_match');
+        };
+      }
   const roomInput = $("#roomInput");
   const nameInput = $("#nameInput");
   const btnJoin   = $("#btnJoin");
@@ -63,6 +332,17 @@
     el.classList.add("show");
     clearTimeout(toast._t);
     toast._t = setTimeout(() => el.classList.remove("show"), 1200);
+  }
+  
+  // Функція для оновлення статусу сервера
+  function updateServerStatus(status) {
+    const serverPill = $("#serverPill");
+    const serverStatus = $("#serverStatus");
+    
+    if (serverPill && serverStatus) {
+      serverStatus.textContent = status;
+      serverPill.className = `pill ${status === 'online' ? 'online' : 'offline'}`;
+    }
   }
   
   // Функції для фідбеку після відповіді
@@ -113,13 +393,13 @@
       const status = result.correct ? '✅' : '❌';
       
       resultsHtml += `
-        <div class="result-row ${isCurrentPlayer ? 'current-player' : ''}">
+        <div class="result-row rank-${index+1} ${isCurrentPlayer ? 'current-player' : ''}">
           <div class="result-left">
             <span class="medal">${medal}</span>
             <span class="status">${status}</span>
             <span class="name">
               ${result.name}
-              ${result.streak >= 2 ? `🔥${result.streak}` : ``}
+              ${result.streak >= 2 ? '🔥' + result.streak : ''}
             </span>
           </div>
           <div class="result-right">
@@ -129,31 +409,6 @@
                 (⚡${result.speedBonus || 0} 🔥${result.streakBonus || 0})
               </small>
             </span>
-          </div>
-        </div>
-      `;
-    });
-    
-    resultsHtml += '</div>';
-    
-    // Загальна таблиця
-    resultsHtml += '<div class="total-scores">';
-    resultsHtml += '<h3>Загальні результати:</h3>';
-    
-    const sortedScores = data.scores.sort((a, b) => b.score - a.score);
-    
-    sortedScores.forEach((player, index) => {
-      const isCurrentPlayer = player.id === state.playerId;
-      const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
-      
-      resultsHtml += `
-        <div class="score-row ${isCurrentPlayer ? 'current-player' : ''}">
-          <div class="score-left">
-            <span class="medal">${medal}</span>
-            <span class="name">${player.name}</span>
-          </div>
-          <div class="score-right">
-            <span class="total-points">${player.score}</span>
           </div>
         </div>
       `;
@@ -181,8 +436,9 @@
   function setPhase(phase) {
     state.phase = phase;
     
+    // Безпечно ховаємо всі картки
     [joinCard, lobbyCard, answerCard, resultsCard].forEach(card => {
-      if (card) card.classList.add('hidden');
+      if (card && card.classList) card.classList.add('hidden');
     });
     
     switch(phase) {
@@ -191,6 +447,17 @@
         break;
       case 'LOBBY':
         if (lobbyCard) lobbyCard.classList.remove('hidden');
+
+        // ✅ Гарантуємо що нік/кімната не "зникають" після RESULTS → LOBBY
+        if (roomText) roomText.textContent = state.roomCode || roomText.textContent || '—';
+        if (meText) meText.textContent = state.nickname || meText.textContent || '—';
+
+        // waiting status (якщо є)
+        const lobbyStatus = document.getElementById('lobbyStatus');
+        if (lobbyStatus) lobbyStatus.textContent = state.isReady
+          ? 'Ти готовий ✅ Чекаємо інших…'
+          : 'Натисни “Готовий”, щоб вчитель міг почати раунд';
+
         break;
       case 'QUESTION':
         if (answerCard) answerCard.classList.remove('hidden');
@@ -206,21 +473,21 @@
     state.timeLeft = duration;
     const timerFill = $('.timer > div');
     const timerText = $('.timer > span');
-    
+    const tText = document.getElementById('timerText');
+    if (tText) tText.textContent = `${duration}s`;
     if (timerText) timerText.textContent = duration;
     if (timerFill) timerFill.style.width = '100%';
-    
     state.timerInterval = setInterval(() => {
       state.timeLeft--;
       const percent = (state.timeLeft / duration) * 100;
-      
       if (timerFill) timerFill.style.width = `${percent}%`;
       if (timerText) timerText.textContent = state.timeLeft;
-      
+      if (tText) tText.textContent = `${state.timeLeft}s`;
       if (state.timeLeft <= 0) {
         clearInterval(state.timerInterval);
+        state.timerInterval = null;
+        socket.emit('time_up');
         submitAnswer(null);
-        // Disable all buttons
         $$('.answer-btn').forEach(btn => btn.disabled = true);
         const submitBtn = $('.card-foot .btn');
         if (submitBtn) {
@@ -230,29 +497,184 @@
       }
     }, 1000);
   }
+  // ==================== КРИТИЧНО: ПЕРЕХІД У QUESTION ====================
+  socket.on('question', data => {
+    state.currentQuestion = data;
+    setPhase('QUESTION');
+    startTimer(data.duration);
+    // Рендер питання та варіантів (адаптуй під свою верстку)
+    if (document.querySelector('#questionText')) {
+      document.querySelector('#questionText').textContent = data.question;
+    }
+    const answers = document.querySelectorAll('.answer-btn');
+    answers.forEach((btn, i) => {
+      btn.textContent = data.options[i];
+      btn.disabled = false;
+    });
+  });
   
   // ==================== HOST ЛОГІКА ====================
+// ==================== HOST QUIZ UI (matches host.html ids) ====================
+const elRoomCodeBig   = document.getElementById('roomCodeBig');
+const elRoundNumber   = document.getElementById('roundNumber');
+const elQuizTimer     = document.getElementById('quizTimer');
+const elQuizTimerFill = document.getElementById('quizTimerFill');
+const elPlayersCount  = document.getElementById('playersCount');
+const elQuestionTheme = document.getElementById('questionTheme');
+const elQuestionDiff  = document.getElementById('questionDifficulty');
+const elQuizQuestion  = document.getElementById('quizQuestion');
+const elQuizAnswers   = document.getElementById('quizAnswers');
+const elScoreList     = document.getElementById('scoreList');
+const elRoundStats    = document.getElementById('roundStats');
+
+// UI init: до старту раунду показуємо нейтральне значення, а не 1/10 з макету
+if (elRoundNumber && !document.body.classList.contains('is-quiz')) {
+  const v = (elRoundNumber.textContent || '').trim();
+  if (v === '1/10' || v === '') elRoundNumber.textContent = '—/—';
+}
+
+
+
+// hostTimerInterval оголошено глобально
+let hostRoundStats = { correct: 0, wrong: 0, noAnswer: 0 };
+
+function setRoundStatsUI() {
+  if (!elRoundStats) return;
+  elRoundStats.textContent = `${hostRoundStats.correct} правильних • ${hostRoundStats.wrong} неправильних • ${hostRoundStats.noAnswer} не відповіли`;
+}
+
+function renderHostScoreboard(scores = []) {
+  if (!elScoreList) return;
+
+  if (!scores.length) {
+    elScoreList.innerHTML = `<div class=\"srow empty\"><div></div><div class=\"muted\">Немає даних</div><div></div></div>`;
+    return;
+  }
+
+  const sorted = [...scores].sort((a,b) => (b.score ?? 0) - (a.score ?? 0));
+  elScoreList.innerHTML = sorted.map((p, idx) => `
+    <div class=\"srow\">
+      <div>${idx + 1}</div>
+      <div>${(p.name ?? '—')}</div>
+      <div class=\"right\">${(p.score ?? 0)}</div>
+    </div>
+  `).join('');
+}
+  function renderHostScoreboard(scores = []) {
+    if (!elScoreList) return;
+    if (!scores.length) {
+      elScoreList.innerHTML = `<div class="srow empty"><div></div><div class="muted">Немає даних</div><div></div></div>`;
+      return;
+    }
+    const sorted = [...scores].sort((a,b) => (b.score ?? 0) - (a.score ?? 0));
+    elScoreList.innerHTML = sorted.map((p, idx) => `
+      <div class="srow">
+        <div>${idx + 1}</div>
+        <div>${(p.name ?? '—')}</div>
+        <div class="right">${(p.score ?? 0)}</div>
+      </div>
+    `).join('');
+  }
+
+  // --- Рендер результатів питання (очок за питання) ---
+  function renderHostRoundResults(results = [], scores = []) {
+    if (!elScoreList) return;
+    // Мапа: playerId -> name
+    const nameById = new Map((scores || []).map(p => [p.id || p.playerId, p.name]));
+    if (!results.length) {
+      elScoreList.innerHTML =
+        `<div class="srow empty"><div></div><div class="muted">Немає відповідей</div><div></div></div>`;
+      return;
+    }
+    // показуємо очки саме за питання (points), сорт за points
+    const sorted = [...results].sort((a, b) => (b.points ?? 0) - (a.points ?? 0));
+    elScoreList.innerHTML = sorted.map((r, idx) => {
+      const nm = r.name || nameById.get(r.playerId) || '—';
+      const pts = (r.points ?? 0);
+      const icon = r.correct ? '✅' : '❌';
+      return `
+        <div class="srow">
+          <div>${idx + 1}</div>
+          <div>${icon} ${nm}</div>
+          <div class="right">+${pts}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+function renderHostQuestion(question) {
+  if (!question) return;
+  if (elQuizQuestion) elQuizQuestion.textContent = question.question ?? '—';
+
+  if (elQuizAnswers) {
+    const opts = question.options ?? [];
+    elQuizAnswers.innerHTML = opts.map(opt => `
+      <button class=\"answer\" type=\"button\" disabled>${opt}</button>
+    `).join('');
+  }
+
+  // якщо бек віддає theme/difficulty — показуємо
+  if (elQuestionTheme) elQuestionTheme.textContent = question.theme ?? 'Grammar';
+  if (elQuestionDiff)  elQuestionDiff.textContent  = question.difficulty ?? 'Легко';
+}
+
+function startHostTimer(seconds) {
+  clearInterval(hostTimerInterval);
+
+  const total = Math.max(0, Number(seconds) || 0);
+  let t = total;
+
+  if (elQuizTimer) elQuizTimer.textContent = `${t}s`;
+  if (elQuizTimerFill) elQuizTimerFill.style.width = '100%';
+
+  hostTimerInterval = setInterval(() => {
+    t--;
+
+    const clamped = Math.max(t, 0);
+    if (elQuizTimer) elQuizTimer.textContent = `${clamped}s`;
+
+    if (elQuizTimerFill) {
+      const pct = total > 0 ? (clamped / total) * 100 : 0;
+      elQuizTimerFill.style.width = `${pct}%`;
+    }
+
+    if (t <= 0) clearInterval(hostTimerInterval);
+  }, 1000);
+}
+
+// Тема за замовчуванням (бо select у host.html відсутній)
+function pickDefaultTheme() {
+  const keys = Object.keys(window.grammarQuestions || {});
+  return keys.includes('sein') ? 'sein' : (keys[0] || null);
+}
+
+function hostStartRoundDefault() {
+  const theme = pickDefaultTheme();
+  if (!theme) return toast('Помилка', 'questions.js не завантажився або немає тем');
+  socket.emit('host:start-round', { theme });
+}
   function hostCreateRoom() {
     socket.emit('host:create-room');
   }
   
   function hostStartGrammarRound() {
-    const themeSelect = $('#themeSelect');
+    // Вибір теми для раунду
+    const themeSelect = document.getElementById('quizThemeSelect');
     const theme = themeSelect?.value;
     if (!theme) return toast('Помилка', 'Обери тему!');
-    
     if (!window.grammarQuestions?.[theme]) return toast('Помилка', 'Немає запитань для цієї теми!');
-    
     socket.emit('host:start-round', { theme });
     toast('Раунд стартував', 'Гравці отримали питання');
   }
   
   function hostShowResults() {
     socket.emit('host:show-results');
+    toast('Показані результати раунду', '');
   }
   
   function hostResetRoom() {
     socket.emit('host:reset-room');
+    toast('Кімната скинута', '');
   }
   
   function updatePlayerList(players) {
@@ -261,10 +683,10 @@
     playersList.innerHTML = '';
     players.forEach(player => {
       const playerEl = document.createElement('div');
-      playerEl.className = 'player-row';
+      playerEl.className = 'player-item'; // ЗМІНИТИ з 'player-row' на 'player-item'
       playerEl.innerHTML = `
         <div class="player-left">
-          <div class="avatar"></div>
+          <div class="avatar">${player.name.charAt(0)}</div>
           <div class="player-name">${player.name}</div>
         </div>
         <div class="badge ${player.ready ? 'ready' : ''}">
@@ -298,9 +720,10 @@
     if (state.phase !== 'QUESTION') return;
     
     state.selectedAnswer = answer;
+    // Використовуємо правильний ідентифікатор гравця
     socket.emit('player:answer', {
-      playerId: state.playerId, // <-- додати
-      answer: answer, // може бути null
+      playerId: state.playerId || state.socketId, // Додаємо fallback
+      answer: answer,
       timeLeft: state.timeLeft
     });
     
@@ -322,14 +745,18 @@
   }
   
   // ==================== SOCKET ПОДІЇ ====================
+
+
   // Загальні події
   socket.on('connect', () => {
     state.socketId = socket.id;
     console.log('🔗 Підключено до сервера');
+    if (isHost) updateServerStatus('online');
   });
   
   socket.on('disconnect', () => {
     toast('З\'єднання втрачено', 'Перепідключення...');
+    if (isHost) updateServerStatus('offline');
   });
   
   socket.on('error', (data) => {
@@ -354,52 +781,81 @@
   socket.on('player-answered', (data) => {
     if (!isHost) return;
 
-    const li = document.createElement('li');
-    const icon = data.correct ? '✔' : '✗';
-    const pointsText = data.correct ? ` +${data.points} балів` : '';
-    const bonusText = data.correct && (data.speedBonus > 0 || data.streakBonus > 0) ? 
-      ` (⚡${data.speedBonus} 🔥${data.streakBonus})` : '';
-    li.textContent = `${icon} ${data.playerName}${pointsText}${bonusText}`;
-    document.getElementById('answeredList').appendChild(li);
+    // якщо сервер шле correct=true/false — обновляємо counters
+    if (data?.correct === true) hostRoundStats.correct++;
+    else if (data?.correct === false) hostRoundStats.wrong++;
+
+    setRoundStatsUI();
   });
   
   socket.on('round-started', (data) => {
     if (!isHost) return;
 
-    const { question, duration, round, maxRounds } = data;
+    const { question, duration, round, maxRounds, scores, playerCount } = data;
 
-    document.getElementById('hostRound').classList.remove('hidden');
-    document.getElementById('hostQuestion').textContent =
-      `Раунд ${round}/${maxRounds}: ${question.question}`;
+    // перейти на quiz екран
+    document.body.classList.add('is-quiz');
+    document.getElementById('screenLobby')?.classList.add('hidden');
+    document.getElementById('screenQuiz')?.classList.remove('hidden');
 
-    const optWrap = document.getElementById('hostOptions');
-    optWrap.innerHTML = '';
-    question.options.forEach(o => {
-      const div = document.createElement('div');
-      div.textContent = o;
-      optWrap.appendChild(div);
-    });
+    // синхронізувати великий код кімнати
+    if (elRoomCodeBig) elRoomCodeBig.textContent = (state.roomCode || '').split('').join(' ');
 
-    document.getElementById('answeredList').innerHTML = '';
+    // раунд / гравці
+    if (elRoundNumber)  elRoundNumber.textContent  = `${round ?? 1}/${maxRounds ?? 10}`;
+        if (elRoundNumber) {
+          const total = (typeof window.getMixQuestionCount === 'function') ? window.getMixQuestionCount() : (maxRounds ?? 10);
+          elRoundNumber.textContent = `${round ?? 1}/${total}`;
+        }
+    if (elPlayersCount) elPlayersCount.textContent = `${playerCount ?? 0}/8`;
 
-    let timeLeft = duration;
-    document.getElementById('hostTime').textContent = timeLeft;
+    // reset round stats
+    hostRoundStats = { correct: 0, wrong: 0, noAnswer: 0 };
+    setRoundStatsUI();
 
-    clearInterval(hostTimerInterval);
-    hostTimerInterval = setInterval(() => {
-      timeLeft--;
-      document.getElementById('hostTime').textContent = timeLeft;
-      if (timeLeft <= 0) clearInterval(hostTimerInterval);
-    }, 1000);
+    // рендер питання/варіантів + таблиця
+    renderHostQuestion(question);
+    renderHostScoreboard(scores || []);
+
+    // таймер
+    startHostTimer(duration ?? 15);
   });
   
   socket.on('round-ended', (data) => {
     if (!isHost) return;
-
     clearInterval(hostTimerInterval);
 
-    const list = document.getElementById('answeredList');
-    list.innerHTML += `<li>— Раунд завершено —</li>`;
+    const results = Array.isArray(data?.results) ? data.results : [];
+    const scores  = Array.isArray(data?.scores)  ? data.scores  : [];
+
+    // Рендер таблиці очок і/або результатів раунду
+    if (scores.length) renderHostScoreboard(scores);
+    if (results.length) renderHostRoundResults(results, scores);
+
+    // статистика: предпочитаем данные от сервера, иначе считаем локально
+    if (data?.stats && typeof data.stats === 'object') {
+      hostRoundStats = {
+        correct: data.stats.correct ?? hostRoundStats.correct,
+        wrong: data.stats.wrong ?? hostRoundStats.wrong,
+        noAnswer: data.stats.noAnswer ?? hostRoundStats.noAnswer
+      };
+    } else {
+      const answered = results.length;
+      const totalPlayers = scores.length;
+      const correct = results.filter(r => r.correct).length;
+      const wrong = results.filter(r => r.correct === false).length;
+      const noAnswer = Math.max(totalPlayers - answered, 0);
+      hostRoundStats = { correct, wrong, noAnswer };
+    }
+
+    setRoundStatsUI();
+
+    // 3) оновити "раунд X/Y"
+    if (elRoundNumber) elRoundNumber.textContent = `${data.round ?? '—'}/${data.maxRounds ?? '—'}`;
+      if (elRoundNumber) {
+        const total = (typeof window.getMixQuestionCount === 'function') ? window.getMixQuestionCount() : (data.maxRounds ?? '—');
+        elRoundNumber.textContent = `${data.round ?? '—'}/${total}`;
+      }
   });
   
   socket.on('host:round-details', (data) => {
@@ -430,18 +886,21 @@
   socket.on('joined', (data) => {
     state.roomCode = data.roomCode;
     state.nickname = data.name;
-    state.playerId = data.playerId;   // <-- ключове
+    state.playerId = data.playerId;
     setPhase('LOBBY');
-    
     if (pillRoom) pillRoom.textContent = data.roomCode;
     if (roomText) roomText.textContent = data.roomCode;
     if (meText) meText.textContent = state.nickname;
-    
     toast('Успішно!', `У кімнаті ${data.roomCode}`);
+
+    try {
+      localStorage.setItem('dp_room', state.roomCode || '');
+      localStorage.setItem('dp_name', state.nickname || '');
+    } catch {}
   });
   
   socket.on('player-ready-changed', (data) => {
-    if (data.playerId === state.playerId) {
+    if (data.playerId === state.playerId || data.playerId === state.socketId) {
       state.isReady = data.ready;
       if (btnReady) {
         btnReady.textContent = data.ready ? 'Готовий ✅' : 'Готовий';
@@ -461,6 +920,13 @@
     }
 
     note.textContent = `Всі готові! Старт через ${data.countdownSec}...`;
+
+    const lobbyStatus = document.getElementById('lobbyStatus');
+    if (lobbyStatus) {
+      lobbyStatus.textContent = !data.allReady
+        ? 'Чекаємо, поки всі натиснуть "Готовий"…'
+        : `Всі готові! Старт через ${data.countdownSec}…`;
+    }
   });
 
   socket.on('round-started', (data) => {
@@ -488,70 +954,96 @@
   
   socket.on('round-ended', (data) => {
     clearInterval(state.timerInterval);
-    setPhase('RESULTS');
-    showResults(data);
+    
+    if (!isHost) {
+      setPhase('RESULTS');
+      showResults(data);
+      
+      // Оновлюємо кнопку "Ок"
+      const btnResultOk = $('#btnResultOk');
+      if (btnResultOk) {
+        btnResultOk.onclick = () => {
+          setPhase('LOBBY');
+          toast('Готовий до наступного раунду!', '');
+        };
+      }
+    } else {
+      // Для хоста: просто показуємо повідомлення
+      console.log('Хост отримав результати:', data);
+    }
   });
   
   socket.on('match-ended', (data) => {
     clearInterval(state.timerInterval);
-    setPhase('RESULTS');
     
-    // Показуємо фінальні результати
-    const resultCard = $('#resultCard');
-    const resultSub = $('#resultSub');
-    const resultsContainer = resultCard?.querySelector('.results-container');
-    const resultExplain = $('#resultExplain');
-    const btnResultOk = $('#btnResultOk');
-    
-    if (resultCard && resultsContainer) {
-      if (resultSub) {
-        resultSub.textContent = '🎉 Матч завершено! Фінальні результати:';
-      }
+    if (!isHost) {
+      setPhase('RESULTS');
       
-      let resultsHtml = '<div class="final-results">';
-      resultsHtml += '<h2>🏆 Переможці матчу:</h2>';
+      const resultCard = $('#resultCard');
+      const resultSub = $('#resultSub');
+      const resultsContainer = resultCard?.querySelector('.results-container');
+      const resultExplain = $('#resultExplain');
+      const btnResultOk = $('#btnResultOk');
       
-      const sortedScores = data.scores.sort((a, b) => b.score - a.score);
-      
-      sortedScores.forEach((player, index) => {
-        const isCurrentPlayer = player.id === state.playerId;
-        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅';
-        const trophy = index === 0 ? '👑' : '';
+      if (resultCard && resultsContainer) {
+        if (resultSub) {
+          resultSub.textContent = '🎉 Матч завершено! Фінальні результати:';
+        }
         
-        resultsHtml += `
-          <div class="final-row ${isCurrentPlayer ? 'current-player' : ''} ${index === 0 ? 'winner' : ''}">
-            <div class="final-left">
-              <span class="medal">${medal}</span>
-              <span class="trophy">${trophy}</span>
-              <span class="name">${player.name}</span>
+        let resultsHtml = '<div class="final-results">';
+        resultsHtml += '<h2>🏆 Переможці матчу:</h2>';
+        
+        const sortedScores = data.scores?.sort((a, b) => b.score - a.score) || [];
+        
+        sortedScores.forEach((player, index) => {
+          const isCurrentPlayer = player.id === state.playerId;
+          const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅';
+          const trophy = index === 0 ? '👑' : '';
+          
+          resultsHtml += `
+            <div class="final-row ${isCurrentPlayer ? 'current-player' : ''} ${index === 0 ? 'winner' : ''}" 
+                  style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; margin-bottom: 12px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);">
+              <div class="final-left" style="display: flex; align-items: center; gap: 12px;">
+                <span class="medal" style="font-size: 16px; width: 20px; text-align: center;">${medal}</span>
+                <span class="trophy" style="font-size: 24px;">${trophy}</span>
+                <span class="name" style="font-weight: 500;">${player.name || 'Без імені'}</span>
+              </div>
+              <div class="final-right" style="font-weight: 700; font-size: 18px;">
+                <span class="final-score" style="color: var(--accent); font-size: 20px; font-weight: 900;">
+                  ${player.score || 0} очок
+                </span>
+              </div>
             </div>
-            <div class="final-right">
-              <span class="final-score">${player.score} очок</span>
-            </div>
-          </div>
-        `;
-      });
-      
-      resultsHtml += '</div>';
-      resultsContainer.innerHTML = resultsHtml;
-      
-      if (resultExplain) {
-        resultExplain.textContent = 'Дякуємо за участь! Створіть нову кімнату для наступного матчу.';
-      }
-      
-      if (btnResultOk) {
-        btnResultOk.textContent = 'Повернутись до меню';
-        btnResultOk.onclick = () => {
-          setPhase('JOIN');
-          toast('Готовий до нового матчу!', '');
-        };
+          `;
+        });
+        
+        resultsHtml += '</div>';
+        resultsContainer.innerHTML = resultsHtml;
+        
+        if (resultExplain) {
+          resultExplain.textContent = 'Дякуємо за участь! Створіть нову кімнату для наступного матчу.';
+        }
+        
+        if (btnResultOk) {
+          btnResultOk.textContent = 'Повернутись до меню';
+          btnResultOk.onclick = () => {
+            setPhase('JOIN');
+            toast('Готовий до нового матчу!', '');
+          };
+        }
       }
     }
   });
   
   socket.on('results', (data) => {
-    // Для хоста
-    showHostResults(data);
+    // Для хоста: показати фінальні результати у quiz UI
+    if (scoreBox && data.scores) {
+      renderQuizScoreboard(data.scores);
+    }
+    if (quizStats && data.stats) {
+      renderQuizStats(data.stats);
+    }
+    toast('Матч завершено!', 'Фінальні результати оновлені');
   });
   
   socket.on('room-reset', () => {
@@ -567,6 +1059,12 @@
     if (isHost) {
       const b = document.getElementById('btnStartMatch');
       if (b) b.style.display = '';
+      
+      // Перемикаємо назад на lobby екран
+      const screenLobby = document.getElementById('screenLobby');
+      const screenQuiz = document.getElementById('screenQuiz');
+      screenLobby?.classList.remove('hidden');
+      screenQuiz?.classList.add('hidden');
     }
     
     toast('Кімната скинута', 'Готовий до нового раунду?');
@@ -591,6 +1089,60 @@
   });
   
   // ==================== UI РЕНДЕРИНГ ====================
+  /* =========================
+     PATCH C: Підключення до твого рендера/кнопок
+     ========================= */
+  // 1) Коли тобі треба показати нове питання
+
+  function showNextQuestion() {
+    const q = PartyDuel.nextQuestion();
+    if (!q) return;
+
+    // Підстав свої DOM-елементи:
+    // Приклад очікуваних id (заміни на свої):
+    const qt = document.getElementById("questionText");
+    const box = document.getElementById("optionsBox");
+
+    if (qt) qt.textContent = q.question;
+
+    if (box) {
+      box.innerHTML = "";
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        btn.textContent = opt;
+        btn.onclick = () => onAnswerClick(opt);
+        box.appendChild(btn);
+      });
+    }
+  }
+
+  // 2) Коли гравець натиснув відповідь
+
+  function onAnswerClick(selectedOption) {
+    const res = PartyDuel.applyAnswer(selectedOption);
+    if (!res.ok) return;
+
+    // Тут — твій фідбек/пояснення (опціонально)
+    const explain = document.getElementById("explainBox");
+    if (explain) {
+      explain.textContent = res.correct
+        ? `✅ Правильно. ${res.explanation || ""}`
+        : `❌ Ні. Правильна: ${res.correctAnswer}. ${res.explanation || ""}`;
+    }
+
+    // Авто-перехід на наступне питання через 800мс (party feel)
+    setTimeout(() => {
+      showNextQuestion();
+    }, 800);
+  }
+
+  // 3) Старт гри / раунд
+
+  // Де ти зараз запускаєш вікторину — просто виклич:
+
+  // showNextQuestion();
+
   function renderQuestion(q, duration) {
     if (!answerCard) return;
     
@@ -649,59 +1201,86 @@
   }
   
   function showResults(data) {
-    const container = resultsCard.querySelector('.results-container');
+    // Перевіряємо чи є елемент resultCard
+    const resultCard = $('#resultCard');
+    if (!resultCard) {
+      console.warn('resultCard не знайдено, пропускаємо показ результатів');
+      return;
+    }
+    
+    const container = resultCard.querySelector('.results-container');
     if (!container) return;
     
     // Знаходимо свою відповідь
-    const myResult = data.results.find(r => r.playerId === state.playerId || r.name === state.nickname);
-    const isCorrect = myResult?.correct || false;
-    const myAnswer = myResult?.answer || 'Немає відповіді';
+    const myResult = data.results?.find(r => 
+      r.playerId === state.playerId || r.name === state.nickname
+    ) || {};
+    
+    const isCorrect = myResult.correct || false;
+    const myAnswer = myResult.answer || 'Немає відповіді';
     
     let html = `
       <div style="text-align:center; margin-bottom:20px;">
         <div style="font-size:20px; font-weight:bold; color:var(--accent); margin-bottom:12px;">
-          Правильна відповідь: ${data.correctAnswer}
+          Правильна відповідь: ${data.correctAnswer || 'Не вказано'}
         </div>
-        <div style="color:var(--muted); margin-bottom:16px;">
-          ${data.explanation}
-        </div>
-        
-        <div class="answer-highlight ${isCorrect ? 'correct-highlight' : 'incorrect-highlight'}" style="margin: 0 auto 20px;">
+    `;
+    
+    if (data.explanation) {
+      html += `<div style="color:var(--muted); margin-bottom:16px;">${data.explanation}</div>`;
+    }
+    
+    html += `
+        <div class="answer-highlight ${isCorrect ? 'correct-highlight' : 'incorrect-highlight'}" style="margin: 0 auto 20px; max-width: 300px;">
           Ваша відповідь: ${myAnswer} ${isCorrect ? '✅ Правильно!' : '❌ Неправильно'}
         </div>
       </div>
       <div class="list">
     `;
     
-    data.results.forEach((result, index) => {
-      const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
-      const correctIcon = result.correct ? '✅' : '❌';
-      const isMe = result.playerId === state.socketId || result.name === state.nickname;
-      const highlight = isMe ? 'background: rgba(255,77,122,0.2); border: 2px solid var(--accent);' : '';
-      
-      html += `
-        <div class="player-row" style="align-items:center; ${highlight}">
-          <div class="player-left">
-            <div style="font-size:18px; margin-right:10px;">${medal}</div>
-            <div class="avatar" style="${isMe ? 'background: linear-gradient(135deg, var(--accent), var(--tertiary));' : ''}">
-              ${isMe ? 'Я' : result.name.charAt(0)}
-            </div>
-            <div>
-              <div class="player-name">${result.name} ${isMe ? '(Ви)' : ''}</div>
-              <div style="font-size:12px; color:${result.correct ? '#00ff00' : '#ff4444'};">
-                ${result.answer || 'Немає відповіді'} ${correctIcon}
+    if (data.results && Array.isArray(data.results)) {
+      data.results.forEach((result, index) => {
+        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
+        const correctIcon = result.correct ? '✅' : '❌';
+        const isMe = result.playerId === state.playerId || result.name === state.nickname;
+        const highlight = isMe ? 'background: rgba(255,77,122,0.2); border: 2px solid var(--accent);' : '';
+        
+        html += `
+          <div class="player-item" style="align-items:center; ${highlight}">
+            <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+              <div style="font-size:18px; margin-right:10px;">${medal}</div>
+              <div class="avatar" style="${isMe ? 'background: linear-gradient(135deg, var(--accent), var(--tertiary));' : ''}">
+                ${isMe ? 'Я' : (result.name?.charAt(0) || '?')}
+              </div>
+              <div>
+                <div style="font-weight: 700; font-size: 16px;">${result.name || 'Без імені'} ${isMe ? '(Ви)' : ''}</div>
+                <div style="font-size:12px; color:${result.correct ? '#00ff00' : '#ff4444'};">
+                  ${result.answer || 'Немає відповіді'} ${correctIcon}
+                </div>
               </div>
             </div>
+            <div class="badge ${result.correct ? 'ready' : ''}" style="${result.correct ? 'background: rgba(0,255,0,0.2); border-color: #00ff00; color: #00ff00;' : 'background: rgba(255,0,0,0.1); border-color: #ff4444; color: #ff4444;'}">
+              ${result.points || 0} балів
+            </div>
           </div>
-          <div class="badge ${result.correct ? 'ready' : ''}" style="${result.correct ? 'background: rgba(0,255,0,0.2); border-color: #00ff00; color: #00ff00;' : 'background: rgba(255,0,0,0.1); border-color: #ff4444; color: #ff4444;'}">
-            ${result.points} балів
-          </div>
-        </div>
-      `;
-    });
+        `;
+      });
+    }
     
     html += '</div>';
     container.innerHTML = html;
+    
+    // Оновлюємо підзаголовок
+    const resultSub = $('#resultSub');
+    if (resultSub) {
+      resultSub.textContent = `Раунд ${data.round || 1}/${data.maxRounds || 1} завершено`;
+    }
+    
+    // Оновлюємо пояснення
+    const resultExplain = $('#resultExplain');
+    if (resultExplain) {
+      resultExplain.textContent = data.explanation || '';
+    }
   }
   
   function showHostResults(data) {
@@ -720,6 +1299,26 @@
   
   // ==================== ІНІЦІАЛІЗАЦІЯ ====================
   function init() {
+    /* =========================
+       PATCH B: Init
+       ========================= */
+    document.addEventListener("DOMContentLoaded", () => {
+      PartyDuel.mountHUD();
+
+      // 1) стартові значення
+      PartyDuel.setMode("party");        // або "duel"
+      PartyDuel.setTheme("sein", { level: "A1" });
+
+      // 2) імена для duel (опціонально)
+      PartyDuel.players[0].name = "P1";
+      PartyDuel.players[1].name = "P2";
+
+      // 3) (опціонально) перевірка кількості питань
+      if (window.getTotalQuestionCount) {
+        console.log("Total questions:", window.getTotalQuestionCount());
+      }
+    });
+
     // Тема
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -727,6 +1326,18 @@
       const icon = $('#themeToggle .value');
       if (icon) icon.textContent = savedTheme === 'light' ? '☀️' : '🌙';
     }
+    
+    // Відновлення кімнати/ніку для стабільного UI
+    try {
+      const savedRoom = localStorage.getItem('dp_room');
+      const savedName = localStorage.getItem('dp_name');
+      if (savedRoom && !state.roomCode) state.roomCode = savedRoom;
+      if (savedName && !state.nickname) state.nickname = savedName;
+
+      if (pillRoom && state.roomCode) pillRoom.textContent = state.roomCode;
+      if (roomText && state.roomCode) roomText.textContent = state.roomCode;
+      if (meText && state.nickname) meText.textContent = state.nickname;
+    } catch {}
     
     $('#themeToggle')?.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme');
@@ -736,6 +1347,9 @@
       const icon = $('#themeToggle .value');
       if (icon) icon.textContent = next === 'light' ? '☀️' : '🌙';
     });
+    
+    // Ініціалізація статусу сервера
+    if (isHost) updateServerStatus('offline');
     
     // Host обробники
     if (isHost) {
@@ -754,8 +1368,15 @@
       
       $('#btnStartMatch')?.addEventListener('click', () => {
         socket.emit('host:start-match');
+
+        // Перемикаємо на quiz екран
+        const screenLobby = document.getElementById('screenLobby');
+        const screenQuiz = document.getElementById('screenQuiz');
+        screenLobby?.classList.add('hidden');
+        screenQuiz?.classList.remove('hidden');
+
         const b = document.getElementById('btnStartMatch');
-        if (b) b.style.display = 'none'; // ✅ зникає
+        if (b) b.style.display = 'none';
       });
       
       // Створюємо кімнату при завантаженні
@@ -783,4 +1404,11 @@
   
   // Запуск
   document.addEventListener('DOMContentLoaded', init);
+  
+  // Додатковий фікс для перемикання екранів
+  document.addEventListener('DOMContentLoaded', function() {
+    // Перевірка для хоста: правильне перемикання екранів
+    if (isHost) {
+    }
+  });
 })();

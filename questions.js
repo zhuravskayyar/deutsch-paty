@@ -2143,3 +2143,37 @@ if (typeof module !== 'undefined' && module.exports) {
     getRandomQuestions
   };
 }
+
+
+// ===== MIX MODE (ALL THEMES) =====
+
+let usedMixQuestions = new Set();
+
+if (typeof window !== 'undefined') {
+  window.getRandomMixQuestion = function () {
+    const allThemes = Object.values(window.grammarQuestions || {});
+    const allQuestions = allThemes.flat();
+
+    if (!allQuestions.length) return null;
+
+    // якщо всі питання використані — скидаємо пул
+    if (usedMixQuestions.size >= allQuestions.length) {
+      usedMixQuestions.clear();
+    }
+
+    let q;
+    let guard = 0;
+    do {
+      q = allQuestions[Math.floor(Math.random() * allQuestions.length)];
+      guard++;
+    } while (usedMixQuestions.has(q) && guard < 1000);
+
+    usedMixQuestions.add(q);
+    return q;
+  };
+
+  window.getMixQuestionCount = function () {
+    return Object.values(window.grammarQuestions || {})
+      .reduce((sum, arr) => sum + arr.length, 0);
+  };
+}
