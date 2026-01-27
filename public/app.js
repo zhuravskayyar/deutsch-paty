@@ -117,10 +117,18 @@
           <div class="result-left">
             <span class="medal">${medal}</span>
             <span class="status">${status}</span>
-            <span class="name">${result.name}</span>
+            <span class="name">
+              ${result.name}
+              ${result.streak >= 2 ? `🔥${result.streak}` : ``}
+            </span>
           </div>
           <div class="result-right">
-            <span class="points">+${result.points}</span>
+            <span class="points">
+              +${result.points}
+              <small class="muted">
+                (⚡${result.speedBonus || 0} 🔥${result.streakBonus || 0})
+              </small>
+            </span>
           </div>
         </div>
       `;
@@ -194,6 +202,7 @@
   }
   
   function startTimer(duration) {
+    clearInterval(state.timerInterval);
     state.timeLeft = duration;
     const timerFill = $('.timer > div');
     const timerText = $('.timer > span');
@@ -312,35 +321,6 @@
     }
   }
   
-  function startTimer(duration) {
-    state.timeLeft = duration;
-    const timerFill = $('.timer > div');
-    const timerText = $('.timer > span');
-    
-    if (timerText) timerText.textContent = duration;
-    if (timerFill) timerFill.style.width = '100%';
-    
-    state.timerInterval = setInterval(() => {
-      state.timeLeft--;
-      const percent = (state.timeLeft / duration) * 100;
-      
-      if (timerFill) timerFill.style.width = `${percent}%`;
-      if (timerText) timerText.textContent = state.timeLeft;
-      
-      if (state.timeLeft <= 0) {
-        clearInterval(state.timerInterval);
-        submitAnswer(null);
-        // Disable all buttons
-        $$('.answer-btn').forEach(btn => btn.disabled = true);
-        const submitBtn = $('.card-foot .btn');
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.textContent = 'Час вийшов';
-        }
-      }
-    }, 1000);
-  }
-  
   // ==================== SOCKET ПОДІЇ ====================
   // Загальні події
   socket.on('connect', () => {
@@ -457,7 +437,7 @@
   });
   
   socket.on('player-ready-changed', (data) => {
-    if (data.playerId === state.socketId) {
+    if (data.playerId === state.playerId) {
       state.isReady = data.ready;
       if (btnReady) {
         btnReady.textContent = data.ready ? 'Готовий ✅' : 'Готовий';
@@ -596,7 +576,7 @@
   });
   
   socket.on('player-left', (data) => {
-    if (data.playerId !== state.socketId) {
+    if (data.playerId !== state.playerId) {
       toast('Гравець вийшов', data.playerName);
     }
   });
@@ -669,7 +649,7 @@
     if (!container) return;
     
     // Знаходимо свою відповідь
-    const myResult = data.results.find(r => r.playerId === state.socketId || r.name === state.nickname);
+    const myResult = data.results.find(r => r.playerId === state.playerId || r.name === state.nickname);
     const isCorrect = myResult?.correct || false;
     const myAnswer = myResult?.answer || 'Немає відповіді';
     

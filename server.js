@@ -4,7 +4,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 
-const { getRandomQuestionFromTheme } = require('./questions');
+const { grammarQuestions, getRandomQuestionFromTheme } = require('./questions');
 
 const app = express();
 const server = http.createServer(app);
@@ -58,7 +58,7 @@ class Room {
     this.autoStartDelaySec = 3;     // короткий "3..2..1"
     this.usedQuestions = new Set(); // Для уникнення повторів питань
     this.roundIndex = 0;
-    this.maxRounds = 6;
+    this.maxRounds = 10;
   }
   
   // Отримати список гравців для відображення
@@ -351,6 +351,9 @@ io.on('connection', (socket) => {
         name: name.substring(0, 14),
         ready: false,
         score: 0,
+        streak: 0,
+        correctCount: 0,
+        wrongCount: 0,
         connections: [socket.id],
         joinedAt: Date.now()
       };
@@ -423,27 +426,46 @@ io.on('connection', (socket) => {
     if (!player) return;
     
     // Перевіряємо, чи гравець вже відповів
-    if (room.answers.has(playerId)) {
+    if (room.answers.has(actualPlayerId)) {
       socket.emit('error', { message: 'Ви вже відповіли на це питання' });
       return;
     }
     
     const isCorrect = answer === room.currentQuestion.correct;
-    const points = isCorrect ? Math.floor(10 + (timeLeft / room.roundDuration) * 10) : 0;
+
+    let points = 0;
+    let speedBonus = 0;
+    let streakBonus = 0;
+
+    if (isCorrect) {
+      player.correctCount++;
+      player.streak++;
+
+      const base = (room.currentQuestion.points || 1) * 5;
+      speedBonus = Math.round((timeLeft / room.roundDuration) * 5);
+      streakBonus = Math.min(player.streak * 2, 10);
+
+      points = base + speedBonus + streakBonus;
+      player.score += points;
+    } else {
+      player.wrongCount++;
+      player.streak = 0;
+    }
     
-    room.answers.set(playerId, {
+    room.answers.set(actualPlayerId, {
       answer,
       timeLeft,
       correct: isCorrect,
       points,
+      speedBonus,
+      streakBonus,
+      streak: player.streak,
       timestamp: Date.now()
     });
     
-    player.score += points;
-    
     // Хост отримує відповідь
     io.to(room.hostSocketId).emit('player-answered', {
-      playerId: playerId,
+      playerId: actualPlayerId,
       playerName: player.name,
       answer,
       correct: isCorrect,
@@ -601,6 +623,9 @@ function calculateResults(room) {
         answer: answerData.answer,
         correct: answerData.correct,
         points: answerData.points,
+        speedBonus: answerData.speedBonus,
+        streakBonus: answerData.streakBonus,
+        streak: answerData.streak,
         timeLeft: answerData.timeLeft,
         totalScore: player.score
       });
