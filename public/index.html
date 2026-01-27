@@ -1,28 +1,36 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="uk">
 <head>
-  <title>Deutsch Party - Status</title>
-  <link rel="stylesheet" href="./styles.css" />
-  <style>
-    body { font-family: sans-serif; margin: 20px; }
-    .room { background: var(--card-bg); padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid var(--card-border); }
-    .player { margin-left: 20px; }
-  </style>
+  <meta charset="UTF-8" />
+  <title>Deutsch Party</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Deutsch Party Server Status</h1>
-  <p>Активні кімнати: <span id="roomCount">0</span></p>
-  <div id="rooms"></div>
-  
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
-    
-    socket.on('connect', () => {
-      console.log('Підключено до сервера моніторингу');
-    });
-    
-    // Це для адміністративних цілей - можна додати події для моніторингу
-  </script>
+  <div class="app">
+    <div class="shell">
+      <div class="topbar">
+        <div class="topbar-inner">
+          <div class="logo-gear">🎯</div>
+          <div class="brand">
+            <h1>Deutsch Party</h1>
+            <p>Мультиплеєрна вікторина німецької</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">ВИБЕРІТЬ РОЛЬ</div>
+          <div class="card-sub">Приєднуйтесь до гри або створіть власну кімнату</div>
+        </div>
+        <div class="card-body">
+          <div class="btn-row" style="display: flex; gap: 16px; justify-content: center;">
+            <a href="/host.html" class="btn primary" style="flex: 1; text-align: center; text-decoration: none;">🎭 Я — Хост</a>
+            <a href="/player.html" class="btn" style="flex: 1; text-align: center; text-decoration: none;">🎮 Я — Гравець</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

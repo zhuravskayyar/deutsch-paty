@@ -23,6 +23,15 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.static('public'));
 
+// Статус сервера
+app.get('/status', (req, res) => {
+  res.send(`
+    <h1>Deutsch Party Server Status</h1>
+    <p>Активні кімнати: ${rooms.size}</p>
+    <p>Час: ${new Date().toLocaleString()}</p>
+  `);
+});
+
 // ==================== ПОЛІПШЕНІ СТРУКТУРИ ДАНИХ ====================
 const rooms = new Map(); // roomCode -> Room object
 const playerConnections = new Map(); // playerId -> socketId[] (всі підключення гравця)
