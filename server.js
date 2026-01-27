@@ -504,7 +504,11 @@ io.on('connection', (socket) => {
       playerName: player.name,
       answer,
       correct: isCorrect,
-      timeLeft
+      timeLeft,
+      points,
+      speedBonus,
+      streakBonus,
+      totalScore: player.score
     });
     
     // Гравцю - підтвердження (тільки на активний сокет)

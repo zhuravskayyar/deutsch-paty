@@ -355,7 +355,11 @@
     if (!isHost) return;
 
     const li = document.createElement('li');
-    li.textContent = `✔ ${data.playerName}`;
+    const icon = data.correct ? '✔' : '✗';
+    const pointsText = data.correct ? ` +${data.points} балів` : '';
+    const bonusText = data.correct && (data.speedBonus > 0 || data.streakBonus > 0) ? 
+      ` (⚡${data.speedBonus} 🔥${data.streakBonus})` : '';
+    li.textContent = `${icon} ${data.playerName}${pointsText}${bonusText}`;
     document.getElementById('answeredList').appendChild(li);
   });
   
