@@ -22,6 +22,29 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.static('public'));
 
+// ===== DUEL RULES =====
+const DUEL_RULES = {
+  QUESTION_TIME_MS: 15000,     // 15s на відповідь
+  STEAL_WINDOW_MS: 3500,       // 3.5s на "вкрасти"
+  HINT_PENALTY: 1,             // -1 очко за підказку
+  COMBO_STEP: 3,               // кожні 3 правильних підряд
+  COMBO_MULT: 0.5              // +50% очок за активний комбо-бонус
+};
+
+function ensurePlayerState(p) {
+  if (!p) return;
+  if (p.score == null) p.score = 0;
+  if (p.streak == null) p.streak = 0;
+  if (p.comboLevel == null) p.comboLevel = 0; // 0,1,2...
+  if (p.usedHint == null) p.usedHint = false;
+}
+
+function calcAward(basePoints, player) {
+  const level = player.comboLevel || 0;
+  const mult = 1 + level * DUEL_RULES.COMBO_MULT;
+  return Math.max(0, Math.round(basePoints * mult));
+}
+
 // Статус сервера
 app.get('/status', (req, res) => {
   res.send(`
@@ -257,6 +280,23 @@ function startRound(room, theme = null) {
   room.state = 'question';
   room.currentQuestion = question;
   room.questionStartTime = Date.now();
+  // DUEL state for this round
+  room.round = {
+    qUid: question._key || `${question._theme}:${question.id}`,
+    correct: question.correct,
+    basePoints: question.points || 2,
+    startedAt: Date.now(),
+    steal: { active: false },
+    firstCorrect: null
+  };
+
+  // reset per-player hint usage for new round
+  for (const p of room.players.values()) {
+    p.usedHint = false;
+  }
+
+  // emit legacy event and duel-friendly event (endsAt)
+  io.to(room.code).emit('round_started', { question, endsAt: room.round.startedAt + DUEL_RULES.QUESTION_TIME_MS, basePoints: room.round.basePoints });
   room.answers.clear();
 
   emitToRoom(room, 'round-started', {
@@ -309,6 +349,11 @@ function endRound(roomCode, meta = {}) {
     maxRounds: room.maxRounds,
     reason: meta.reason || 'ended'
   });
+
+  // ensure steal window closed when round ends
+  if (room.round?.steal) {
+    room.round.steal.active = false;
+  }
 
   console.log(`🏁 Питання ${room.totalQuestionsUsed}/${room.maxRounds} завершено`);
 
@@ -533,65 +578,162 @@ io.on('connection', (socket) => {
     const connInfo = playerConnections.get(socket.id);
     const actualPlayerId = playerId || connInfo?.playerId;
     if (!actualPlayerId) return;
-    
+
     const room = findRoomByPlayerSocket(socket.id);
     if (!room || room.state !== 'question') return;
-    
+
     const player = room.players.get(actualPlayerId);
     if (!player) return;
-    
+
     if (room.answers.has(actualPlayerId)) {
       socket.emit('error', { message: 'Ви вже відповіли на це питання' });
       return;
     }
-    
-    const isCorrect = answer === room.currentQuestion.correct;
 
-    let points = 0;
-    let speedBonus = 0;
-    let streakBonus = 0;
+    ensurePlayerState(player);
+
+    // таймер: якщо час вийшов — ігноруємо
+    if (room.round && Date.now() > (room.round.startedAt + DUEL_RULES.QUESTION_TIME_MS)) return;
+
+    const correctAnswer = room.round?.correct ?? room.currentQuestion.correct;
+    const isCorrect = String(answer) === String(correctAnswer);
 
     if (isCorrect) {
-      player.correctCount++;
-      player.streak++;
+      player.correctCount = (player.correctCount || 0) + 1;
+      player.streak = (player.streak || 0) + 1;
 
-      const base = (room.currentQuestion.points || 1) * 5;
-      speedBonus = Math.round((timeLeft / room.roundDuration) * 5);
-      streakBonus = Math.min(player.streak * 2, 10);
+      // first correct in round -> mark owner; only that player gains combo bonuses
+      if (!room.round.firstCorrect) {
+        room.round.firstCorrect = player.id;
+      }
 
-      points = base + speedBonus + streakBonus;
-      player.score += points;
-    } else {
-      player.wrongCount++;
-      player.streak = 0;
+      if (room.round.firstCorrect !== player.id) {
+        // no combo bonuses for stealers / later correctors
+        player.comboLevel = 0;
+      } else {
+        player.comboLevel = Math.floor((player.streak || 0) / DUEL_RULES.COMBO_STEP);
+      }
+
+      const pts = calcAward(room.round?.basePoints || (room.currentQuestion.points || 2), player);
+      player.score += pts;
+
+      // close steal window if open
+      if (room.round?.steal) room.round.steal.active = false;
+
+      // record answer
+      room.answers.set(actualPlayerId, {
+        answer,
+        timeLeft,
+        correct: true,
+        points: pts,
+        speedBonus: 0,
+        streakBonus: 0,
+        streak: player.streak,
+        timestamp: Date.now()
+      });
+
+      // notify
+      io.to(room.hostSocketId).emit('player-answered', {
+        playerId: actualPlayerId,
+        playerName: player.name,
+        answer,
+        correct: true,
+        timeLeft,
+        points: pts,
+        totalScore: player.score
+      });
+
+      io.to(room.code).emit('answer_result', { playerId: actualPlayerId, ok:true, points: pts });
+      io.to(room.code).emit('score_update', { playerId: actualPlayerId, score: player.score, streak: player.streak, comboLevel: player.comboLevel });
+
+      socket.emit('answer-received', { correct: true });
+
+      console.log(`📝 ${player.name} відповів: ${answer} (правильно) +${pts}`);
+      return;
     }
-    
+
+    // wrong answer
+    player.wrongCount = (player.wrongCount || 0) + 1;
+    player.streak = 0;
+    player.comboLevel = 0;
+
+    const pts = 0;
     room.answers.set(actualPlayerId, {
       answer,
       timeLeft,
-      correct: isCorrect,
-      points,
-      speedBonus,
-      streakBonus,
-      streak: player.streak,
+      correct: false,
+      points: pts,
+      speedBonus: 0,
+      streakBonus: 0,
+      streak: 0,
       timestamp: Date.now()
     });
-    
+
     io.to(room.hostSocketId).emit('player-answered', {
       playerId: actualPlayerId,
       playerName: player.name,
       answer,
-      correct: isCorrect,
+      correct: false,
       timeLeft,
-      points,
-      speedBonus,
-      streakBonus,
+      points: 0,
       totalScore: player.score
     });
-    
-    socket.emit('answer-received', { correct: isCorrect });
-    
-    console.log(`📝 ${player.name} відповів: ${answer} (${isCorrect ? 'правильно' : 'помилка'})`);
+
+    io.to(room.code).emit('answer_result', { playerId: actualPlayerId, ok:false });
+    io.to(room.code).emit('score_update', { playerId: actualPlayerId, score: player.score, streak:0, comboLevel:0 });
+
+    // відкриваємо STEAL-вікно
+    room.round = room.round || { steal: { active: false } };
+    room.round.steal = {
+      active: true,
+      correct: correctAnswer,
+      until: Date.now() + DUEL_RULES.STEAL_WINDOW_MS,
+      victimSocketId: socket.id
+    };
+    io.to(room.code).emit('steal_open', { until: room.round.steal.until });
+
+    socket.emit('answer-received', { correct: false });
+    console.log(`📝 ${player.name} відповів: ${answer} (помилка) — відкрито steal`);
+  });
+
+  socket.on('request_hint', () => {
+    const connInfo = playerConnections.get(socket.id);
+    if (!connInfo?.playerId) return;
+    const room = rooms.get(connInfo.roomCode);
+    if (!room) return;
+    const player = room.players.get(connInfo.playerId);
+    if (!player) return;
+    ensurePlayerState(player);
+    if (player.usedHint) return; // only one hint per round
+    player.usedHint = true;
+    player.score = Math.max(0, (player.score || 0) - DUEL_RULES.HINT_PENALTY);
+    io.to(room.code).emit('score_update', { playerId: player.id, score: player.score });
+  });
+
+  socket.on('steal_attempt', ({ answer }) => {
+    const connInfo = playerConnections.get(socket.id);
+    if (!connInfo?.playerId) return;
+    const room = rooms.get(connInfo.roomCode);
+    if (!room || !room.round?.steal?.active) return;
+    if (Date.now() > room.round.steal.until) return;
+    const player = room.players.get(connInfo.playerId);
+    if (!player) return;
+    ensurePlayerState(player);
+
+    const isCorrect = String(answer) === String(room.round.steal.correct);
+    if (!isCorrect) {
+      io.to(socket.id).emit('steal_result', { ok:false });
+      return;
+    }
+
+    const pts = calcAward(room.round.basePoints || 2, player);
+    player.score += pts;
+    player.streak = (player.streak || 0) + 1;
+    player.comboLevel = Math.floor(player.streak / DUEL_RULES.COMBO_STEP);
+    room.round.steal.active = false;
+
+    io.to(room.code).emit('steal_result', { ok:true, by: player.id, points: pts });
+    io.to(room.code).emit('score_update', { playerId: player.id, score: player.score, streak:player.streak, comboLevel:player.comboLevel });
   });
   
   socket.on('player:reconnect', ({ playerId, roomCode }) => {

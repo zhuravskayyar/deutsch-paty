@@ -626,21 +626,103 @@ const PartyDuel = {
       }
     }, 1000);
   }
+
+  // ===== CLOCK RENDER HELPERS (used by socket handler) =====
+  function renderClock(hhmm) {
+    const wrap = document.getElementById('clockWrap');
+    if (!wrap) return;
+    wrap.classList.remove('hidden');
+
+    // prefer global helper if available
+    if (typeof window.setAnalogClock === 'function') {
+      try { window.setAnalogClock(hhmm); } catch (e) {}
+      return;
+    }
+
+    // fallback: direct rotate
+    const [H, M] = (hhmm || '00:00').split(':').map(v => parseInt(v,10));
+    const hourDeg = ((H % 12) + (M / 60)) * 30;
+    const minDeg = (M || 0) * 6;
+    const hourEl = document.getElementById('hourHand');
+    const minEl = document.getElementById('minHand');
+    if (hourEl) hourEl.style.transform = `rotate(${hourDeg}deg)`;
+    if (minEl) minEl.style.transform = `rotate(${minDeg}deg)`;
+  }
+
+  function hideClock() {
+    const wrap = document.getElementById('clockWrap');
+    if (wrap) wrap.classList.add('hidden');
+  }
   // ==================== КРИТИЧНО: ПЕРЕХІД У QUESTION ====================
   socket.on('question', data => {
     state.currentQuestion = data;
     setPhase('QUESTION');
     startTimer(data.duration);
-    // Рендер питання та варіантів (адаптуй під свою верстку)
+
+    // текст питання
     if (document.querySelector('#questionText')) {
       document.querySelector('#questionText').textContent = data.question;
     }
+
+    // ⏱ CLOCK SUPPORT
+    if (data.type === "clock_time" && data.clock) {
+      renderClock(data.clock);
+    } else {
+      hideClock();
+    }
+
+    // відповіді
     const answers = document.querySelectorAll('.answer-btn');
     answers.forEach((btn, i) => {
-      btn.textContent = data.options[i];
+      btn.textContent = data.options[i] || '';
       btn.disabled = false;
     });
   });
+
+  // Debug helper: імітує прихід питання з годинником (виклик у консолі)
+  window.debugShowClockQuestion = function(idx = 0) {
+    // знайти питання з годинником у grammarQuestions або timeClockQuestions
+    const pool = (window.grammarQuestions && window.grammarQuestions.time_clock) || window.timeClockQuestions || [];
+    if (!pool.length) return console.warn('No clock questions found');
+    const q = pool[idx % pool.length];
+
+    // імітуємо обробник socket.on('question', ...)
+    try {
+      state.currentQuestion = q;
+      setPhase('QUESTION');
+      startTimer(q.timeLimitSec || q.duration || 14);
+
+      // текст питання
+      const qt = document.querySelector('#questionText') || document.querySelector('#qText');
+      if (qt) qt.textContent = q.question || q.sentence || '—';
+
+      // clock
+      if (q.type === 'clock_time' || q.clock) renderClock(q.clock || q.time || '00:00'); else hideClock();
+
+      // render answers into answersWrap
+      const answersWrap = document.getElementById('answersWrap') || document.querySelector('.answers');
+      if (answersWrap) {
+        answersWrap.innerHTML = '';
+        (q.options || []).forEach(opt => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'answer-btn';
+          btn.textContent = opt;
+          btn.onclick = () => {
+            // emulate selection + submit
+            document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('is-selected'));
+            btn.classList.add('is-selected');
+            state.selectedAnswer = opt;
+          };
+          answersWrap.appendChild(btn);
+        });
+      }
+
+      console.log('Debug: shown clock question', q);
+    } catch (e) {
+      console.error(e);
+    }
+  };
   
   // ==================== HOST ЛОГІКА ====================
 // ==================== HOST QUIZ UI (matches host.html ids) ====================
@@ -672,37 +754,20 @@ function setRoundStatsUI() {
   elRoundStats.textContent = `${hostRoundStats.correct} правильних • ${hostRoundStats.wrong} неправильних • ${hostRoundStats.noAnswer} не відповіли`;
 }
 
-function renderHostScoreboard(scores = []) {
-  if (!elScoreList) return;
-
-  if (!scores.length) {
-    elScoreList.innerHTML = `<div class=\"srow empty\"><div></div><div class=\"muted\">Немає даних</div><div></div></div>`;
-    return;
-  }
-
-  const sorted = [...scores].sort((a,b) => (b.score ?? 0) - (a.score ?? 0));
-  elScoreList.innerHTML = sorted.map((p, idx) => `
-    <div class=\"srow\">
-      <div>${idx + 1}</div>
-      <div>${(p.name ?? '—')}</div>
-      <div class=\"right\">${(p.score ?? 0)}</div>
-    </div>
-  `).join('');
-}
   function renderHostScoreboard(scores = []) {
     if (!elScoreList) return;
     if (!scores.length) {
       elScoreList.innerHTML = `<div class="srow empty"><div></div><div class="muted">Немає даних</div><div></div></div>`;
       return;
     }
-    const sorted = [...scores].sort((a,b) => (b.score ?? 0) - (a.score ?? 0));
-    elScoreList.innerHTML = sorted.map((p, idx) => `
-      <div class="srow">
-        <div>${idx + 1}</div>
-        <div>${(p.name ?? '—')}</div>
-        <div class="right">${(p.score ?? 0)}</div>
-      </div>
-    `).join('');
+      const sorted = [...scores].sort((a,b) => (b.score ?? 0) - (a.score ?? 0));
+      elScoreList.innerHTML = sorted.map((p, idx) => `
+        <div class="srow">
+          <div>${idx + 1}</div>
+          <div>${(p.name ?? '—')}</div>
+          <div class="right">${(p.score ?? 0)}</div>
+        </div>
+      `).join('');
   }
 
   // --- Рендер результатів питання (очок за питання) ---
@@ -1118,6 +1183,167 @@ function hostStartRoundDefault() {
     }
   });
   
+  // ===== DUEL UI STATE =====
+  let duelEndsAt = 0;
+  let duelTotalMs = 0;
+  let stealUntil = 0;
+  let canSteal = false;
+
+  function ensureDuelHud() {
+    let root = document.getElementById('dp-duelhud');
+    if (!root) {
+      root = document.createElement('div');
+      root.id = 'dp-duelhud';
+      document.body.appendChild(root);
+    }
+
+    if (!document.getElementById('dpTimer')) {
+      root.insertAdjacentHTML('beforeend', `
+        <div id="dpTimer" class="dp-timer">
+          <div class="dp-timerTop">
+            <div class="dp-timerLabel">⏱</div>
+            <div id="dpTimerText" class="dp-timerText"></div>
+          </div>
+          <div class="dp-timerBar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+            <div id="dpTimerFill" class="dp-timerFill"></div>
+          </div>
+        </div>
+      `);
+    }
+
+    if (!document.getElementById('dpCombo')) {
+      root.insertAdjacentHTML('beforeend', `
+        <div id="dpCombo" class="dp-combo">
+          <div class="dp-comboRow">
+            <div class="dp-pill">Streak: <span id="dpStreakVal">0</span></div>
+            <div class="dp-pill">Combo: <span id="dpComboVal">0</span></div>
+            <div class="dp-pill dp-pillHot">x<span id="dpMultVal">1.0</span></div>
+          </div>
+        </div>
+      `);
+    }
+
+    if (!document.getElementById('dpStealOverlay')) {
+      document.body.insertAdjacentHTML('beforeend', `
+        <div id="dpStealOverlay" class="dp-steal hidden" aria-live="polite">
+          <div class="dp-stealCard">
+            <div class="dp-stealTitle">⚡ STEAL WINDOW</div>
+            <div class="dp-stealSub">Хтось відповів неправильно — ти можеш вкрасти очки</div>
+            <div class="dp-stealTimer">
+              <div class="dp-stealTimerLabel">Залишилось</div>
+              <div id="dpStealTime" class="dp-stealTime">0.0s</div>
+            </div>
+            <div class="dp-stealHint">Натисни <b>STEAL</b> (і вибери відповідь), щоб забрати очки</div>
+          </div>
+        </div>
+      `);
+    }
+  }
+
+  function multFromComboLevel(comboLevel) {
+    if (!comboLevel) return 1.0;
+    if (comboLevel === 1) return 1.2;
+    if (comboLevel === 2) return 1.5;
+    if (comboLevel === 3) return 2.0;
+    return 2.5;
+  }
+
+  function setComboHud(streak = 0, comboLevel = 0) {
+    ensureDuelHud();
+    const elStreak = document.getElementById('dpStreakVal');
+    const elCombo = document.getElementById('dpComboVal');
+    const elMult = document.getElementById('dpMultVal');
+    if (elStreak) elStreak.textContent = String(streak || 0);
+    if (elCombo) elCombo.textContent = String(comboLevel || 0);
+    if (elMult) elMult.textContent = String(multFromComboLevel(comboLevel).toFixed(1));
+  }
+
+  function setTimerHud(msLeft) {
+    ensureDuelHud();
+    const elText = document.getElementById('dpTimerText');
+    const elFill = document.getElementById('dpTimerFill');
+    const sec = Math.max(0, msLeft / 1000);
+    if (elText) elText.textContent = sec > 0 ? `${sec.toFixed(0)}s` : '';
+    const total = Math.max(1, duelTotalMs || 1);
+    const pct = Math.max(0, Math.min(100, (msLeft / total) * 100));
+    if (elFill) elFill.style.width = `${pct}%`;
+  }
+
+  function showStealOverlay(show) {
+    ensureDuelHud();
+    const ov = document.getElementById('dpStealOverlay');
+    if (!ov) return;
+    ov.classList.toggle('hidden', !show);
+  }
+
+  function renderStealOverlay() {
+    const ovTime = document.getElementById('dpStealTime');
+    if (!ovTime) return;
+    const left = Math.max(0, stealUntil - Date.now());
+    ovTime.textContent = `${(left / 1000).toFixed(1)}s`;
+    showStealOverlay(left > 0 && canSteal);
+  }
+
+  function renderTimer() {
+    const leftMs = duelEndsAt ? (duelEndsAt - Date.now()) : 0;
+    setTimerHud(leftMs);
+    renderStealOverlay();
+  }
+  setInterval(renderTimer, 100);
+
+  document.addEventListener('click', (e) => {
+    if (e.target?.id === 'btnHint') {
+      socket.emit('request_hint');
+    }
+    if (e.target?.id === 'btnSteal') {
+      if (!canSteal || Date.now() > stealUntil) return;
+      const picked = window.__lastPickedAnswer;
+      if (!picked) return;
+      socket.emit('steal_attempt', { answer: picked });
+      canSteal = false;
+      e.target.disabled = true;
+    }
+  });
+
+  socket.on('round_started', ({ question, endsAt }) => {
+    duelEndsAt = endsAt || 0;
+    duelTotalMs = duelEndsAt ? Math.max(500, duelEndsAt - Date.now()) : duelTotalMs;
+    stealUntil = 0;
+    canSteal = false;
+    showStealOverlay(false);
+    const stealBtn = document.querySelector('#btnSteal'); if (stealBtn) stealBtn.disabled = true;
+  });
+
+  socket.on('round-started', (data) => {
+    if (data?.endsAt) {
+      duelEndsAt = data.endsAt;
+      duelTotalMs = duelEndsAt ? Math.max(500, duelEndsAt - Date.now()) : duelTotalMs;
+      stealUntil = 0;
+      canSteal = false;
+      showStealOverlay(false);
+      const stealBtn = document.querySelector('#btnSteal'); if (stealBtn) stealBtn.disabled = true;
+    }
+  });
+
+  socket.on('steal_open', ({ until }) => {
+    stealUntil = until;
+    canSteal = true;
+    const stealBtn = document.querySelector('#btnSteal'); if (stealBtn) stealBtn.disabled = false;
+    showStealOverlay(true);
+  });
+
+  socket.on('steal_result', ({ ok, by, points }) => {
+    const stealBtn = document.querySelector('#btnSteal'); if (stealBtn) stealBtn.disabled = true;
+    canSteal = false;
+    showStealOverlay(false);
+  });
+
+  socket.on('score_update', ({ playerId, score, streak, comboLevel }) => {
+    if (!state?.playerId) return;
+    if (playerId !== state.playerId) return;
+    setComboHud(streak || 0, comboLevel || 0);
+  });
+  
   socket.on('match-ended', (data) => {
     clearInterval(state.timerInterval);
     
@@ -1308,6 +1534,38 @@ function hostStartRoundDefault() {
         ${q.question}
         <small>Обери правильну відповідь • ${duration} сек</small>
       `;
+
+      // insert clock widget when question has clock property
+      if (q.clock) {
+        const clockHtml = `
+          <div class="clock-wrap" id="clockWidget">
+            <div class="clock-title">Wie spät ist es?</div>
+            <div class="clock-card">
+              <svg id="analogClock" viewBox="0 0 200 200" class="clock">
+                <circle cx="100" cy="100" r="92" class="clock-face"/>
+                <circle cx="100" cy="100" r="4" class="clock-pivot"/>
+                <g id="ticks"></g>
+                <line id="hourHand" x1="100" y1="100" x2="100" y2="62" class="clock-hand hour"/>
+                <line id="minHand"  x1="100" y1="100" x2="100" y2="38" class="clock-hand minute"/>
+              </svg>
+              <div class="clock-meta">
+                <div class="clock-meta-row"><span class="label">Modus</span><span id="clockMode">—</span></div>
+                <div class="clock-meta-row"><span class="label">Time</span><span id="clockTime">—</span></div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // append or replace existing
+        const existing = qWrap.querySelector('#clockWidget');
+        if (existing) existing.remove();
+        qWrap.insertAdjacentHTML('beforeend', clockHtml);
+        // render clock
+        try { showClockQuestion({ clock: q.clock, modeLabel: q.modeLabel || '—' }); } catch(e){}
+      } else {
+        const existing = qWrap.querySelector('#clockWidget');
+        if (existing) existing.remove();
+      }
     }
     
     // Варіанти відповідей
@@ -1324,6 +1582,7 @@ function hostStartRoundDefault() {
           answersWrap.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('is-selected'));
           btn.classList.add('is-selected');
           state.selectedAnswer = opt;
+          try { window.__lastPickedAnswer = opt; } catch(e){}
           
           if (footBtn) {
             footBtn.disabled = false;
