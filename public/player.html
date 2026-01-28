@@ -26,6 +26,10 @@
             <span class="label">Код</span>
             <span class="value" id="pillRoom">—</span>
           </div>
+          <div class="lang-switch" style="margin-left:8px">
+            <button class="btn small" type="button" onclick="applyLanguage('uk')">UA</button>
+            <button class="btn small" type="button" onclick="applyLanguage('de')">DE</button>
+          </div>
         </div>
       </div>
 
@@ -33,8 +37,8 @@
       <section class="card" id="joinCard">
         <div class="card-header">
           <div>
-            <h2 class="card-title">Вхід у кімнату</h2>
-            <p class="card-sub">Введи код і нік. Потім натисни “Готовий”.</p>
+            <h2 class="card-title" data-i18n="joinTitle"></h2>
+            <p class="card-sub" data-i18n="joinDesc"></p>
           </div>
         </div>
 
@@ -52,12 +56,12 @@
               <div class="helper">Коротко, щоб помістилось у таблицю.</div>
             </div>
 
-            <button class="btn primary full" id="btnJoin" type="button">Увійти</button>
+            <button class="btn primary full" id="btnJoin" type="button" data-i18n="joinBtn"></button>
           </form>
         </div>
 
         <div class="card-foot">
-          <div class="note" id="joinNote">Після входу чекай на старт від вчителя.</div>
+          <div class="note" id="joinNote" data-i18n="joinNote">Після входу чекай на старт від вчителя.</div>
         </div>
       </section>
 
@@ -65,7 +69,7 @@
       <section class="card hidden" id="lobbyCard">
         <div class="card-header">
           <div>
-            <h2 class="card-title">Очікування</h2>
+            <h2 class="card-title" data-i18n="waitingTitle"></h2>
             <p class="card-sub">Кімната: <b id="roomText">—</b> • Ти: <b id="meText">—</b></p>
           </div>
         </div>
@@ -81,10 +85,10 @@
             <div class="waiting-dots" aria-hidden="true"><span></span><span></span><span></span></div>
           </div>
           <div class="btn-row">
-            <button class="btn primary full" id="btnReady" type="button">Готовий</button>
+            <button class="btn primary full" id="btnReady" type="button" data-i18n="readyBtn"></button>
           </div>
           <div style="height:12px"></div>
-          <div class="note">Після старту з’явиться завдання. Відповідь — одним натисканням.</div>
+          <div class="note" data-i18n="lobbyNote">Після старту з’явиться завдання. Відповідь — одним натисканням.</div>
         </div>
       </section>
 
@@ -92,7 +96,7 @@
       <section class="card hidden" id="answerCard">
         <div class="card-header">
           <div>
-            <h2 class="card-title">Раунд</h2>
+            <h2 class="card-title" data-i18n="round"></h2>
             <p class="card-sub" id="roundMeta">—</p>
           </div>
         </div>
@@ -106,7 +110,7 @@
 
             <div class="question" id="qText">
               —
-              <small id="qSub">Обери правильну відповідь</small>
+              <small id="qSub" data-i18n="chooseAnswer">Обери правильну відповідь</small>
             </div>
 
             <div class="answers" id="answersWrap"></div>
@@ -118,7 +122,7 @@
         </div>
 
         <div class="card-foot">
-          <button class="btn full" id="btnSubmit" type="button" disabled>Обери відповідь</button>
+          <button class="btn full" id="btnSubmit" type="button" disabled data-i18n="submitAnswer"></button>
         </div>
       </section>
 
@@ -126,7 +130,7 @@
       <section class="card hidden" id="resultCard">
         <div class="card-header">
           <div>
-            <h2 class="card-title">Результат</h2>
+            <h2 class="card-title" data-i18n="result"></h2>
             <p class="card-sub" id="resultSub">—</p>
           </div>
         </div>
@@ -135,7 +139,7 @@
           <div class="note" id="resultExplain">—</div>
         </div>
         <div class="card-foot">
-          <button class="btn primary full" id="btnResultOk" type="button">Ок</button>
+          <button class="btn primary full" id="btnResultOk" type="button" data-i18n="ok"></button>
         </div>
       </section>
 

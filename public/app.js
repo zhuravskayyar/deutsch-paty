@@ -41,6 +41,22 @@
       feedbackCorrect: "✅ Правильно!",
       feedbackIncorrectPrefix: "❌ Неправильно.",
       explanationPrefix: "Правильна відповідь:"
+      ,
+      // player UI
+      joinTitle: "Вхід у кімнату",
+      joinDesc: "Введи код і нік. Потім натисни “Готовий”.",
+      joinBtn: "Увійти",
+      readyBtn: "Готовий",
+      submitAnswer: "Обери відповідь",
+      ok: "Ок",
+      waitingTitle: "Очікуємо старт…",
+      waitingSub: "Попроси вчителя натиснути старт раунду",
+      lobbyNote: "Після старту з’явиться завдання. Відповідь — одним натисканням.",
+      chooseAnswer: "Обери правильну відповідь",
+      joinNote: "Після входу чекай на старт від вчителя.",
+      round: "Раунд",
+      time: "Час",
+      result: "Результат"
     },
     de: {
       room: "Raum",
@@ -72,6 +88,22 @@
       feedbackCorrect: "✅ Richtig!",
       feedbackIncorrectPrefix: "❌ Falsch.",
       explanationPrefix: "Richtige Antwort:"
+      ,
+      // player UI
+      joinTitle: "Raum beitreten",
+      joinDesc: "Gib den Code und deinen Namen ein. Danach auf „Bereit“ klicken.",
+      joinBtn: "Beitreten",
+      readyBtn: "Bereit",
+      submitAnswer: "Antwort wählen",
+      ok: "OK",
+      waitingTitle: "Warten auf den Start…",
+      waitingSub: "Bitte den Lehrer, die Runde zu starten",
+      lobbyNote: "Nach dem Start erscheint die Aufgabe. Antwort per Tipp.",
+      chooseAnswer: "Wähle die richtige Antwort",
+      joinNote: "Nach dem Beitreten warte auf den Start durch den Lehrer.",
+      round: "Runde",
+      time: "Zeit",
+      result: "Ergebnis"
     }
   };
 
@@ -86,6 +118,14 @@
 
     try { localStorage.setItem('dp_lang', lang); } catch {}
   }
+
+  // Expose and auto-apply language for player UI
+  try {
+    window.applyLanguage = applyLanguage;
+    const savedLang = (function(){ try { return localStorage.getItem('dp_lang'); } catch(e){ return null; }})();
+    const browserLang = (navigator.language || (navigator.userLanguage || '')).startsWith('de') ? 'de' : 'uk';
+    applyLanguage(savedLang || browserLang);
+  } catch(e) {}
   
   // WebSocket підключення
   const socket = io();
