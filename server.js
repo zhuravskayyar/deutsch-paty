@@ -280,12 +280,19 @@ function startRound(room, theme = null) {
   room.state = 'question';
   room.currentQuestion = question;
   room.questionStartTime = Date.now();
+  // ✅ duration per question (priority: question.timeLimitSec/duration -> room.roundDuration)
+  const durationSec =
+    Number(question.timeLimitSec || question.duration || room.roundDuration || 15);
+  const startedAt = Date.now();
+  const endsAt = startedAt + (durationSec * 1000);
+
   // DUEL state for this round
   room.round = {
     qUid: question._key || `${question._theme}:${question.id}`,
     correct: question.correct,
     basePoints: question.points || 2,
-    startedAt: Date.now(),
+    startedAt,
+    endsAt,
     steal: { active: false },
     firstCorrect: null
   };
@@ -296,12 +303,17 @@ function startRound(room, theme = null) {
   }
 
   // emit legacy event and duel-friendly event (endsAt)
-  io.to(room.code).emit('round_started', { question, endsAt: room.round.startedAt + DUEL_RULES.QUESTION_TIME_MS, basePoints: room.round.basePoints });
+  io.to(room.code).emit('round_started', {
+    question,
+    endsAt,
+    basePoints: room.round.basePoints
+  });
   room.answers.clear();
 
   emitToRoom(room, 'round-started', {
     question,
-    duration: room.roundDuration,
+    duration: durationSec,
+    endsAt,
     round: room.totalQuestionsUsed,
     maxRounds: room.maxRounds,
     playerCount: room.players.size,
@@ -312,7 +324,7 @@ function startRound(room, theme = null) {
     if (room.state === 'question') {
       endRound(room.code);
     }
-  }, room.roundDuration * 1000);
+  }, durationSec * 1000);
 
   console.log(`⏱ Питання ${room.totalQuestionsUsed}/${getTotalQuestionsCount()} у кімнаті ${room.code}`);
 }
@@ -592,8 +604,8 @@ io.on('connection', (socket) => {
 
     ensurePlayerState(player);
 
-    // таймер: якщо час вийшов — ігноруємо
-    if (room.round && Date.now() > (room.round.startedAt + DUEL_RULES.QUESTION_TIME_MS)) return;
+    // ✅ таймер: якщо час вийшов — ігноруємо (по реальному endsAt цього питання)
+    if (room.round?.endsAt && Date.now() > room.round.endsAt) return;
 
     const correctAnswer = room.round?.correct ?? room.currentQuestion.correct;
     const isCorrect = String(answer) === String(correctAnswer);

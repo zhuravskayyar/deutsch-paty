@@ -114,13 +114,11 @@
             </div>
 
             <div id="clockWrap" class="hidden">
-              <svg id="analogClock" viewBox="0 0 200 200" class="clock">
-                <circle cx="100" cy="100" r="92" class="clock-face"/>
-                <circle cx="100" cy="100" r="4" class="clock-pivot"/>
-                <g id="ticks"></g>
-                <line id="hourHand" x1="100" y1="100" x2="100" y2="62" class="clock-hand hour"/>
-                <line id="minHand"  x1="100" y1="100" x2="100" y2="38" class="clock-hand minute"/>
-              </svg>
+              <div class="analog-clock">
+                <div class="hand hour-hand"></div>
+                <div class="hand minute-hand"></div>
+                <div class="center-dot"></div>
+              </div>
             </div>
 
             <div class="answers" id="answersWrap"></div>

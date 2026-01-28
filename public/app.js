@@ -144,8 +144,6 @@
     timerInterval: null,
     // usedQuestions: new Set() // Для уникнення повторів питань — ПЕРЕНЕСЕНО НА СЕРВЕР
   };
-  
-  let hostTimerInterval = null;
 
 /* =========================
    PATCH A: Duel/Party Engine
@@ -407,6 +405,8 @@ const PartyDuel = {
 };
   
   // ==================== DOM ЕЛЕМЕНТИ ====================
+  let hostTimerInterval;
+  let hostRoundStats = { correct: 0, wrong: 0, noAnswer: 0 };
   // Player
   const joinCard  = $("#joinCard");
   const lobbyCard = $("#lobbyCard");
@@ -438,6 +438,18 @@ const PartyDuel = {
   const btnCopy = $("#btnCopy");
   const roomCodeEl = $("#roomCode");
   const playersList = $("#playersList");
+  const elScoreList = $("#scoreList");
+  
+  // Quiz elements
+  const elQuizQuestion = $("#quizQuestion");
+  const elQuizAnswers = $("#quizAnswers");
+  const elQuizTimer = $("#quizTimer");
+  const elQuizTimerFill = $("#quizTimerFill");
+  const elQuestionTheme = $("#questionTheme");
+  const elQuestionDiff = $("#questionDiff");
+  const elRoundNumber = $("#roundNumber");
+  const elPlayersCount = $("#playersCount");
+  const elRoomCodeBig = $("#roomCodeBig");
   
   // ==================== ДОПОМІЖНІ ФУНКЦІЇ ====================
   function toast(title, text = "") {
@@ -597,26 +609,35 @@ const PartyDuel = {
     }
   }
   
-  function startTimer(duration) {
+  function startTimer(duration, endsAt = null) {
     clearInterval(state.timerInterval);
     state.timeLeft = duration;
+
     const timerFill = $('.timer > div');
     const timerText = $('.timer > span');
     const tText = document.getElementById('timerText');
-    if (tText) tText.textContent = `${duration}s`;
-    if (timerText) timerText.textContent = duration;
-    if (timerFill) timerFill.style.width = '100%';
-    state.timerInterval = setInterval(() => {
-      state.timeLeft--;
-      const percent = (state.timeLeft / duration) * 100;
+    const setUI = (leftSec) => {
+      const clamped = Math.max(0, leftSec);
+      state.timeLeft = clamped;
+      const percent = duration > 0 ? (clamped / duration) * 100 : 0;
       if (timerFill) timerFill.style.width = `${percent}%`;
-      if (timerText) timerText.textContent = state.timeLeft;
-      if (tText) tText.textContent = `${state.timeLeft}s`;
+      if (timerText) timerText.textContent = clamped;
+      if (tText) tText.textContent = `${clamped}s`;
+    };
+
+    setUI(duration);
+
+    state.timerInterval = setInterval(() => {
+      let left = state.timeLeft - 1;
+      if (endsAt) {
+        left = Math.ceil((endsAt - Date.now()) / 1000);
+      }
+      setUI(left);
+
       if (state.timeLeft <= 0) {
         clearInterval(state.timerInterval);
         state.timerInterval = null;
         socket.emit('time_up');
-        submitAnswer(null);
         $$('.answer-btn').forEach(btn => btn.disabled = true);
         const submitBtn = $('.card-foot .btn');
         if (submitBtn) {
@@ -657,7 +678,7 @@ const PartyDuel = {
   socket.on('question', data => {
     state.currentQuestion = data;
     setPhase('QUESTION');
-    startTimer(data.duration);
+    startTimer(data.duration, data.endsAt);
 
     // текст питання
     if (document.querySelector('#questionText')) {
@@ -665,8 +686,9 @@ const PartyDuel = {
     }
 
     // ⏱ CLOCK SUPPORT
-    if (data.type === "clock_time" && data.clock) {
-      renderClock(data.clock);
+    if (data.clock) {
+      const wrap = document.getElementById('clockWrap');
+      if (wrap) wrap.classList.remove('hidden');
     } else {
       hideClock();
     }
@@ -726,18 +748,6 @@ const PartyDuel = {
   
   // ==================== HOST ЛОГІКА ====================
 // ==================== HOST QUIZ UI (matches host.html ids) ====================
-const elRoomCodeBig   = document.getElementById('roomCodeBig');
-const elRoundNumber   = document.getElementById('roundNumber');
-const elQuizTimer     = document.getElementById('quizTimer');
-const elQuizTimerFill = document.getElementById('quizTimerFill');
-const elPlayersCount  = document.getElementById('playersCount');
-const elQuestionTheme = document.getElementById('questionTheme');
-const elQuestionDiff  = document.getElementById('questionDifficulty');
-const elQuizQuestion  = document.getElementById('quizQuestion');
-const elQuizAnswers   = document.getElementById('quizAnswers');
-const elScoreList     = document.getElementById('scoreList');
-const elRoundStats    = document.getElementById('roundStats');
-
 // UI init: до старту раунду показуємо нейтральне значення, а не 1/10 з макету
 if (elRoundNumber && !document.body.classList.contains('is-quiz')) {
   const v = (elRoundNumber.textContent || '').trim();
@@ -745,9 +755,6 @@ if (elRoundNumber && !document.body.classList.contains('is-quiz')) {
 }
 
 
-
-// hostTimerInterval оголошено глобально
-let hostRoundStats = { correct: 0, wrong: 0, noAnswer: 0 };
 
 function setRoundStatsUI() {
   if (!elRoundStats) return;
@@ -812,26 +819,79 @@ function renderHostQuestion(question) {
   if (elQuestionDiff)  elQuestionDiff.textContent  = question.difficulty ?? 'Легко';
 }
 
-function startHostTimer(seconds) {
+function renderHostScoreboard(scores = []) {
+  const sorted = [...scores].sort((a,b) => (b.score ?? 0) - (a.score ?? 0));
+  elScoreList.innerHTML = sorted.map((p, idx) => `
+    <div class="score-row">
+      <div>${idx + 1}</div>
+      <div>${p.name ?? '—'}</div>
+      <div class="right">${p.score ?? 0}</div>
+    </div>
+  `).join('');
+}
+
+function setRoundStatsUI() {
+  // Assuming there are elements to update, e.g., #roundStatsCorrect, etc.
+  // For now, just log or do nothing if not defined
+}
+
+function renderHostRoundResults(results, scores) {
+  // Render round results for host
+}
+
+
+function renderAnalogClock(rootEl, timeStr) {
+  if (!rootEl || !timeStr) return;
+
+  const [h, m] = timeStr.split(':').map(Number);
+  if (Number.isNaN(h) || Number.isNaN(m)) return;
+
+  const hourDeg = (h % 12) * 30 + m * 0.5;
+  const minDeg = m * 6;
+
+  const hourHand = rootEl.querySelector('.hour-hand');
+  const minuteHand = rootEl.querySelector('.minute-hand');
+
+  if (hourHand) {
+    hourHand.style.transform = `rotate(${hourDeg}deg)`;
+  }
+  if (minuteHand) {
+    minuteHand.style.transform = `rotate(${minDeg}deg)`;
+  }
+}
+
+function renderQuestion(question, duration) {
+  // Render question for player
+  if (document.querySelector('#questionText')) {
+    document.querySelector('#questionText').textContent = question.question || '—';
+  }
+  const answers = document.querySelectorAll('.answer-btn');
+  answers.forEach((btn, i) => {
+    btn.textContent = question.options[i] || '';
+    btn.disabled = false;
+  });
+
+  // ✅ analog clock questions
+  if (question.clock) {
+    const clockEl = document.querySelector('.analog-clock');
+    renderAnalogClock(clockEl, question.clock);
+  }
+}
+
+function startHostTimer(durationSec, endsAt = null) {
   clearInterval(hostTimerInterval);
-
-  const total = Math.max(0, Number(seconds) || 0);
-  let t = total;
-
-  if (elQuizTimer) elQuizTimer.textContent = `${t}s`;
-  if (elQuizTimerFill) elQuizTimerFill.style.width = '100%';
+  let t = durationSec;
 
   hostTimerInterval = setInterval(() => {
-    t--;
+    if (endsAt) t = Math.ceil((endsAt - Date.now()) / 1000);
+    else t -= 1;
 
-    const clamped = Math.max(t, 0);
-    if (elQuizTimer) elQuizTimer.textContent = `${clamped}s`;
-
+    if (elQuizTimer) elQuizTimer.textContent = `${Math.max(0, t)}s`;
     if (elQuizTimerFill) {
-      const pct = total > 0 ? (clamped / total) * 100 : 0;
+      const clamped = Math.max(0, t);
+      const pct = durationSec > 0 ? (clamped / durationSec) * 100 : 0;
       elQuizTimerFill.style.width = `${pct}%`;
     }
-
     if (t <= 0) clearInterval(hostTimerInterval);
   }, 1000);
 }
@@ -1028,7 +1088,21 @@ function hostStartRoundDefault() {
     renderHostScoreboard(scores || []);
 
     // таймер
-    startHostTimer(duration ?? 15);
+    startHostTimer(duration ?? 15, data.endsAt);
+  });
+  
+  socket.on('round-started', (data) => {
+    if (isHost) return; // хост обробляє вище
+
+    state.currentQuestion = data.question;
+    state.selectedAnswer = null;
+
+    setPhase('QUESTION');
+    renderQuestion(data.question, data.duration);
+    // ✅ if endsAt present -> timer is perfectly synced with server
+    startTimer(data.duration, data.endsAt);
+
+    toast('Раунд почався!', `${data.duration} секунд`);
   });
   
   socket.on('round-ended', (data) => {
