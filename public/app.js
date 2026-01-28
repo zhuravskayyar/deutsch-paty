@@ -37,6 +37,10 @@
       noAnswer: "не відповіли",
       // toast
       copied: "Код скопійовано!"
+      ,
+      feedbackCorrect: "✅ Правильно!",
+      feedbackIncorrectPrefix: "❌ Неправильно.",
+      explanationPrefix: "Правильна відповідь:"
     },
     de: {
       room: "Raum",
@@ -64,6 +68,10 @@
       incorrect: "falsch",
       noAnswer: "nicht geantwortet",
       copied: "Code kopiert!"
+      ,
+      feedbackCorrect: "✅ Richtig!",
+      feedbackIncorrectPrefix: "❌ Falsch.",
+      explanationPrefix: "Richtige Antwort:"
     }
   };
 
@@ -422,16 +430,19 @@ const PartyDuel = {
   function showCorrect() {
     const el = $('#feedback');
     if (!el) return;
-    
-    el.textContent = '✅ Правильно!';
+    const lang = document.documentElement.lang || 'uk';
+    const dict = I18N[lang] || I18N.uk;
+    el.textContent = dict.feedbackCorrect || '✅ Правильно!';
     el.className = 'feedback success show';
   }
   
   function showHint(text) {
     const el = $('#feedback');
     if (!el) return;
-    
-    el.textContent = `❌ Неправильно. ${text}`;
+    const lang = document.documentElement.lang || 'uk';
+    const dict = I18N[lang] || I18N.uk;
+    const prefix = dict.feedbackIncorrectPrefix || '❌ Неправильно.';
+    el.textContent = `${prefix} ${text || ''}`.trim();
     el.className = 'feedback error show';
   }
   
@@ -493,7 +504,12 @@ const PartyDuel = {
     
     // Пояснення правильної відповіді
     if (resultExplain && state.currentQuestion) {
-      resultExplain.textContent = `Правильна відповідь: ${state.currentQuestion.correct}`;
+      const lang = document.documentElement.lang || 'uk';
+      const dict = I18N[lang] || I18N.uk;
+      const prefix = dict.explanationPrefix || 'Правильна відповідь:';
+      // Покажемо пояснення, якщо воно є, інакше — правильний варіант
+      const explain = state.currentQuestion.explanation || state.currentQuestion.correct || '';
+      resultExplain.textContent = `${prefix} ${explain}`;
     }
     
     // Кнопка OK
