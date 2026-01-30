@@ -192,7 +192,7 @@
   }
   
   // WebSocket підключення
-  const socket = io('http://localhost:3000', {
+  const socket = io(window.location.origin, {
     transports: ['websocket'],           // ← примусово тільки websocket, без polling
     reconnection: true,
     reconnectionAttempts: 10,
