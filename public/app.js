@@ -85,6 +85,7 @@
       chooseInterfaceLanguage: "Виберіть мову інтерфейсу",
       ukrainian: "Українська",
       german: "Deutsch",
+      teacherMode: "Teacher Mode",
       // player UI
       joinTitle: "Вхід у кімнату",
       joinDesc: "Введи код і нік. Потім натисни “Готовий”.",
@@ -143,6 +144,7 @@
       chooseInterfaceLanguage: "Wähle die Schnittstellensprache",
       ukrainian: "Ukrainisch",
       german: "Deutsch",
+      teacherMode: "Lehrer-Modus",
       // player UI
       joinTitle: "Raum beitreten",
       joinDesc: "Gib den Code und deinen Namen ein. Danach auf „Bereit“ klicken.",
@@ -173,6 +175,9 @@
     current: 'uk'
   };
 
+  let isTeacherMode = false; // Teacher mode toggle
+  try { isTeacherMode = localStorage.getItem('dp_teacher_mode') === 'true'; } catch {}
+
   function setLanguage(lang) {
     LANG.current = lang;
     localStorage.setItem('dp_lang', lang);
@@ -184,9 +189,13 @@
     return I18N[LANG.current]?.[key] ?? key;
   }
 
-  function getLocalizedField(field) {
+  function getLocalizedField(field, isTeacher = false) {
     if (!field) return "";
     if (typeof field === "string") return field;
+    // Если объект, и isTeacher, то взять teacherExplanation если есть
+    if (isTeacher && field.teacherExplanation) {
+      return field.teacherExplanation[LANG.current] || "";
+    }
     return field[LANG.current] || "";
   }
 
@@ -1498,7 +1507,7 @@ function hostStartRoundDefault() {
       const lang = document.documentElement.lang || 'uk';
       const t =
         getLocalizedField(state.currentQuestion?.hint) ||
-        getLocalizedField(state.currentQuestion?.explanation);
+        getLocalizedField(state.currentQuestion?.explanation, isTeacherMode);
 
       showHint(t);
     }
@@ -1948,7 +1957,7 @@ function hostStartRoundDefault() {
       const lang = document.documentElement.lang || "uk";
       const hintText =
         getLocalizedField(q.hint) ||
-        getLocalizedField(q.explanation);
+        getLocalizedField(q.explanation, isTeacherMode);
 
       note.textContent = hintText;
     }
@@ -2249,6 +2258,15 @@ function hostStartRoundDefault() {
     
     // Host обробники
     if (isHost) {
+      const teacherModeToggle = $('#teacherModeToggle');
+      if (teacherModeToggle) {
+        teacherModeToggle.checked = isTeacherMode;
+        teacherModeToggle.addEventListener('change', () => {
+          isTeacherMode = teacherModeToggle.checked;
+          localStorage.setItem('dp_teacher_mode', isTeacherMode);
+        });
+      }
+      
       btnCreateRoom?.addEventListener('click', hostCreateRoom);
       btnReset?.addEventListener('click', hostResetRoom);
       

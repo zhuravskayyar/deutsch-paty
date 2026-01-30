@@ -15,7 +15,8 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "seid"],
       correct: "bin",
       hint: { uk: "Ich + sein", de: "Ich bin …" },
-      explanation: { uk: "З ich використовується форма дієслова sein: ich bin.", de: "З ich використовується форма дієслова sein: ich bin." },
+      explanation: { uk: "З ich використовується форма дієслова sein: ich bin.", de: "Richtig: bin. (Ich bin …)" },
+      teacherExplanation: { uk: "З ich використовується форма дієслова sein: ich bin. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: bin. (Ich bin …)" },
       points: 1
     },
     {
@@ -28,7 +29,8 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "sind"],
       correct: "bist",
       hint: { uk: "Du + sein", de: "Du bist …" },
-      explanation: { uk: "З du використовується bist: du bist.", de: "З du використовується bist: du bist." },
+      explanation: { uk: "З du використовується bist: du bist.", de: "Richtig: bist. (Du bist …)" },
+      teacherExplanation: { uk: "З du використовується bist: du bist. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: bist. (Du bist …)" },
       points: 1
     },
     {
@@ -41,7 +43,8 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "sind"],
       correct: "ist",
       hint: { uk: "Er/Sie/Es + sein", de: "Er/Sie/Es ist …" },
-      explanation: { uk: "З er/sie/es використовується ist.", de: "З er/sie/es використовується ist." },
+      explanation: { uk: "З er/sie/es використовується ist.", de: "Richtig: ist. (Er/Sie/Es ist …)" },
+      teacherExplanation: { uk: "З er/sie/es використовується ist. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ist. (Er/Sie/Es ist …)" },
       points: 1
     },
     {
@@ -54,7 +57,8 @@ const grammarQuestions = {
       options: ["bin", "seid", "sind", "ist"],
       correct: "sind",
       hint: { uk: "Wir + sein", de: "Wir sind …" },
-      explanation: { uk: "З wir використовується sind: wir sind.", de: "З wir використовується sind: wir sind." },
+      explanation: { uk: "З wir використовується sind: wir sind.", de: "Richtig: sind. (Wir sind …)" },
+      teacherExplanation: { uk: "З wir використовується sind: wir sind. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: sind. (Wir sind …)" },
       points: 1
     },
     {
@@ -67,7 +71,8 @@ const grammarQuestions = {
       options: ["seid", "sind", "ist", "bist"],
       correct: "seid",
       hint: { uk: "Ihr + sein", de: "Ihr seid …" },
-      explanation: { uk: "З ihr використовується seid: ihr seid.", de: "З ihr використовується seid: ihr seid." },
+      explanation: { uk: "З ihr використовується seid: ihr seid.", de: "Richtig: seid. (Ihr seid …)" },
+      teacherExplanation: { uk: "З ihr використовується seid: ihr seid. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: seid. (Ihr seid …)" },
       points: 1
     },
     {
@@ -80,7 +85,8 @@ const grammarQuestions = {
       options: ["bin", "bist", "sind", "seid"],
       correct: "sind",
       hint: { uk: "sie (вони) = plural", de: "Sie (Plural) sind …" },
-      explanation: { uk: "Sie (вони) = sind.", de: "Sie (вони) = sind." },
+      explanation: { uk: "Sie (вони) = sind.", de: "Richtig: sind. (Sie (Plural) sind …)" },
+      teacherExplanation: { uk: "Sie (вони) = sind. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: sind. (Sie (Plural) sind …)" },
       points: 2
     },
     {
@@ -93,7 +99,8 @@ const grammarQuestions = {
       options: ["bist", "sind", "seid", "ist"],
       correct: "sind",
       hint: { uk: "Sie (Ви) = як plural", de: "" },
-      explanation: { uk: "Формальне Sie вживається як множина: Sie sind.", de: "Формальне Sie вживається як множина: Sie sind." },
+      explanation: { uk: "Формальне Sie вживається як множина: Sie sind.", de: "Richtig: sind." },
+      teacherExplanation: { uk: "Формальне Sie вживається як множина: Sie sind. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: sind." },
       points: 2
     },
     {
@@ -106,7 +113,8 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "seid"],
       correct: "bin",
       hint: { uk: "„nicht“ після дієслова", de: "" },
-      explanation: { uk: "Ich bin nicht sicher. Дієслово на 2-му місці.", de: "Ich bin nicht sicher. Дієслово на 2-му місці." },
+      explanation: { uk: "Ich bin nicht sicher. Дієслово на 2-му місці.", de: "Richtig: bin." },
+      teacherExplanation: { uk: "Ich bin nicht sicher. Дієслово на 2-му місці. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: bin." },
       points: 2
     },
     {
@@ -119,7 +127,8 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "sind"],
       correct: "bist",
       hint: { uk: "Питання: дієслово на 1-му місці", de: "" },
-      explanation: { uk: "У питанні дієслово стоїть першим: Wo bist du?", de: "У питанні дієслово стоїть першим: Wo bist du?" },
+      explanation: { uk: "У питанні дієслово стоїть першим: Wo bist du?.", de: "Richtig: bist." },
+      teacherExplanation: { uk: "У питанні дієслово стоїть першим: Wo bist du?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: bist." },
       points: 3
     },
     {
@@ -132,7 +141,8 @@ const grammarQuestions = {
       options: ["sind", "seid", "bin", "ist"],
       correct: "sind",
       hint: { uk: "Heute (обставина) + V2", de: "" },
-      explanation: { uk: "Коли речення починається з Heute, дієслово все одно друге: Heute sind wir ...", de: "Коли речення починається з Heute, дієслово все одно друге: Heute sind wir ..." },
+      explanation: { uk: "Коли речення починається з Heute, дієслово все одно друге: Heute sind wir ...", de: "Richtig: sind." },
+      teacherExplanation: { uk: "Коли речення починається з Heute, дієслово все одно друге: Heute sind wir ... Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: sind." },
       points: 3
     }
   ],
@@ -149,7 +159,8 @@ const grammarQuestions = {
       options: ["habe", "hast", "hat", "haben"],
       correct: "habe",
       hint: { uk: "Ich + haben", de: "Ich + haben" },
-      explanation: { uk: "З ich: ich habe.", de: "З ich: ich habe." },
+      explanation: { uk: "З ich: ich habe.", de: "Richtig: habe. (Ich + haben)" },
+      teacherExplanation: { uk: "З ich: ich habe. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: habe. (Ich + haben)" },
       points: 1
     },
     {
@@ -162,7 +173,8 @@ const grammarQuestions = {
       options: ["habe", "hast", "hat", "habt"],
       correct: "hast",
       hint: { uk: "Du + haben", de: "Du + haben" },
-      explanation: { uk: "З du: du hast.", de: "З du: du hast." },
+      explanation: { uk: "З du: du hast.", de: "Richtig: hast. (Du + haben)" },
+      teacherExplanation: { uk: "З du: du hast. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: hast. (Du + haben)" },
       points: 1
     },
     {
@@ -175,7 +187,8 @@ const grammarQuestions = {
       options: ["habe", "hast", "hat", "haben"],
       correct: "hat",
       hint: { uk: "Er/Sie/Es + haben", de: "Er/Sie/Es + haben" },
-      explanation: { uk: "З er/sie/es: hat.", de: "З er/sie/es: hat." },
+      explanation: { uk: "З er/sie/es: hat.", de: "Richtig: hat. (Er/Sie/Es + haben)" },
+      teacherExplanation: { uk: "З er/sie/es: hat. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: hat. (Er/Sie/Es + haben)" },
       points: 1
     },
     {
@@ -188,7 +201,8 @@ const grammarQuestions = {
       options: ["habe", "habt", "haben", "hat"],
       correct: "haben",
       hint: { uk: "Wir + haben", de: "Wir + haben" },
-      explanation: { uk: "З wir: wir haben.", de: "З wir: wir haben." },
+      explanation: { uk: "З wir: wir haben.", de: "Richtig: haben. (Wir + haben)" },
+      teacherExplanation: { uk: "З wir: wir haben. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: haben. (Wir + haben)" },
       points: 1
     },
     {
@@ -201,7 +215,8 @@ const grammarQuestions = {
       options: ["habt", "haben", "hat", "hast"],
       correct: "habt",
       hint: { uk: "Ihr + haben", de: "Ihr + haben" },
-      explanation: { uk: "З ihr: ihr habt.", de: "З ihr: ihr habt." },
+      explanation: { uk: "З ihr: ihr habt.", de: "Richtig: habt. (Ihr + haben)" },
+      teacherExplanation: { uk: "З ihr: ihr habt. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: habt. (Ihr + haben)" },
       points: 1
     },
     {
@@ -214,7 +229,8 @@ const grammarQuestions = {
       options: ["habt", "haben", "hat", "hast"],
       correct: "haben",
       hint: { uk: "sie (вони) = plural", de: "Sie (Plural) sind …" },
-      explanation: { uk: "Sie (вони) = haben.", de: "Sie (вони) = haben." },
+      explanation: { uk: "Sie (вони) = haben.", de: "Richtig: haben. (Sie (Plural) sind …)" },
+      teacherExplanation: { uk: "Sie (вони) = haben. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: haben. (Sie (Plural) sind …)" },
       points: 2
     },
     {
@@ -227,7 +243,8 @@ const grammarQuestions = {
       options: ["haben", "hat", "hast", "habt"],
       correct: "haben",
       hint: { uk: "Sie (Ви) як plural", de: "" },
-      explanation: { uk: "Формальне Sie: Sie haben.", de: "Формальне Sie: Sie haben." },
+      explanation: { uk: "Формальне Sie: Sie haben.", de: "Richtig: haben." },
+      teacherExplanation: { uk: "Формальне Sie: Sie haben. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: haben." },
       points: 2
     },
     {
@@ -240,7 +257,8 @@ const grammarQuestions = {
       options: ["Habe", "Hast", "Hat", "Habt"],
       correct: "Hast",
       hint: { uk: "Питання: дієслово перше", de: "" },
-      explanation: { uk: "Hast du ...? — у питанні дієслово на 1-му місці.", de: "Hast du ...? — у питанні дієслово на 1-му місці." },
+      explanation: { uk: "Hast du ...? — у питанні дієслово на 1-му місці.", de: "Richtig: Hast." },
+      teacherExplanation: { uk: "Hast du ...? — у питанні дієслово на 1-му місці. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Hast." },
       points: 2
     },
     {
@@ -253,7 +271,8 @@ const grammarQuestions = {
       options: ["habe", "hat", "haben", "hast"],
       correct: "habe",
       hint: { uk: "haben", de: "haben" },
-      explanation: { uk: "Heute habe ich ... (дієслово друге).", de: "Heute habe ich ... (дієслово друге)." },
+      explanation: { uk: "Heute habe ich ... (дієслово друге).", de: "Richtig: habe. (haben)" },
+      teacherExplanation: { uk: "Heute habe ich ... (дієслово друге). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: habe. (haben)" },
       points: 3
     },
     {
@@ -266,7 +285,8 @@ const grammarQuestions = {
       options: ["habt", "haben", "hat", "hast"],
       correct: "haben",
       hint: { uk: "wir + haben", de: "wir + haben" },
-      explanation: { uk: "Wir haben ...", de: "Wir haben ..." },
+      explanation: { uk: "Wir haben ...", de: "Richtig: haben. (wir + haben)" },
+      teacherExplanation: { uk: "Wir haben ... Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: haben. (wir + haben)" },
       points: 3
     }
   ],
@@ -283,7 +303,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Der",
       hint: { uk: "Hund = maskulin", de: "der Hund" },
-      explanation: { uk: "У Nominativ: der Hund.", de: "У Nominativ: der Hund." },
+      explanation: { uk: "У Nominativ: der Hund.", de: "Richtig: Der. (der Hund)" },
+      teacherExplanation: { uk: "У Nominativ: der Hund. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Der. (der Hund)" },
       points: 1
     },
     {
@@ -296,7 +317,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Die",
       hint: { uk: "Katze = feminin", de: "die Katze" },
-      explanation: { uk: "У Nominativ: die Katze.", de: "У Nominativ: die Katze." },
+      explanation: { uk: "У Nominativ: die Katze.", de: "Richtig: Die. (die Katze)" },
+      teacherExplanation: { uk: "У Nominativ: die Katze. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Die. (die Katze)" },
       points: 1
     },
     {
@@ -309,7 +331,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Dem"],
       correct: "Das",
       hint: { uk: "Haus = neutrum", de: "das Haus" },
-      explanation: { uk: "У Nominativ: das Haus.", de: "У Nominativ: das Haus." },
+      explanation: { uk: "У Nominativ: das Haus.", de: "Richtig: Das. (das Haus)" },
+      teacherExplanation: { uk: "У Nominativ: das Haus. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Das. (das Haus)" },
       points: 1
     },
     {
@@ -322,7 +345,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Die",
       hint: { uk: "Kinder = plural", de: "" },
-      explanation: { uk: "У Nominativ plural: die Kinder.", de: "У Nominativ plural: die Kinder." },
+      explanation: { uk: "У Nominativ plural: die Kinder.", de: "Richtig: Die." },
+      teacherExplanation: { uk: "У Nominativ plural: die Kinder. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Die." },
       points: 1
     },
     {
@@ -335,7 +359,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Der",
       hint: { uk: "Tisch = maskulin", de: "der Tisch" },
-      explanation: { uk: "Правильно: der Tisch.", de: "Правильно: der Tisch." },
+      explanation: { uk: "Правильно: der Tisch.", de: "Richtig: Der. (der Tisch)" },
+      teacherExplanation: { uk: "Правильно: der Tisch. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Der. (der Tisch)" },
       points: 2
     },
     {
@@ -348,7 +373,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Dem"],
       correct: "Das",
       hint: { uk: "Buch = neutrum", de: "das Buch" },
-      explanation: { uk: "Правильно: das Buch.", de: "Правильно: das Buch." },
+      explanation: { uk: "Правильно: das Buch.", de: "Richtig: Das. (das Buch)" },
+      teacherExplanation: { uk: "Правильно: das Buch. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Das. (das Buch)" },
       points: 2
     },
     {
@@ -361,7 +387,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Die",
       hint: { uk: "Sonne = feminin", de: "die Sonne" },
-      explanation: { uk: "Правильно: die Sonne.", de: "Правильно: die Sonne." },
+      explanation: { uk: "Правильно: die Sonne.", de: "Richtig: Die. (die Sonne)" },
+      teacherExplanation: { uk: "Правильно: die Sonne. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Die. (die Sonne)" },
       points: 2
     },
     {
@@ -374,7 +401,8 @@ const grammarQuestions = {
       options: ["Das / die", "Die / das", "Der / die", "Das / der"],
       correct: "Das / die",
       hint: { uk: "Wetter (das), Stimmung (die)", de: "" },
-      explanation: { uk: "Das Wetter, die Stimmung.", de: "Das Wetter, die Stimmung." },
+      explanation: { uk: "Das Wetter, die Stimmung.", de: "Richtig: Das / die." },
+      teacherExplanation: { uk: "Das Wetter, die Stimmung. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Das / die." },
       points: 2
     },
     {
@@ -387,7 +415,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Das",
       hint: { uk: "Mädchen = neutrum ( -chen )", de: "" },
-      explanation: { uk: "Зменшувальні на -chen/-lein завжди das: das Mädchen.", de: "Зменшувальні на -chen/-lein завжди das: das Mädchen." },
+      explanation: { uk: "Зменшувальні на -chen/-lein завжди das: das Mädchen.", de: "Richtig: Das." },
+      teacherExplanation: { uk: "Зменшувальні на -chen/-lein завжди das: das Mädchen. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Das." },
       points: 3
     },
     {
@@ -400,7 +429,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Die",
       hint: { uk: "Leute = plural", de: "" },
-      explanation: { uk: "Die Leute (множина).", de: "Die Leute (множина)." },
+      explanation: { uk: "Die Leute (множина).", de: "Richtig: Die." },
+      teacherExplanation: { uk: "Die Leute (множина). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Die." },
       points: 3
     }
   ],
@@ -417,7 +447,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Hund (mask.)", de: "Hund (mask.)" },
-      explanation: { uk: "Nominativ maskulin: ein Hund.", de: "Nominativ maskulin: ein Hund." },
+      explanation: { uk: "Nominativ maskulin: ein Hund.", de: "Richtig: ein. (Hund (mask.))" },
+      teacherExplanation: { uk: "Nominativ maskulin: ein Hund. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ein. (Hund (mask.))" },
       points: 1
     },
     {
@@ -430,7 +461,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Katze (fem.)", de: "Katze (fem.)" },
-      explanation: { uk: "Nominativ feminin: eine Katze.", de: "Nominativ feminin: eine Katze." },
+      explanation: { uk: "Nominativ feminin: eine Katze.", de: "Richtig: eine. (Katze (fem.))" },
+      teacherExplanation: { uk: "Nominativ feminin: eine Katze. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: eine. (Katze (fem.))" },
       points: 1
     },
     {
@@ -443,7 +475,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Haus (neut.)", de: "Haus (neut.)" },
-      explanation: { uk: "Nominativ neutrum: ein Haus.", de: "Nominativ neutrum: ein Haus." },
+      explanation: { uk: "Nominativ neutrum: ein Haus.", de: "Richtig: ein. (Haus (neut.))" },
+      teacherExplanation: { uk: "Nominativ neutrum: ein Haus. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ein. (Haus (neut.))" },
       points: 1
     },
     {
@@ -456,7 +489,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Idee (fem.)", de: "Idee (fem.)" },
-      explanation: { uk: "Eine Idee (fem.).", de: "Eine Idee (fem.)." },
+      explanation: { uk: "Eine Idee (fem.).", de: "Richtig: eine. (Idee (fem.))" },
+      teacherExplanation: { uk: "Eine Idee (fem.). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: eine. (Idee (fem.))" },
       points: 2
     },
     {
@@ -469,7 +503,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Lehrer (mask.)", de: "Lehrer (mask.)" },
-      explanation: { uk: "Ein Lehrer (mask.).", de: "Ein Lehrer (mask.)." },
+      explanation: { uk: "Ein Lehrer (mask.).", de: "Richtig: ein. (Lehrer (mask.))" },
+      teacherExplanation: { uk: "Ein Lehrer (mask.). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ein. (Lehrer (mask.))" },
       points: 2
     },
     {
@@ -482,7 +517,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Studentin (fem.)", de: "Studentin (fem.)" },
-      explanation: { uk: "Eine Studentin (fem.).", de: "Eine Studentin (fem.)." },
+      explanation: { uk: "Eine Studentin (fem.).", de: "Richtig: eine. (Studentin (fem.))" },
+      teacherExplanation: { uk: "Eine Studentin (fem.). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: eine. (Studentin (fem.))" },
       points: 2
     },
     {
@@ -495,7 +531,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Mädchen = neutrum", de: "das Mädchen" },
-      explanation: { uk: "Das Mädchen → ein Mädchen (neutrum).", de: "Das Mädchen → ein Mädchen (neutrum)." },
+      explanation: { uk: "Das Mädchen → ein Mädchen (neutrum).", de: "Richtig: ein. (das Mädchen)" },
+      teacherExplanation: { uk: "Das Mädchen → ein Mädchen (neutrum). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ein. (das Mädchen)" },
       points: 3
     },
     {
@@ -508,7 +545,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "einen",
       hint: { uk: "Accusativ maskulin", de: "einen/den …" },
-      explanation: { uk: "Після brauchen часто Akkusativ: einen Stift.", de: "Після brauchen часто Akkusativ: einen Stift." },
+      explanation: { uk: "Після brauchen часто Akkusativ: einen Stift.", de: "Richtig: einen. (einen/den …)" },
+      teacherExplanation: { uk: "Після brauchen часто Akkusativ: einen Stift. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: einen. (einen/den …)" },
       points: 3
     },
     {
@@ -521,7 +559,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Brot = neutrum (Akk=ein)", de: "" },
-      explanation: { uk: "Neutrum у Akkusativ = як Nominativ: ein Brot.", de: "Neutrum у Akkusativ = як Nominativ: ein Brot." },
+      explanation: { uk: "Neutrum у Akkusativ = як Nominativ: ein Brot.", de: "Richtig: ein." },
+      teacherExplanation: { uk: "Neutrum у Akkusativ = як Nominativ: ein Brot. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ein." },
       points: 3
     },
     {
@@ -534,7 +573,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Akkusativ feminin = eine", de: "" },
-      explanation: { uk: "Feminin у Akkusativ не змінюється: eine Frau.", de: "Feminin у Akkusativ не змінюється: eine Frau." },
+      explanation: { uk: "Feminin у Akkusativ не змінюється: eine Frau.", de: "Richtig: eine." },
+      teacherExplanation: { uk: "Feminin у Akkusativ не змінюється: eine Frau. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: eine." },
       points: 3
     }
   ],
@@ -551,7 +591,8 @@ const grammarQuestions = {
       options: ["der", "den", "dem", "die"],
       correct: "den",
       hint: { uk: "Akkusativ mask.: den", de: "" },
-      explanation: { uk: "Akkusativ maskulin: den Hund.", de: "Akkusativ maskulin: den Hund." },
+      explanation: { uk: "Akkusativ maskulin: den Hund.", de: "Richtig: den." },
+      teacherExplanation: { uk: "Akkusativ maskulin: den Hund. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: den." },
       points: 2
     },
     {
@@ -564,7 +605,8 @@ const grammarQuestions = {
       options: ["die", "den", "das", "dem"],
       correct: "die",
       hint: { uk: "Akkusativ fem.: die", de: "" },
-      explanation: { uk: "Akkusativ feminin не змінюється: die Katze.", de: "Akkusativ feminin не змінюється: die Katze." },
+      explanation: { uk: "Akkusativ feminin не змінюється: die Katze.", de: "Richtig: die." },
+      teacherExplanation: { uk: "Akkusativ feminin не змінюється: die Katze. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: die." },
       points: 2
     },
     {
@@ -577,7 +619,8 @@ const grammarQuestions = {
       options: ["das", "den", "dem", "die"],
       correct: "das",
       hint: { uk: "Akkusativ neut.: das", de: "" },
-      explanation: { uk: "Neutrum у Akkusativ: das Haus.", de: "Neutrum у Akkusativ: das Haus." },
+      explanation: { uk: "Neutrum у Akkusativ: das Haus.", de: "Richtig: das." },
+      teacherExplanation: { uk: "Neutrum у Akkusativ: das Haus. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: das." },
       points: 2
     },
     {
@@ -590,7 +633,8 @@ const grammarQuestions = {
       options: ["der", "den", "das", "die"],
       correct: "den",
       hint: { uk: "Apfel = maskulin", de: "der Apfel" },
-      explanation: { uk: "Wir kaufen den Apfel.", de: "Wir kaufen den Apfel." },
+      explanation: { uk: "Wir kaufen den Apfel.", de: "Richtig: den. (der Apfel)" },
+      teacherExplanation: { uk: "Wir kaufen den Apfel. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: den. (der Apfel)" },
       points: 2
     },
     {
@@ -603,7 +647,8 @@ const grammarQuestions = {
       options: ["das", "den", "der", "dem"],
       correct: "das",
       hint: { uk: "Buch = neutrum", de: "das Buch" },
-      explanation: { uk: "Er liest das Buch.", de: "Er liest das Buch." },
+      explanation: { uk: "Er liest das Buch.", de: "Richtig: das. (das Buch)" },
+      teacherExplanation: { uk: "Er liest das Buch. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: das. (das Buch)" },
       points: 2
     },
     {
@@ -616,7 +661,8 @@ const grammarQuestions = {
       options: ["der", "den", "das", "dem"],
       correct: "den",
       hint: { uk: "Schlüssel = maskulin", de: "der Schlüssel" },
-      explanation: { uk: "Akkusativ: den Schlüssel.", de: "Akkusativ: den Schlüssel." },
+      explanation: { uk: "Akkusativ: den Schlüssel.", de: "Richtig: den. (der Schlüssel)" },
+      teacherExplanation: { uk: "Akkusativ: den Schlüssel. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: den. (der Schlüssel)" },
       points: 3
     },
     {
@@ -629,7 +675,8 @@ const grammarQuestions = {
       options: ["der", "den", "das", "die"],
       correct: "den",
       hint: { uk: "treffen + Akk", de: "treffen + Akk" },
-      explanation: { uk: "Treffen → Akkusativ: den Lehrer.", de: "Treffen → Akkusativ: den Lehrer." },
+      explanation: { uk: "Treffen → Akkusativ: den Lehrer.", de: "Richtig: den. (treffen + Akk)" },
+      teacherExplanation: { uk: "Treffen → Akkusativ: den Lehrer. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: den. (treffen + Akk)" },
       points: 3
     },
     {
@@ -642,7 +689,8 @@ const grammarQuestions = {
       options: ["die", "den", "das", "dem"],
       correct: "die",
       hint: { uk: "Idee (fem.)", de: "Idee (fem.)" },
-      explanation: { uk: "Ich finde die Idee gut.", de: "Ich finde die Idee gut." },
+      explanation: { uk: "Ich finde die Idee gut.", de: "Richtig: die. (Idee (fem.))" },
+      teacherExplanation: { uk: "Ich finde die Idee gut. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: die. (Idee (fem.))" },
       points: 3
     },
     {
@@ -655,7 +703,8 @@ const grammarQuestions = {
       options: ["der", "die", "das", "den"],
       correct: "die",
       hint: { uk: "Musik = feminin", de: "die Musik" },
-      explanation: { uk: "Er hört die Musik.", de: "Er hört die Musik." },
+      explanation: { uk: "Er hört die Musik.", de: "Richtig: die. (die Musik)" },
+      teacherExplanation: { uk: "Er hört die Musik. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: die. (die Musik)" },
       points: 3
     },
     {
@@ -668,7 +717,8 @@ const grammarQuestions = {
       options: ["die", "den", "das", "der"],
       correct: "die",
       hint: { uk: "Plural: die (Akk = die)", de: "" },
-      explanation: { uk: "Plural у Akkusativ: die Kinder.", de: "Plural у Akkusativ: die Kinder." },
+      explanation: { uk: "Plural у Akkusativ: die Kinder.", de: "Richtig: die." },
+      teacherExplanation: { uk: "Plural у Akkusativ: die Kinder. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: die." },
       points: 3
     }
   ],
@@ -685,7 +735,8 @@ const grammarQuestions = {
       options: ["Ich", "Du", "Er", "Sie"],
       correct: "Ich",
       hint: { uk: "Про себе", de: "" },
-      explanation: { uk: "Коли говоримо про себе: Ich.", de: "Коли говоримо про себе: Ich." },
+      explanation: { uk: "Коли говоримо про себе: Ich.", de: "Richtig: Ich." },
+      teacherExplanation: { uk: "Коли говоримо про себе: Ich. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Ich." },
       points: 1
     },
     {
@@ -698,7 +749,8 @@ const grammarQuestions = {
       options: ["Ich", "Du", "Er", "Wir"],
       correct: "Du",
       hint: { uk: "До співрозмовника", de: "" },
-      explanation: { uk: "Коли звертаємось до людини: Du.", de: "Коли звертаємось до людини: Du." },
+      explanation: { uk: "Коли звертаємось до людини: Du.", de: "Richtig: Du." },
+      teacherExplanation: { uk: "Коли звертаємось до людини: Du. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Du." },
       points: 1
     },
     {
@@ -711,7 +763,8 @@ const grammarQuestions = {
       options: ["Er", "Sie", "Es", "Wir"],
       correct: "Sie",
       hint: { uk: "Maria = вона", de: "" },
-      explanation: { uk: "Для Maria: Sie.", de: "Для Maria: Sie." },
+      explanation: { uk: "Для Maria: Sie.", de: "Richtig: Sie." },
+      teacherExplanation: { uk: "Для Maria: Sie. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Sie." },
       points: 1
     },
     {
@@ -724,7 +777,8 @@ const grammarQuestions = {
       options: ["Er", "Sie", "Es", "Wir"],
       correct: "Es",
       hint: { uk: "Buch = das", de: "das Buch" },
-      explanation: { uk: "Buch (das) → es.", de: "Buch (das) → es." },
+      explanation: { uk: "Buch (das) → es.", de: "Richtig: Es. (das Buch)" },
+      teacherExplanation: { uk: "Buch (das) → es. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Es. (das Buch)" },
       points: 1
     },
     {
@@ -737,7 +791,8 @@ const grammarQuestions = {
       options: ["Er", "Sie", "Wir", "Ihr"],
       correct: "Sie",
       hint: { uk: "вони", de: "" },
-      explanation: { uk: "Max und Tom → Sie (вони).", de: "Max und Tom → Sie (вони)." },
+      explanation: { uk: "Max und Tom → Sie (вони).", de: "Richtig: Sie." },
+      teacherExplanation: { uk: "Max und Tom → Sie (вони). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Sie." },
       points: 2
     },
     {
@@ -750,7 +805,8 @@ const grammarQuestions = {
       options: ["Wir", "Ihr", "Sie", "Er"],
       correct: "Wir",
       hint: { uk: "ми", de: "" },
-      explanation: { uk: "Anna und ich → wir.", de: "Anna und ich → wir." },
+      explanation: { uk: "Anna und ich → wir.", de: "Richtig: Wir." },
+      teacherExplanation: { uk: "Anna und ich → wir. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wir." },
       points: 2
     },
     {
@@ -763,7 +819,8 @@ const grammarQuestions = {
       options: ["Wir", "Ihr", "Sie", "Er"],
       correct: "Ihr",
       hint: { uk: "ви (множина)", de: "" },
-      explanation: { uk: "Du und Tom → ihr.", de: "Du und Tom → ihr." },
+      explanation: { uk: "Du und Tom → ihr.", de: "Richtig: Ihr." },
+      teacherExplanation: { uk: "Du und Tom → ihr. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Ihr." },
       points: 2
     },
     {
@@ -776,7 +833,8 @@ const grammarQuestions = {
       options: ["wer", "wie", "wo", "was"],
       correct: "wer",
       hint: { uk: "Питання про особу", de: "" },
-      explanation: { uk: "Wer sind Sie? — Хто ви?", de: "Wer sind Sie? — Хто ви?" },
+      explanation: { uk: "Wer sind Sie? — Хто ви?.", de: "Richtig: wer." },
+      teacherExplanation: { uk: "Wer sind Sie? — Хто ви?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: wer." },
       points: 2
     },
     {
@@ -789,7 +847,8 @@ const grammarQuestions = {
       options: ["ich", "du", "er", "sie"],
       correct: "du",
       hint: { uk: "звертання до співрозмовника", de: "" },
-      explanation: { uk: "Kommst du mit? — Ти йдеш з нами?", de: "Kommst du mit? — Ти йдеш з нами?" },
+      explanation: { uk: "Kommst du mit? — Ти йдеш з нами?.", de: "Richtig: du." },
+      teacherExplanation: { uk: "Kommst du mit? — Ти йдеш з нами?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: du." },
       points: 3
     },
     {
@@ -802,7 +861,8 @@ const grammarQuestions = {
       options: ["ihr", "er", "es", "ich"],
       correct: "ihr",
       hint: { uk: "до групи людей", de: "" },
-      explanation: { uk: "Kommt ihr auch? — Ви теж прийдете?", de: "Kommt ihr auch? — Ви теж прийдете?" },
+      explanation: { uk: "Kommt ihr auch? — Ви теж прийдете?.", de: "Richtig: ihr." },
+      teacherExplanation: { uk: "Kommt ihr auch? — Ви теж прийдете?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ihr." },
       points: 3
     }
   ],
@@ -819,7 +879,8 @@ const grammarQuestions = {
       options: ["mache", "ich mache", "machen", "mache ich"],
       correct: "mache",
       hint: { uk: "V2 правило", de: "" },
-      explanation: { uk: "У простому реченні дієслово 2-ге: Heute mache ich Sport.", de: "У простому реченні дієслово 2-ге: Heute mache ich Sport." },
+      explanation: { uk: "У простому реченні дієслово 2-ге: Heute mache ich Sport.", de: "Richtig: mache." },
+      teacherExplanation: { uk: "У простому реченні дієслово 2-ге: Heute mache ich Sport. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: mache." },
       points: 2
     },
     {
@@ -832,7 +893,8 @@ const grammarQuestions = {
       options: ["trinken", "trinkt", "trinke", "trinkt ihr"],
       correct: "trinken",
       hint: { uk: "wir + trinken", de: "wir + trinken" },
-      explanation: { uk: "Am Morgen trinken wir Kaffee.", de: "Am Morgen trinken wir Kaffee." },
+      explanation: { uk: "Am Morgen trinken wir Kaffee.", de: "Richtig: trinken. (wir + trinken)" },
+      teacherExplanation: { uk: "Am Morgen trinken wir Kaffee. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: trinken. (wir + trinken)" },
       points: 2
     },
     {
@@ -845,7 +907,8 @@ const grammarQuestions = {
       options: ["wohnt", "wohnen", "wohnst", "wohne"],
       correct: "wohnt",
       hint: { uk: "sie (вона) + -t", de: "" },
-      explanation: { uk: "In Berlin wohnt sie.", de: "In Berlin wohnt sie." },
+      explanation: { uk: "In Berlin wohnt sie.", de: "Richtig: wohnt." },
+      teacherExplanation: { uk: "In Berlin wohnt sie. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: wohnt." },
       points: 2
     },
     {
@@ -858,7 +921,8 @@ const grammarQuestions = {
       options: ["habe", "bin", "hat", "haben"],
       correct: "habe",
       hint: { uk: "haben", de: "haben" },
-      explanation: { uk: "Morgen habe ich keine Zeit.", de: "Morgen habe ich keine Zeit." },
+      explanation: { uk: "Morgen habe ich keine Zeit.", de: "Richtig: habe. (haben)" },
+      teacherExplanation: { uk: "Morgen habe ich keine Zeit. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: habe. (haben)" },
       points: 2
     },
     {
@@ -871,7 +935,8 @@ const grammarQuestions = {
       options: ["Gehst", "Du gehst", "Gehst du", "Heute gehst"],
       correct: "Gehst",
       hint: { uk: "Питання: дієслово 1-ше", de: "" },
-      explanation: { uk: "У yes/no питанні: Gehst du heute ins Kino?", de: "У yes/no питанні: Gehst du heute ins Kino?" },
+      explanation: { uk: "У yes/no питанні: Gehst du heute ins Kino?.", de: "Richtig: Gehst." },
+      teacherExplanation: { uk: "У yes/no питанні: Gehst du heute ins Kino?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Gehst." },
       points: 3
     },
     {
@@ -884,7 +949,8 @@ const grammarQuestions = {
       options: ["bist", "ist", "sind", "seid"],
       correct: "bist",
       hint: { uk: "du + bist", de: "du + bist" },
-      explanation: { uk: "Warum bist du so müde?", de: "Warum bist du so müde?" },
+      explanation: { uk: "Warum bist du so müde?.", de: "Richtig: bist. (du + bist)" },
+      teacherExplanation: { uk: "Warum bist du so müde?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: bist. (du + bist)" },
       points: 3
     },
     {
@@ -897,7 +963,8 @@ const grammarQuestions = {
       options: ["ist", "sind", "bist", "seid"],
       correct: "ist",
       hint: { uk: "es + ist", de: "es + ist" },
-      explanation: { uk: "Heute ist es sehr kalt.", de: "Heute ist es sehr kalt." },
+      explanation: { uk: "Heute ist es sehr kalt.", de: "Richtig: ist. (es + ist)" },
+      teacherExplanation: { uk: "Heute ist es sehr kalt. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ist. (es + ist)" },
       points: 3
     },
     {
@@ -910,7 +977,8 @@ const grammarQuestions = {
       options: ["gehe", "geht", "gehen", "gehst"],
       correct: "gehe",
       hint: { uk: "ich + gehe", de: "ich + gehe" },
-      explanation: { uk: "Nach der Schule gehe ich nach Hause.", de: "Nach der Schule gehe ich nach Hause." },
+      explanation: { uk: "Nach der Schule gehe ich nach Hause.", de: "Richtig: gehe. (ich + gehe)" },
+      teacherExplanation: { uk: "Nach der Schule gehe ich nach Hause. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: gehe. (ich + gehe)" },
       points: 3
     },
     {
@@ -923,7 +991,8 @@ const grammarQuestions = {
       options: ["spielen", "spielt", "spielst", "spiele"],
       correct: "spielen",
       hint: { uk: "Kinder = plural", de: "" },
-      explanation: { uk: "Im Park spielen die Kinder.", de: "Im Park spielen die Kinder." },
+      explanation: { uk: "Im Park spielen die Kinder.", de: "Richtig: spielen." },
+      teacherExplanation: { uk: "Im Park spielen die Kinder. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: spielen." },
       points: 3
     },
     {
@@ -936,7 +1005,8 @@ const grammarQuestions = {
       options: ["treffen", "trifft", "treffe", "trefft"],
       correct: "treffen",
       hint: { uk: "wir + treffen", de: "wir + treffen" },
-      explanation: { uk: "Am Wochenende treffen wir oft Freunde.", de: "Am Wochenende treffen wir oft Freunde." },
+      explanation: { uk: "Am Wochenende treffen wir oft Freunde.", de: "Richtig: treffen. (wir + treffen)" },
+      teacherExplanation: { uk: "Am Wochenende treffen wir oft Freunde. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: treffen. (wir + treffen)" },
       points: 3
     }
   ],
@@ -953,7 +1023,8 @@ const grammarQuestions = {
       options: ["Wo", "Wie", "Wer", "Was"],
       correct: "Wie",
       hint: { uk: "Як тебе звати?", de: "Name?" },
-      explanation: { uk: "Wie heißt du? — Як тебе звати?", de: "Wie heißt du? — Як тебе звати?" },
+      explanation: { uk: "Wie heißt du? — Як тебе звати?.", de: "Richtig: Wie. (Name?)" },
+      teacherExplanation: { uk: "Wie heißt du? — Як тебе звати?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wie. (Name?)" },
       points: 1
     },
     {
@@ -966,7 +1037,8 @@ const grammarQuestions = {
       options: ["Woher", "Warum", "Wann", "Wieviel"],
       correct: "Woher",
       hint: { uk: "Звідки?", de: "Herkunft?" },
-      explanation: { uk: "Woher kommst du? — Звідки ти?", de: "Woher kommst du? — Звідки ти?" },
+      explanation: { uk: "Woher kommst du? — Звідки ти?.", de: "Richtig: Woher. (Herkunft?)" },
+      teacherExplanation: { uk: "Woher kommst du? — Звідки ти?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Woher. (Herkunft?)" },
       points: 1
     },
     {
@@ -979,7 +1051,8 @@ const grammarQuestions = {
       options: ["Wie", "Wo", "Was", "Wer"],
       correct: "Wo",
       hint: { uk: "Де?", de: "Ort?" },
-      explanation: { uk: "Wo wohnst du? — Де ти живеш?", de: "Wo wohnst du? — Де ти живеш?" },
+      explanation: { uk: "Wo wohnst du? — Де ти живеш?.", de: "Richtig: Wo. (Ort?)" },
+      teacherExplanation: { uk: "Wo wohnst du? — Де ти живеш?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wo. (Ort?)" },
       points: 2
     },
     {
@@ -992,7 +1065,8 @@ const grammarQuestions = {
       options: ["Was", "Wer", "Wie", "Wann"],
       correct: "Was",
       hint: { uk: "Що це?", de: "Was ist das?" },
-      explanation: { uk: "Was ist das? — Що це?", de: "Was ist das? — Що це?" },
+      explanation: { uk: "Was ist das? — Що це?.", de: "Richtig: Was. (Was ist das?)" },
+      teacherExplanation: { uk: "Was ist das? — Що це?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Was. (Was ist das?)" },
       points: 2
     },
     {
@@ -1005,7 +1079,8 @@ const grammarQuestions = {
       options: ["Wer", "Wo", "Wie", "Was"],
       correct: "Wer",
       hint: { uk: "Хто?", de: "Person?" },
-      explanation: { uk: "Wer kommt heute? — Хто прийде сьогодні?", de: "Wer kommt heute? — Хто прийде сьогодні?" },
+      explanation: { uk: "Wer kommt heute? — Хто прийде сьогодні?.", de: "Richtig: Wer. (Person?)" },
+      teacherExplanation: { uk: "Wer kommt heute? — Хто прийде сьогодні?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wer. (Person?)" },
       points: 2
     },
     {
@@ -1018,7 +1093,8 @@ const grammarQuestions = {
       options: ["Wann", "Was", "Wo", "Wer"],
       correct: "Wann",
       hint: { uk: "Коли?", de: "" },
-      explanation: { uk: "Wann beginnt der Film? — Коли починається фільм?", de: "Wann beginnt der Film? — Коли починається фільм?" },
+      explanation: { uk: "Wann beginnt der Film? — Коли починається фільм?.", de: "Richtig: Wann." },
+      teacherExplanation: { uk: "Wann beginnt der Film? — Коли починається фільм?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wann." },
       points: 2
     },
     {
@@ -1031,7 +1107,8 @@ const grammarQuestions = {
       options: ["Warum", "Wann", "Wie", "Woher"],
       correct: "Warum",
       hint: { uk: "Чому?", de: "" },
-      explanation: { uk: "Warum bist du heute zu spät? — Чому ти сьогодні запізнився?", de: "Warum bist du heute zu spät? — Чому ти сьогодні запізнився?" },
+      explanation: { uk: "Warum bist du heute zu spät? — Чому ти сьогодні запізнився?.", de: "Richtig: Warum." },
+      teacherExplanation: { uk: "Warum bist du heute zu spät? — Чому ти сьогодні запізнився?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Warum." },
       points: 2
     },
     {
@@ -1044,7 +1121,8 @@ const grammarQuestions = {
       options: ["Was", "Wie", "Wo", "Wer"],
       correct: "Wie",
       hint: { uk: "Wie viel = скільки коштує", de: "" },
-      explanation: { uk: "Wie viel kostet das? — Скільки це коштує?", de: "Wie viel kostet das? — Скільки це коштує?" },
+      explanation: { uk: "Wie viel kostet das? — Скільки це коштує?.", de: "Richtig: Wie." },
+      teacherExplanation: { uk: "Wie viel kostet das? — Скільки це коштує?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wie." },
       points: 3
     },
     {
@@ -1057,7 +1135,8 @@ const grammarQuestions = {
       options: ["Wie", "Was", "Wo", "Wer"],
       correct: "Wie",
       hint: { uk: "Wie lange = як довго", de: "" },
-      explanation: { uk: "Wie lange dauert es? — Як довго це триває?", de: "Wie lange dauert es? — Як довго це триває?" },
+      explanation: { uk: "Wie lange dauert es? — Як довго це триває?.", de: "Richtig: Wie." },
+      teacherExplanation: { uk: "Wie lange dauert es? — Як довго це триває?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wie." },
       points: 3
     },
     {
@@ -1070,7 +1149,8 @@ const grammarQuestions = {
       options: ["Wohin", "Woher", "Wann", "Warum"],
       correct: "Wohin",
       hint: { uk: "Куди?", de: "" },
-      explanation: { uk: "Wohin gehst du gern? — Куди ти любиш ходити?", de: "Wohin gehst du gern? — Куди ти любиш ходити?" },
+      explanation: { uk: "Wohin gehst du gern? — Куди ти любиш ходити?.", de: "Richtig: Wohin." },
+      teacherExplanation: { uk: "Wohin gehst du gern? — Куди ти любиш ходити?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wohin." },
       points: 3
     }
   ],
@@ -1087,7 +1167,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "nicht",
       hint: { uk: "не + прикметник", de: "" },
-      explanation: { uk: "Nicht заперечує прикметник/дієслово: nicht müde.", de: "Nicht заперечує прикметник/дієслово: nicht müde." },
+      explanation: { uk: "Nicht заперечує прикметник/дієслово: nicht müde.", de: "Richtig: nicht." },
+      teacherExplanation: { uk: "Nicht заперечує прикметник/дієслово: nicht müde. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: nicht." },
       points: 2
     },
     {
@@ -1100,7 +1181,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "keine",
       hint: { uk: "Zeit (fem.)", de: "Zeit (fem.)" },
-      explanation: { uk: "Kein/keine заперечує іменник: keine Zeit.", de: "Kein/keine заперечує іменник: keine Zeit." },
+      explanation: { uk: "Kein/keine заперечує іменник: keine Zeit.", de: "Richtig: keine. (Zeit (fem.))" },
+      teacherExplanation: { uk: "Kein/keine заперечує іменник: keine Zeit. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: keine. (Zeit (fem.))" },
       points: 2
     },
     {
@@ -1113,7 +1195,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "kein",
       hint: { uk: "Kaffee (mask.)", de: "Kaffee (mask.)" },
-      explanation: { uk: "Kein + іменник (mask.): kein Kaffee.", de: "Kein + іменник (mask.): kein Kaffee." },
+      explanation: { uk: "Kein + іменник (mask.): kein Kaffee.", de: "Richtig: kein. (Kaffee (mask.))" },
+      teacherExplanation: { uk: "Kein + іменник (mask.): kein Kaffee. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: kein. (Kaffee (mask.))" },
       points: 2
     },
     {
@@ -1126,7 +1209,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keinen", "keine"],
       correct: "keinen",
       hint: { uk: "Hunger (mask.) Akk", de: "Hunger (mask.) Akk" },
-      explanation: { uk: "Hunger (mask.) часто як Akk: keinen Hunger.", de: "Hunger (mask.) часто як Akk: keinen Hunger." },
+      explanation: { uk: "Hunger (mask.) часто як Akk: keinen Hunger.", de: "Richtig: keinen. (Hunger (mask.) Akk)" },
+      teacherExplanation: { uk: "Hunger (mask.) часто як Akk: keinen Hunger. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: keinen. (Hunger (mask.) Akk)" },
       points: 2
     },
     {
@@ -1139,7 +1223,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "nicht",
       hint: { uk: "заперечення дії", de: "" },
-      explanation: { uk: "Заперечуємо дію/обставину: nicht ins Kino.", de: "Заперечуємо дію/обставину: nicht ins Kino." },
+      explanation: { uk: "Заперечуємо дію/обставину: nicht ins Kino.", de: "Richtig: nicht." },
+      teacherExplanation: { uk: "Заперечуємо дію/обставину: nicht ins Kino. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: nicht." },
       points: 2
     },
     {
@@ -1152,7 +1237,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "keinen"],
       correct: "kein",
       hint: { uk: "Auto (neut.) → kein", de: "" },
-      explanation: { uk: "Neutrum: kein Auto.", de: "Neutrum: kein Auto." },
+      explanation: { uk: "Neutrum: kein Auto.", de: "Richtig: kein." },
+      teacherExplanation: { uk: "Neutrum: kein Auto. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: kein." },
       points: 2
     },
     {
@@ -1165,7 +1251,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "nicht",
       hint: { uk: "заперечення займенника", de: "" },
-      explanation: { uk: "Nicht заперечує присвійний: nicht mein Problem.", de: "Nicht заперечує присвійний: nicht mein Problem." },
+      explanation: { uk: "Nicht заперечує присвійний: nicht mein Problem.", de: "Richtig: nicht." },
+      teacherExplanation: { uk: "Nicht заперечує присвійний: nicht mein Problem. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: nicht." },
       points: 3
     },
     {
@@ -1178,7 +1265,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "keinen"],
       correct: "keine",
       hint: { uk: "Menschen = plural", de: "" },
-      explanation: { uk: "Plural: keine Menschen.", de: "Plural: keine Menschen." },
+      explanation: { uk: "Plural: keine Menschen.", de: "Richtig: keine." },
+      teacherExplanation: { uk: "Plural: keine Menschen. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: keine." },
       points: 3
     },
     {
@@ -1191,7 +1279,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "nicht",
       hint: { uk: "заперечення дієслова", de: "" },
-      explanation: { uk: "Ich verstehe das nicht. (не розумію цього)", de: "Ich verstehe das nicht. (не розумію цього)" },
+      explanation: { uk: "Ich verstehe das nicht. (не розумію цього).", de: "Richtig: nicht." },
+      teacherExplanation: { uk: "Ich verstehe das nicht. (не розумію цього). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: nicht." },
       points: 3
     },
     {
@@ -1204,7 +1293,8 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "keinen"],
       correct: "keine",
       hint: { uk: "Lust (fem.)", de: "Lust (fem.)" },
-      explanation: { uk: "Keine Lust (фемінін).", de: "Keine Lust (фемінін)." },
+      explanation: { uk: "Keine Lust (фемінін).", de: "Richtig: keine. (Lust (fem.))" },
+      teacherExplanation: { uk: "Keine Lust (фемінін). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: keine. (Lust (fem.))" },
       points: 3
     }
   ],
@@ -1221,7 +1311,8 @@ const grammarQuestions = {
       options: ["drei", "vier", "fünf", "sechs"],
       correct: "drei",
       hint: { uk: "1,2,3", de: "" },
-      explanation: { uk: "1–3: eins, zwei, drei.", de: "1–3: eins, zwei, drei." },
+      explanation: { uk: "1–3: eins, zwei, drei.", de: "Richtig: drei." },
+      teacherExplanation: { uk: "1–3: eins, zwei, drei. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: drei." },
       points: 1
     },
     {
@@ -1234,7 +1325,8 @@ const grammarQuestions = {
       options: ["zwölf", "zwanzig", "dreizehn", "neun"],
       correct: "zwölf",
       hint: { uk: "10–12", de: "" },
-      explanation: { uk: "10–12: zehn, elf, zwölf.", de: "10–12: zehn, elf, zwölf." },
+      explanation: { uk: "10–12: zehn, elf, zwölf.", de: "Richtig: zwölf." },
+      teacherExplanation: { uk: "10–12: zehn, elf, zwölf. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: zwölf." },
       points: 1
     },
     {
@@ -1247,7 +1339,8 @@ const grammarQuestions = {
       options: ["bist", "ist", "bin", "sind"],
       correct: "bist",
       hint: { uk: "du + bist", de: "du + bist" },
-      explanation: { uk: "Wie alt bist du?", de: "Wie alt bist du?" },
+      explanation: { uk: "Wie alt bist du?.", de: "Richtig: bist. (du + bist)" },
+      teacherExplanation: { uk: "Wie alt bist du?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: bist. (du + bist)" },
       points: 2
     },
     {
@@ -1260,7 +1353,8 @@ const grammarQuestions = {
       options: ["zwanzig", "zwei", "zweite", "zwanzigste"],
       correct: "zwanzig",
       hint: { uk: "20 = ...", de: "" },
-      explanation: { uk: "20 = zwanzig.", de: "20 = zwanzig." },
+      explanation: { uk: "20 = zwanzig.", de: "Richtig: zwanzig." },
+      teacherExplanation: { uk: "20 = zwanzig. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: zwanzig." },
       points: 2
     },
     {
@@ -1273,7 +1367,8 @@ const grammarQuestions = {
       options: ["fünfzehn", "vierzehn", "sechzehn", "dreizehn"],
       correct: "fünfzehn",
       hint: { uk: "7+8", de: "7+8" },
-      explanation: { uk: "7 + 8 = 15 → fünfzehn.", de: "7 + 8 = 15 → fünfzehn." },
+      explanation: { uk: "7 + 8 = 15 → fünfzehn.", de: "Richtig: fünfzehn. (7+8)" },
+      teacherExplanation: { uk: "7 + 8 = 15 → fünfzehn. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: fünfzehn. (7+8)" },
       points: 2
     },
     {
@@ -1286,7 +1381,8 @@ const grammarQuestions = {
       options: ["drei", "vier", "fünf", "sechs"],
       correct: "drei",
       hint: { uk: "0–3", de: "" },
-      explanation: { uk: "0–3: null, eins, zwei, drei.", de: "0–3: null, eins, zwei, drei." },
+      explanation: { uk: "0–3: null, eins, zwei, drei.", de: "Richtig: drei." },
+      teacherExplanation: { uk: "0–3: null, eins, zwei, drei. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: drei." },
       points: 2
     },
     {
@@ -1299,7 +1395,8 @@ const grammarQuestions = {
       options: ["zwölf", "zwanzig", "zwei", "elf"],
       correct: "zwölf",
       hint: { uk: "12 = ...", de: "" },
-      explanation: { uk: "12 = zwölf.", de: "12 = zwölf." },
+      explanation: { uk: "12 = zwölf.", de: "Richtig: zwölf." },
+      teacherExplanation: { uk: "12 = zwölf. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: zwölf." },
       points: 2
     },
     {
@@ -1312,7 +1409,8 @@ const grammarQuestions = {
       options: ["einundzwanzig", "zwanzigeins", "einszwanzig", "zweieins"],
       correct: "einundzwanzig",
       hint: { uk: "1 і 20", de: "" },
-      explanation: { uk: "21 = ein-und-zwanzig.", de: "21 = ein-und-zwanzig." },
+      explanation: { uk: "21 = ein-und-zwanzig.", de: "Richtig: einundzwanzig." },
+      teacherExplanation: { uk: "21 = ein-und-zwanzig. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: einundzwanzig." },
       points: 3
     },
     {
@@ -1325,7 +1423,8 @@ const grammarQuestions = {
       options: ["fünfunddreißig", "dreißigfünf", "fünfdreißig", "dreiundfünfzig"],
       correct: "fünfunddreißig",
       hint: { uk: "5 і 30", de: "" },
-      explanation: { uk: "35 = fünf-und-dreißig.", de: "35 = fünf-und-dreißig." },
+      explanation: { uk: "35 = fünf-und-dreißig.", de: "Richtig: fünfunddreißig." },
+      teacherExplanation: { uk: "35 = fünf-und-dreißig. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: fünfunddreißig." },
       points: 3
     },
     {
@@ -1338,7 +1437,8 @@ const grammarQuestions = {
       options: ["3", "5", "7", "9"],
       correct: "3",
       hint: { uk: "послідовність", de: "Reihe" },
-      explanation: { uk: "Після 0-1-2 логічно 3.", de: "Після 0-1-2 логічно 3." },
+      explanation: { uk: "Після 0-1-2 логічно 3.", de: "Richtig: 3. (Reihe)" },
+      teacherExplanation: { uk: "Після 0-1-2 логічно 3. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: 3. (Reihe)" },
       points: 3
     }
   ],
@@ -1355,7 +1455,8 @@ const grammarQuestions = {
       options: ["spät", "alt", "viel", "viele"],
       correct: "spät",
       hint: { uk: "Котра година?", de: "Wie spät?" },
-      explanation: { uk: "Wie spät ist es? — Котра година?", de: "Wie spät ist es? — Котра година?" },
+      explanation: { uk: "Wie spät ist es? — Котра година?.", de: "Richtig: spät. (Wie spät?)" },
+      teacherExplanation: { uk: "Wie spät ist es? — Котра година?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: spät. (Wie spät?)" },
       points: 1
     },
     {
@@ -1368,7 +1469,8 @@ const grammarQuestions = {
       options: ["Uhr", "Tag", "Woche", "Jahr"],
       correct: "Uhr",
       hint: { uk: "година", de: "" },
-      explanation: { uk: "Es ist drei Uhr.", de: "Es ist drei Uhr." },
+      explanation: { uk: "Es ist drei Uhr.", de: "Richtig: Uhr." },
+      teacherExplanation: { uk: "Es ist drei Uhr. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Uhr." },
       points: 1
     },
     {
@@ -1381,7 +1483,8 @@ const grammarQuestions = {
       options: ["um", "am", "im", "zu"],
       correct: "um",
       hint: { uk: "точний час", de: "um … Uhr" },
-      explanation: { uk: "Um + Uhrzeit: um 7 Uhr.", de: "Um + Uhrzeit: um 7 Uhr." },
+      explanation: { uk: "Um + Uhrzeit: um 7 Uhr.", de: "Richtig: um. (um … Uhr)" },
+      teacherExplanation: { uk: "Um + Uhrzeit: um 7 Uhr. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: um. (um … Uhr)" },
       points: 2
     },
     {
@@ -1394,7 +1497,8 @@ const grammarQuestions = {
       options: ["Am", "Um", "Im", "Zu"],
       correct: "Am",
       hint: { uk: "частина дня", de: "am Morgen/Abend" },
-      explanation: { uk: "Am Morgen = вранці.", de: "Am Morgen = вранці." },
+      explanation: { uk: "Am Morgen = вранці.", de: "Richtig: Am. (am Morgen/Abend)" },
+      teacherExplanation: { uk: "Am Morgen = вранці. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Am. (am Morgen/Abend)" },
       points: 2
     },
     {
@@ -1407,7 +1511,8 @@ const grammarQuestions = {
       options: ["Im", "Am", "Um", "Zu"],
       correct: "Im",
       hint: { uk: "пора року", de: "im Sommer/Winter" },
-      explanation: { uk: "Im Sommer = влітку.", de: "Im Sommer = влітку." },
+      explanation: { uk: "Im Sommer = влітку.", de: "Richtig: Im. (im Sommer/Winter)" },
+      teacherExplanation: { uk: "Im Sommer = влітку. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Im. (im Sommer/Winter)" },
       points: 2
     },
     {
@@ -1420,7 +1525,8 @@ const grammarQuestions = {
       options: ["Montag", "Sonntag", "Freitag", "Dienst"],
       correct: "Montag",
       hint: { uk: "день тижня", de: "Wochentag" },
-      explanation: { uk: "Montag = понеділок.", de: "Montag = понеділок." },
+      explanation: { uk: "Montag = понеділок.", de: "Richtig: Montag. (Wochentag)" },
+      teacherExplanation: { uk: "Montag = понеділок. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Montag. (Wochentag)" },
       points: 2
     },
     {
@@ -1433,7 +1539,8 @@ const grammarQuestions = {
       options: ["Dienstag", "Sonntag", "Samstag", "Freitag"],
       correct: "Dienstag",
       hint: { uk: "послідовність", de: "Reihe" },
-      explanation: { uk: "Після Montag йде Dienstag.", de: "Після Montag йде Dienstag." },
+      explanation: { uk: "Після Montag йде Dienstag.", de: "Richtig: Dienstag. (Reihe)" },
+      teacherExplanation: { uk: "Після Montag йде Dienstag. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Dienstag. (Reihe)" },
       points: 2
     },
     {
@@ -1446,7 +1553,8 @@ const grammarQuestions = {
       options: ["am", "um", "im", "zu"],
       correct: "am",
       hint: { uk: "am Abend", de: "am Abend" },
-      explanation: { uk: "Am Abend = ввечері.", de: "Am Abend = ввечері." },
+      explanation: { uk: "Am Abend = ввечері.", de: "Richtig: am. (am Abend)" },
+      teacherExplanation: { uk: "Am Abend = ввечері. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: am. (am Abend)" },
       points: 3
     },
     {
@@ -1459,7 +1567,8 @@ const grammarQuestions = {
       options: ["um", "am", "im", "zu"],
       correct: "um",
       hint: { uk: "точний час", de: "um … Uhr" },
-      explanation: { uk: "Um 18:00 = о 18:00.", de: "Um 18:00 = о 18:00." },
+      explanation: { uk: "Um 18:00 = о 18:00.", de: "Richtig: um. (um … Uhr)" },
+      teacherExplanation: { uk: "Um 18:00 = о 18:00. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: um. (um … Uhr)" },
       points: 3
     },
     {
@@ -1472,7 +1581,8 @@ const grammarQuestions = {
       options: ["Am", "Um", "Im", "Zu"],
       correct: "Am",
       hint: { uk: "am Wochenende", de: "am Wochenende" },
-      explanation: { uk: "Am Wochenende = на вихідних.", de: "Am Wochenende = на вихідних." },
+      explanation: { uk: "Am Wochenende = на вихідних.", de: "Richtig: Am. (am Wochenende)" },
+      teacherExplanation: { uk: "Am Wochenende = на вихідних. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Am. (am Wochenende)" },
       points: 3
     },
     {
@@ -1492,7 +1602,8 @@ const grammarQuestions = {
       ],
       correct: "Viertel vor acht",
       hint: { uk: "Годинна стрілка між 7 та 8, хвилинна на 9", de: "" },
-      explanation: { uk: "45 хвилин = Viertel vor наступної години", de: "45 хвилин = Viertel vor наступної години" },
+      explanation: { uk: "45 хвилин = Viertel vor наступної години.", de: "Richtig: Viertel vor acht." },
+      teacherExplanation: { uk: "45 хвилин = Viertel vor наступної години. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Viertel vor acht." },
       points: 2
     },
     {
@@ -1512,7 +1623,8 @@ const grammarQuestions = {
       ],
       correct: "Viertel nach drei",
       hint: { uk: "Годинна стрілка на 3, хвилинна на 3", de: "" },
-      explanation: { uk: "15 хвилин = Viertel nach", de: "15 хвилин = Viertel nach" },
+      explanation: { uk: "15 хвилин = Viertel nach.", de: "Richtig: Viertel nach drei." },
+      teacherExplanation: { uk: "15 хвилин = Viertel nach. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Viertel nach drei." },
       points: 2
     },
     {
@@ -1532,7 +1644,8 @@ const grammarQuestions = {
       ],
       correct: "Halb elf",
       hint: { uk: "Минутна стрілка на 6, годинна між 10 та 11", de: "" },
-      explanation: { uk: "30 хвилин = halb наступної години", de: "30 хвилин = halb наступної години" },
+      explanation: { uk: "30 хвилин = halb наступної години.", de: "Richtig: Halb elf." },
+      teacherExplanation: { uk: "30 хвилин = halb наступної години. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Halb elf." },
       points: 3
     }
   ],
@@ -1549,7 +1662,8 @@ const grammarQuestions = {
       options: ["Mutter", "Vater", "Bruder", "Schwester"],
       correct: "Mutter",
       hint: { uk: "мама", de: "" },
-      explanation: { uk: "Meine Mutter heißt Maria.", de: "Meine Mutter heißt Maria." },
+      explanation: { uk: "Meine Mutter heißt Maria.", de: "Richtig: Mutter." },
+      teacherExplanation: { uk: "Meine Mutter heißt Maria. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Mutter." },
       points: 1
     },
     {
@@ -1562,7 +1676,8 @@ const grammarQuestions = {
       options: ["Vater", "Mütter", "Schwestern", "Eltern"],
       correct: "Vater",
       hint: { uk: "тато", de: "" },
-      explanation: { uk: "Das ist mein Vater.", de: "Das ist mein Vater." },
+      explanation: { uk: "Das ist mein Vater.", de: "Richtig: Vater." },
+      teacherExplanation: { uk: "Das ist mein Vater. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Vater." },
       points: 1
     },
     {
@@ -1575,7 +1690,8 @@ const grammarQuestions = {
       options: ["Brüder", "Bruder", "Schwester", "Schwestern"],
       correct: "Brüder",
       hint: { uk: "множина", de: "" },
-      explanation: { uk: "Zwei → множина: Brüder.", de: "Zwei → множина: Brüder." },
+      explanation: { uk: "Zwei → множина: Brüder.", de: "Richtig: Brüder." },
+      teacherExplanation: { uk: "Zwei → множина: Brüder. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Brüder." },
       points: 2
     },
     {
@@ -1588,7 +1704,8 @@ const grammarQuestions = {
       options: ["Schwester", "Bruder", "Vater", "Mutter"],
       correct: "Schwester",
       hint: { uk: "сестра", de: "" },
-      explanation: { uk: "Meine Schwester ist sieben Jahre alt.", de: "Meine Schwester ist sieben Jahre alt." },
+      explanation: { uk: "Meine Schwester ist sieben Jahre alt.", de: "Richtig: Schwester." },
+      teacherExplanation: { uk: "Meine Schwester ist sieben Jahre alt. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Schwester." },
       points: 2
     },
     {
@@ -1601,7 +1718,8 @@ const grammarQuestions = {
       options: ["Eltern", "Vater", "Mutter", "Bruder"],
       correct: "Eltern",
       hint: { uk: "батьки", de: "" },
-      explanation: { uk: "Das sind meine Eltern.", de: "Das sind meine Eltern." },
+      explanation: { uk: "Das sind meine Eltern.", de: "Richtig: Eltern." },
+      teacherExplanation: { uk: "Das sind meine Eltern. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Eltern." },
       points: 2
     },
     {
@@ -1614,7 +1732,8 @@ const grammarQuestions = {
       options: ["Mutter", "Schwester", "Tochter", "Freundin"],
       correct: "Mutter",
       hint: { uk: "родинні звʼязки", de: "" },
-      explanation: { uk: "Oma = мама твоєї мами/тата.", de: "Oma = мама твоєї мами/тата." },
+      explanation: { uk: "Oma = мама твоєї мами/тата.", de: "Richtig: Mutter." },
+      teacherExplanation: { uk: "Oma = мама твоєї мами/тата. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Mutter." },
       points: 2
     },
     {
@@ -1627,7 +1746,8 @@ const grammarQuestions = {
       options: ["Bruder", "Sohn", "Freund", "Lehrer"],
       correct: "Bruder",
       hint: { uk: "onkel", de: "onkel" },
-      explanation: { uk: "Onkel = брат батька/матері.", de: "Onkel = брат батька/матері." },
+      explanation: { uk: "Onkel = брат батька/матері.", de: "Richtig: Bruder. (onkel)" },
+      teacherExplanation: { uk: "Onkel = брат батька/матері. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Bruder. (onkel)" },
       points: 2
     },
     {
@@ -1640,7 +1760,8 @@ const grammarQuestions = {
       options: ["Freundin", "Freund", "Bruder", "Vater"],
       correct: "Freundin",
       hint: { uk: "female partner", de: "female partner" },
-      explanation: { uk: "Freundin = дівчина/подруга (жіноча форма).", de: "Freundin = дівчина/подруга (жіноча форма)." },
+      explanation: { uk: "Freundin = дівчина/подруга (жіноча форма).", de: "Richtig: Freundin. (female partner)" },
+      teacherExplanation: { uk: "Freundin = дівчина/подруга (жіноча форма). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Freundin. (female partner)" },
       points: 3
     },
     {
@@ -1653,7 +1774,8 @@ const grammarQuestions = {
       options: ["unsere", "unser", "meine", "meinen"],
       correct: "unsere",
       hint: { uk: "Großeltern = plural", de: "" },
-      explanation: { uk: "Plural: unsere Großeltern.", de: "Plural: unsere Großeltern." },
+      explanation: { uk: "Plural: unsere Großeltern.", de: "Richtig: unsere." },
+      teacherExplanation: { uk: "Plural: unsere Großeltern. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: unsere." },
       points: 3
     },
     {
@@ -1666,7 +1788,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Kind = neutrum", de: "das Kind" },
-      explanation: { uk: "Kind (das) → ein Kind.", de: "Kind (das) → ein Kind." },
+      explanation: { uk: "Kind (das) → ein Kind.", de: "Richtig: ein. (das Kind)" },
+      teacherExplanation: { uk: "Kind (das) → ein Kind. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ein. (das Kind)" },
       points: 3
     }
   ],
@@ -1683,7 +1806,8 @@ const grammarQuestions = {
       options: ["Wasser", "Milch", "Saft", "Tee"],
       correct: "Wasser",
       hint: { uk: "найпростіше слово", de: "" },
-      explanation: { uk: "Trinken → напої. Wasser = вода.", de: "Trinken → напої. Wasser = вода." },
+      explanation: { uk: "Trinken → напої. Wasser = вода.", de: "Richtig: Wasser." },
+      teacherExplanation: { uk: "Trinken → напої. Wasser = вода. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wasser." },
       points: 1
     },
     {
@@ -1696,7 +1820,8 @@ const grammarQuestions = {
       options: ["Brot", "Wasser", "Tee", "Milch"],
       correct: "Brot",
       hint: { uk: "їжа", de: "" },
-      explanation: { uk: "Essen → їжа. Brot = хліб.", de: "Essen → їжа. Brot = хліб." },
+      explanation: { uk: "Essen → їжа. Brot = хліб.", de: "Richtig: Brot." },
+      teacherExplanation: { uk: "Essen → їжа. Brot = хліб. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Brot." },
       points: 1
     },
     {
@@ -1709,7 +1834,8 @@ const grammarQuestions = {
       options: ["Tee", "gehen", "wohnen", "sehen"],
       correct: "Tee",
       hint: { uk: "питання в кафе", de: "" },
-      explanation: { uk: "Möchtest du Tee? — Хочеш чаю?", de: "Möchtest du Tee? — Хочеш чаю?" },
+      explanation: { uk: "Möchtest du Tee? — Хочеш чаю?.", de: "Richtig: Tee." },
+      teacherExplanation: { uk: "Möchtest du Tee? — Хочеш чаю?. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Tee." },
       points: 2
     },
     {
@@ -1722,7 +1848,8 @@ const grammarQuestions = {
       options: ["schmeckt", "geht", "liest", "fliegt"],
       correct: "schmeckt",
       hint: { uk: "про смак", de: "" },
-      explanation: { uk: "Schmecken = смакувати: Das Essen schmeckt gut.", de: "Schmecken = смакувати: Das Essen schmeckt gut." },
+      explanation: { uk: "Schmecken = смакувати: Das Essen schmeckt gut.", de: "Richtig: schmeckt." },
+      teacherExplanation: { uk: "Schmecken = смакувати: Das Essen schmeckt gut. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: schmeckt." },
       points: 2
     },
     {
@@ -1735,7 +1862,8 @@ const grammarQuestions = {
       options: ["einen", "ein", "eine", "einem"],
       correct: "einen",
       hint: { uk: "Apfel (mask.) Akk", de: "Apfel (mask.) Akk" },
-      explanation: { uk: "Akk mask.: einen Apfel.", de: "Akk mask.: einen Apfel." },
+      explanation: { uk: "Akk mask.: einen Apfel.", de: "Richtig: einen. (Apfel (mask.) Akk)" },
+      teacherExplanation: { uk: "Akk mask.: einen Apfel. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: einen. (Apfel (mask.) Akk)" },
       points: 2
     },
     {
@@ -1748,7 +1876,8 @@ const grammarQuestions = {
       options: ["einen", "ein", "eine", "einem"],
       correct: "einen",
       hint: { uk: "Kaffee (mask.)", de: "Kaffee (mask.)" },
-      explanation: { uk: "Ich hätte gern einen Kaffee. (ввічливо)", de: "Ich hätte gern einen Kaffee. (ввічливо)" },
+      explanation: { uk: "Ich hätte gern einen Kaffee. (ввічливо).", de: "Richtig: einen. (Kaffee (mask.))" },
+      teacherExplanation: { uk: "Ich hätte gern einen Kaffee. (ввічливо). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: einen. (Kaffee (mask.))" },
       points: 2
     },
     {
@@ -1761,7 +1890,8 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Brot = neutrum", de: "das Brot" },
-      explanation: { uk: "Ein Brot (neutrum).", de: "Ein Brot (neutrum)." },
+      explanation: { uk: "Ein Brot (neutrum).", de: "Richtig: ein. (das Brot)" },
+      teacherExplanation: { uk: "Ein Brot (neutrum). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: ein. (das Brot)" },
       points: 2
     },
     {
@@ -1774,7 +1904,8 @@ const grammarQuestions = {
       options: ["das", "den", "die", "dem"],
       correct: "das",
       hint: { uk: "Salz = das", de: "das Salz" },
-      explanation: { uk: "Das Salz (neutrum).", de: "Das Salz (neutrum)." },
+      explanation: { uk: "Das Salz (neutrum).", de: "Richtig: das. (das Salz)" },
+      teacherExplanation: { uk: "Das Salz (neutrum). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: das. (das Salz)" },
       points: 3
     },
     {
@@ -1787,7 +1918,8 @@ const grammarQuestions = {
       options: ["den", "das", "die", "der"],
       correct: "den",
       hint: { uk: "Akk mask.", de: "Akk mask." },
-      explanation: { uk: "Ich esse den Käse. (Käse часто маск.)", de: "Ich esse den Käse. (Käse часто маск.)" },
+      explanation: { uk: "Ich esse den Käse. (Käse часто маск.).", de: "Richtig: den. (Akk mask.)" },
+      teacherExplanation: { uk: "Ich esse den Käse. (Käse часто маск.). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: den. (Akk mask.)" },
       points: 3
     },
     {
@@ -1800,7 +1932,8 @@ const grammarQuestions = {
       options: ["Tee", "gehen", "lesen", "schnell"],
       correct: "Tee",
       hint: { uk: "альтернатива напою", de: "" },
-      explanation: { uk: "Sondern = а навпаки: ... sondern Tee.", de: "Sondern = а навпаки: ... sondern Tee." },
+      explanation: { uk: "Sondern = а навпаки: ... sondern Tee.", de: "Richtig: Tee." },
+      teacherExplanation: { uk: "Sondern = а навпаки: ... sondern Tee. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Tee." },
       points: 3
     }
   ],
@@ -1817,7 +1950,8 @@ const grammarQuestions = {
       options: ["blau", "grün", "rot", "schwarz"],
       correct: "blau",
       hint: { uk: "небо", de: "" },
-      explanation: { uk: "Der Himmel ist blau.", de: "Der Himmel ist blau." },
+      explanation: { uk: "Der Himmel ist blau.", de: "Richtig: blau." },
+      teacherExplanation: { uk: "Der Himmel ist blau. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: blau." },
       points: 1
     },
     {
@@ -1830,7 +1964,8 @@ const grammarQuestions = {
       options: ["gelb", "blau", "schwarz", "grün"],
       correct: "gelb",
       hint: { uk: "сонце", de: "" },
-      explanation: { uk: "Die Sonne ist gelb.", de: "Die Sonne ist gelb." },
+      explanation: { uk: "Die Sonne ist gelb.", de: "Richtig: gelb." },
+      teacherExplanation: { uk: "Die Sonne ist gelb. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: gelb." },
       points: 1
     },
     {
@@ -1843,7 +1978,8 @@ const grammarQuestions = {
       options: ["grün", "rot", "blau", "weiß"],
       correct: "grün",
       hint: { uk: "трава", de: "" },
-      explanation: { uk: "Das Gras ist grün.", de: "Das Gras ist grün." },
+      explanation: { uk: "Das Gras ist grün.", de: "Richtig: grün." },
+      teacherExplanation: { uk: "Das Gras ist grün. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: grün." },
       points: 2
     },
     {
@@ -1856,7 +1992,8 @@ const grammarQuestions = {
       options: ["weiß", "schwarz", "rot", "blau"],
       correct: "weiß",
       hint: { uk: "сніг", de: "" },
-      explanation: { uk: "Schnee ist weiß.", de: "Schnee ist weiß." },
+      explanation: { uk: "Schnee ist weiß.", de: "Richtig: weiß." },
+      teacherExplanation: { uk: "Schnee ist weiß. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: weiß." },
       points: 2
     },
     {
@@ -1869,7 +2006,8 @@ const grammarQuestions = {
       options: ["schwarz", "weiß", "gelb", "grün"],
       correct: "schwarz",
       hint: { uk: "ніч", de: "" },
-      explanation: { uk: "Die Nacht ist schwarz.", de: "Die Nacht ist schwarz." },
+      explanation: { uk: "Die Nacht ist schwarz.", de: "Richtig: schwarz." },
+      teacherExplanation: { uk: "Die Nacht ist schwarz. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: schwarz." },
       points: 2
     },
     {
@@ -1882,7 +2020,8 @@ const grammarQuestions = {
       options: ["weiß", "laufen", "sieben", "heute"],
       correct: "weiß",
       hint: { uk: "колір", de: "" },
-      explanation: { uk: "Weiß = білий.", de: "Weiß = білий." },
+      explanation: { uk: "Weiß = білий.", de: "Richtig: weiß." },
+      teacherExplanation: { uk: "Weiß = білий. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: weiß." },
       points: 2
     },
     {
@@ -1895,7 +2034,8 @@ const grammarQuestions = {
       options: ["rot", "blau", "weiß", "schwarz"],
       correct: "rot",
       hint: { uk: "яблуко", de: "" },
-      explanation: { uk: "Der Apfel ist rot. (часто так кажуть)", de: "Der Apfel ist rot. (часто так кажуть)" },
+      explanation: { uk: "Der Apfel ist rot. (часто так кажуть).", de: "Richtig: rot." },
+      teacherExplanation: { uk: "Der Apfel ist rot. (часто так кажуть). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: rot." },
       points: 2
     },
     {
@@ -1908,7 +2048,8 @@ const grammarQuestions = {
       options: ["grün", "grüne", "Grün", "grünen"],
       correct: "Grün",
       hint: { uk: "як іменник", de: "" },
-      explanation: { uk: "Коли колір як іменник → з великої: das Grün / Grün.", de: "Коли колір як іменник → з великої: das Grün / Grün." },
+      explanation: { uk: "Коли колір як іменник → з великої: das Grün / Grün.", de: "Richtig: Grün." },
+      teacherExplanation: { uk: "Коли колір як іменник → з великої: das Grün / Grün. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Grün." },
       points: 3
     },
     {
@@ -1921,7 +2062,8 @@ const grammarQuestions = {
       options: ["grau", "grün", "braun", "lila"],
       correct: "grau",
       hint: { uk: "сірий", de: "" },
-      explanation: { uk: "Grau = сірий.", de: "Grau = сірий." },
+      explanation: { uk: "Grau = сірий.", de: "Richtig: grau." },
+      teacherExplanation: { uk: "Grau = сірий. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: grau." },
       points: 3
     },
     {
@@ -1934,7 +2076,8 @@ const grammarQuestions = {
       options: ["lila", "blau", "gelb", "weiß"],
       correct: "lila",
       hint: { uk: "violett/lila", de: "violett/lila" },
-      explanation: { uk: "Lila = фіолетовий (розмовно).", de: "Lila = фіолетовий (розмовно)." },
+      explanation: { uk: "Lila = фіолетовий (розмовно).", de: "Richtig: lila. (violett/lila)" },
+      teacherExplanation: { uk: "Lila = фіолетовий (розмовно). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: lila. (violett/lila)" },
       points: 3
     }
   ],
@@ -1951,7 +2094,8 @@ const grammarQuestions = {
       options: ["Haus", "Auto", "Buch", "Baum"],
       correct: "Haus",
       hint: { uk: "де живуть", de: "" },
-      explanation: { uk: "Ich wohne in einem Haus.", de: "Ich wohne in einem Haus." },
+      explanation: { uk: "Ich wohne in einem Haus.", de: "Richtig: Haus." },
+      teacherExplanation: { uk: "Ich wohne in einem Haus. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Haus." },
       points: 1
     },
     {
@@ -1964,7 +2108,8 @@ const grammarQuestions = {
       options: ["Zimmer", "Küche", "Bad", "Balkon"],
       correct: "Zimmer",
       hint: { uk: "кімната", de: "" },
-      explanation: { uk: "Im Zimmer (кімната).", de: "Im Zimmer (кімната)." },
+      explanation: { uk: "Im Zimmer (кімната).", de: "Richtig: Zimmer." },
+      teacherExplanation: { uk: "Im Zimmer (кімната). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Zimmer." },
       points: 1
     },
     {
@@ -1977,7 +2122,8 @@ const grammarQuestions = {
       options: ["Tisch", "Hund", "Himmel", "Film"],
       correct: "Tisch",
       hint: { uk: "меблі", de: "" },
-      explanation: { uk: "Правильно: Der Tisch steht in der Küche.", de: "Правильно: Der Tisch steht in der Küche." },
+      explanation: { uk: "Правильно: Der Tisch steht in der Küche.", de: "Richtig: Tisch." },
+      teacherExplanation: { uk: "Правильно: Der Tisch steht in der Küche. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Tisch." },
       points: 2
     },
     {
@@ -1990,7 +2136,8 @@ const grammarQuestions = {
       options: ["Waschbecken", "Tisch", "Auto", "Brot"],
       correct: "Waschbecken",
       hint: { uk: "ванна", de: "" },
-      explanation: { uk: "Das Waschbecken ist im Bad.", de: "Das Waschbecken ist im Bad." },
+      explanation: { uk: "Das Waschbecken ist im Bad.", de: "Richtig: Waschbecken." },
+      teacherExplanation: { uk: "Das Waschbecken ist im Bad. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Waschbecken." },
       points: 2
     },
     {
@@ -2003,7 +2150,8 @@ const grammarQuestions = {
       options: ["Wohnzimmer", "Keller", "Bad", "Schlafzimmer"],
       correct: "Wohnzimmer",
       hint: { uk: "вітальня", de: "" },
-      explanation: { uk: "Wir essen im Wohnzimmer.", de: "Wir essen im Wohnzimmer." },
+      explanation: { uk: "Wir essen im Wohnzimmer.", de: "Richtig: Wohnzimmer." },
+      teacherExplanation: { uk: "Wir essen im Wohnzimmer. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wohnzimmer." },
       points: 2
     },
     {
@@ -2016,7 +2164,8 @@ const grammarQuestions = {
       options: ["Decke", "Tür", "Wand", "Straße"],
       correct: "Decke",
       hint: { uk: "стеля", de: "" },
-      explanation: { uk: "Decke = стеля/ковдра (тут стеля).", de: "Decke = стеля/ковдра (тут стеля)." },
+      explanation: { uk: "Decke = стеля/ковдра (тут стеля).", de: "Richtig: Decke." },
+      teacherExplanation: { uk: "Decke = стеля/ковдра (тут стеля). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Decke." },
       points: 2
     },
     {
@@ -2029,7 +2178,8 @@ const grammarQuestions = {
       options: ["Fenster", "Tisch", "Bett", "Schrank"],
       correct: "Fenster",
       hint: { uk: "відкрити", de: "" },
-      explanation: { uk: "Fenster aufmachen = відкрити вікно.", de: "Fenster aufmachen = відкрити вікно." },
+      explanation: { uk: "Fenster aufmachen = відкрити вікно.", de: "Richtig: Fenster." },
+      teacherExplanation: { uk: "Fenster aufmachen = відкрити вікно. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Fenster." },
       points: 2
     },
     {
@@ -2042,7 +2192,8 @@ const grammarQuestions = {
       options: ["auf dem", "in dem", "unter dem", "an dem"],
       correct: "auf dem",
       hint: { uk: "auf = на", de: "" },
-      explanation: { uk: "Auf dem Tisch = на столі.", de: "Auf dem Tisch = на столі." },
+      explanation: { uk: "Auf dem Tisch = на столі.", de: "Richtig: auf dem." },
+      teacherExplanation: { uk: "Auf dem Tisch = на столі. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: auf dem." },
       points: 3
     },
     {
@@ -2055,7 +2206,8 @@ const grammarQuestions = {
       options: ["in der", "auf der", "unter der", "an der"],
       correct: "in der",
       hint: { uk: "in = в", de: "" },
-      explanation: { uk: "In der Tasche = в сумці.", de: "In der Tasche = в сумці." },
+      explanation: { uk: "In der Tasche = в сумці.", de: "Richtig: in der." },
+      teacherExplanation: { uk: "In der Tasche = в сумці. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: in der." },
       points: 3
     },
     {
@@ -2068,7 +2220,8 @@ const grammarQuestions = {
       options: ["an der", "in der", "auf der", "unter der"],
       correct: "an der",
       hint: { uk: "an = біля/при", de: "" },
-      explanation: { uk: "An der Wand = біля стіни/при стіні.", de: "An der Wand = біля стіни/при стіні." },
+      explanation: { uk: "An der Wand = біля стіни/при стіні.", de: "Richtig: an der." },
+      teacherExplanation: { uk: "An der Wand = біля стіни/при стіні. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: an der." },
       points: 3
     }
   ],
@@ -2085,7 +2238,8 @@ const grammarQuestions = {
       options: ["Hund", "Katze", "Maus", "Vogel"],
       correct: "Hund",
       hint: { uk: "звук", de: "" },
-      explanation: { uk: "Der Hund bellt. (собака гавкає)", de: "Der Hund bellt. (собака гавкає)" },
+      explanation: { uk: "Der Hund bellt. (собака гавкає).", de: "Richtig: Hund." },
+      teacherExplanation: { uk: "Der Hund bellt. (собака гавкає). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Hund." },
       points: 1
     },
     {
@@ -2098,7 +2252,8 @@ const grammarQuestions = {
       options: ["Katze", "Hund", "Pferd", "Vogel"],
       correct: "Katze",
       hint: { uk: "звук", de: "" },
-      explanation: { uk: "Die Katze miaut. (кішка нявкає)", de: "Die Katze miaut. (кішка нявкає)" },
+      explanation: { uk: "Die Katze miaut. (кішка нявкає).", de: "Richtig: Katze." },
+      teacherExplanation: { uk: "Die Katze miaut. (кішка нявкає). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Katze." },
       points: 1
     },
     {
@@ -2111,7 +2266,8 @@ const grammarQuestions = {
       options: ["Vogel", "Fisch", "Pferd", "Hund"],
       correct: "Vogel",
       hint: { uk: "літає", de: "" },
-      explanation: { uk: "Правильно: Der Vogel fliegt.", de: "Правильно: Der Vogel fliegt." },
+      explanation: { uk: "Правильно: Der Vogel fliegt.", de: "Richtig: Vogel." },
+      teacherExplanation: { uk: "Правильно: Der Vogel fliegt. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Vogel." },
       points: 2
     },
     {
@@ -2124,7 +2280,8 @@ const grammarQuestions = {
       options: ["Fisch", "Hund", "Kuh", "Hase"],
       correct: "Fisch",
       hint: { uk: "плаває", de: "" },
-      explanation: { uk: "Der Fisch schwimmt.", de: "Der Fisch schwimmt." },
+      explanation: { uk: "Der Fisch schwimmt.", de: "Richtig: Fisch." },
+      teacherExplanation: { uk: "Der Fisch schwimmt. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Fisch." },
       points: 2
     },
     {
@@ -2137,7 +2294,8 @@ const grammarQuestions = {
       options: ["Pferd", "Buch", "Tisch", "Milch"],
       correct: "Pferd",
       hint: { uk: "тварина", de: "" },
-      explanation: { uk: "Das Pferd läuft schnell.", de: "Das Pferd läuft schnell." },
+      explanation: { uk: "Das Pferd läuft schnell.", de: "Richtig: Pferd." },
+      teacherExplanation: { uk: "Das Pferd läuft schnell. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Pferd." },
       points: 2
     },
     {
@@ -2150,7 +2308,8 @@ const grammarQuestions = {
       options: ["einen", "ein", "eine", "einem"],
       correct: "einen",
       hint: { uk: "Hund (mask.)", de: "Hund (mask.)" },
-      explanation: { uk: "Ich habe einen Hund.", de: "Ich habe einen Hund." },
+      explanation: { uk: "Ich habe einen Hund.", de: "Richtig: einen. (Hund (mask.))" },
+      teacherExplanation: { uk: "Ich habe einen Hund. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: einen. (Hund (mask.))" },
       points: 2
     },
     {
@@ -2163,7 +2322,8 @@ const grammarQuestions = {
       options: ["auf dem", "in dem", "unter dem", "an dem"],
       correct: "auf dem",
       hint: { uk: "на дивані", de: "" },
-      explanation: { uk: "Auf dem Sofa = на дивані.", de: "Auf dem Sofa = на дивані." },
+      explanation: { uk: "Auf dem Sofa = на дивані.", de: "Richtig: auf dem." },
+      teacherExplanation: { uk: "Auf dem Sofa = на дивані. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: auf dem." },
       points: 2
     },
     {
@@ -2176,7 +2336,8 @@ const grammarQuestions = {
       options: ["im", "am", "um", "zu"],
       correct: "im",
       hint: { uk: "всередині місця", de: "" },
-      explanation: { uk: "Im Garten = в саду.", de: "Im Garten = в саду." },
+      explanation: { uk: "Im Garten = в саду.", de: "Richtig: im." },
+      teacherExplanation: { uk: "Im Garten = в саду. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: im." },
       points: 3
     },
     {
@@ -2189,7 +2350,8 @@ const grammarQuestions = {
       options: ["die", "den", "das", "der"],
       correct: "die",
       hint: { uk: "plural Akk", de: "plural Akk" },
-      explanation: { uk: "Plural Akk: die Vögel.", de: "Plural Akk: die Vögel." },
+      explanation: { uk: "Plural Akk: die Vögel.", de: "Richtig: die. (plural Akk)" },
+      teacherExplanation: { uk: "Plural Akk: die Vögel. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: die. (plural Akk)" },
       points: 3
     },
     {
@@ -2202,7 +2364,8 @@ const grammarQuestions = {
       options: ["eine", "ein", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Ente (die)", de: "Ente (die)" },
-      explanation: { uk: "Die Ente → eine Ente.", de: "Die Ente → eine Ente." },
+      explanation: { uk: "Die Ente → eine Ente.", de: "Richtig: eine. (Ente (die))" },
+      teacherExplanation: { uk: "Die Ente → eine Ente. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: eine. (Ente (die))" },
       points: 3
     }
   ],
@@ -2219,7 +2382,8 @@ const grammarQuestions = {
       options: ["Jacke", "Hemd", "Hose", "Schuhe"],
       correct: "Jacke",
       hint: { uk: "одяг", de: "" },
-      explanation: { uk: "Ich trage eine Jacke.", de: "Ich trage eine Jacke." },
+      explanation: { uk: "Ich trage eine Jacke.", de: "Richtig: Jacke." },
+      teacherExplanation: { uk: "Ich trage eine Jacke. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Jacke." },
       points: 1
     },
     {
@@ -2232,7 +2396,8 @@ const grammarQuestions = {
       options: ["Hemd", "Jacke", "Hose", "Schuhe"],
       correct: "Hemd",
       hint: { uk: "ein + neutrum", de: "ein + neutrum" },
-      explanation: { uk: "Das Hemd → ein Hemd.", de: "Das Hemd → ein Hemd." },
+      explanation: { uk: "Das Hemd → ein Hemd.", de: "Richtig: Hemd. (ein + neutrum)" },
+      teacherExplanation: { uk: "Das Hemd → ein Hemd. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Hemd. (ein + neutrum)" },
       points: 1
     },
     {
@@ -2245,7 +2410,8 @@ const grammarQuestions = {
       options: ["blau", "laufen", "lesen", "heute"],
       correct: "blau",
       hint: { uk: "колір", de: "" },
-      explanation: { uk: "Das T-Shirt ist blau.", de: "Das T-Shirt ist blau." },
+      explanation: { uk: "Das T-Shirt ist blau.", de: "Richtig: blau." },
+      teacherExplanation: { uk: "Das T-Shirt ist blau. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: blau." },
       points: 2
     },
     {
@@ -2258,7 +2424,8 @@ const grammarQuestions = {
       options: ["Hose", "Jacke", "Kleid", "Schuhe"],
       correct: "Hose",
       hint: { uk: "штани", de: "" },
-      explanation: { uk: "Er trägt eine Hose.", de: "Er trägt eine Hose." },
+      explanation: { uk: "Er trägt eine Hose.", de: "Richtig: Hose." },
+      teacherExplanation: { uk: "Er trägt eine Hose. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Hose." },
       points: 2
     },
     {
@@ -2271,7 +2438,8 @@ const grammarQuestions = {
       options: ["Kleid", "Hose", "Jacke", "Schuhe"],
       correct: "Kleid",
       hint: { uk: "сукня", de: "" },
-      explanation: { uk: "Sie trägt ein Kleid.", de: "Sie trägt ein Kleid." },
+      explanation: { uk: "Sie trägt ein Kleid.", de: "Richtig: Kleid." },
+      teacherExplanation: { uk: "Sie trägt ein Kleid. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Kleid." },
       points: 2
     },
     {
@@ -2284,7 +2452,8 @@ const grammarQuestions = {
       options: ["Schuhe", "Hose", "Jacke", "Hemd"],
       correct: "Schuhe",
       hint: { uk: "plural", de: "plural" },
-      explanation: { uk: "Die Schuhe sind neu.", de: "Die Schuhe sind neu." },
+      explanation: { uk: "Die Schuhe sind neu.", de: "Richtig: Schuhe. (plural)" },
+      teacherExplanation: { uk: "Die Schuhe sind neu. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Schuhe. (plural)" },
       points: 2
     },
     {
@@ -2297,7 +2466,8 @@ const grammarQuestions = {
       options: ["eine", "ein", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Jacke (die)", de: "Jacke (die)" },
-      explanation: { uk: "Akk fem.: eine Jacke.", de: "Akk fem.: eine Jacke." },
+      explanation: { uk: "Akk fem.: eine Jacke.", de: "Richtig: eine. (Jacke (die))" },
+      teacherExplanation: { uk: "Akk fem.: eine Jacke. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: eine. (Jacke (die))" },
       points: 2
     },
     {
@@ -2310,7 +2480,8 @@ const grammarQuestions = {
       options: ["den", "das", "die", "dem"],
       correct: "den",
       hint: { uk: "Mantel = mask", de: "" },
-      explanation: { uk: "Akk mask.: den Mantel.", de: "Akk mask.: den Mantel." },
+      explanation: { uk: "Akk mask.: den Mantel.", de: "Richtig: den." },
+      teacherExplanation: { uk: "Akk mask.: den Mantel. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: den." },
       points: 3
     },
     {
@@ -2323,7 +2494,8 @@ const grammarQuestions = {
       options: ["keine", "kein", "nicht", "keinen"],
       correct: "keine",
       hint: { uk: "plural", de: "plural" },
-      explanation: { uk: "Plural: keine Schuhe.", de: "Plural: keine Schuhe." },
+      explanation: { uk: "Plural: keine Schuhe.", de: "Richtig: keine. (plural)" },
+      teacherExplanation: { uk: "Plural: keine Schuhe. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: keine. (plural)" },
       points: 3
     },
     {
@@ -2336,7 +2508,8 @@ const grammarQuestions = {
       options: ["auf dem", "in dem", "unter dem", "an dem"],
       correct: "auf dem",
       hint: { uk: "на стільці", de: "" },
-      explanation: { uk: "Auf dem Stuhl = на стільці.", de: "Auf dem Stuhl = на стільці." },
+      explanation: { uk: "Auf dem Stuhl = на стільці.", de: "Richtig: auf dem." },
+      teacherExplanation: { uk: "Auf dem Stuhl = на стільці. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: auf dem." },
       points: 3
     }
   ],
@@ -2353,7 +2526,8 @@ const grammarQuestions = {
       options: ["scheint", "regnet", "schneit", "stürmt"],
       correct: "scheint",
       hint: { uk: "сонце", de: "" },
-      explanation: { uk: "Heute scheint die Sonne.", de: "Heute scheint die Sonne." },
+      explanation: { uk: "Heute scheint die Sonne.", de: "Richtig: scheint." },
+      teacherExplanation: { uk: "Heute scheint die Sonne. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: scheint." },
       points: 1
     },
     {
@@ -2366,7 +2540,8 @@ const grammarQuestions = {
       options: ["scheint", "regnet", "sonnig", "warm"],
       correct: "regnet",
       hint: { uk: "дощ", de: "" },
-      explanation: { uk: "Es regnet.", de: "Es regnet." },
+      explanation: { uk: "Es regnet.", de: "Richtig: regnet." },
+      teacherExplanation: { uk: "Es regnet. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: regnet." },
       points: 1
     },
     {
@@ -2379,7 +2554,8 @@ const grammarQuestions = {
       options: ["regnet", "scheint", "schneit", "warm"],
       correct: "schneit",
       hint: { uk: "зима", de: "" },
-      explanation: { uk: "Im Winter schneit es.", de: "Im Winter schneit es." },
+      explanation: { uk: "Im Winter schneit es.", de: "Richtig: schneit." },
+      teacherExplanation: { uk: "Im Winter schneit es. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: schneit." },
       points: 2
     },
     {
@@ -2392,7 +2568,8 @@ const grammarQuestions = {
       options: ["kalt", "Sonne", "Regen", "schneit"],
       correct: "kalt",
       hint: { uk: "температура", de: "" },
-      explanation: { uk: "Es ist sehr kalt.", de: "Es ist sehr kalt." },
+      explanation: { uk: "Es ist sehr kalt.", de: "Richtig: kalt." },
+      teacherExplanation: { uk: "Es ist sehr kalt. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: kalt." },
       points: 2
     },
     {
@@ -2405,7 +2582,8 @@ const grammarQuestions = {
       options: ["kalt", "warm", "Wetter", "schneit"],
       correct: "Wetter",
       hint: { uk: "погода", de: "" },
-      explanation: { uk: "Das Wetter ist gut.", de: "Das Wetter ist gut." },
+      explanation: { uk: "Das Wetter ist gut.", de: "Richtig: Wetter." },
+      teacherExplanation: { uk: "Das Wetter ist gut. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Wetter." },
       points: 2
     },
     {
@@ -2418,7 +2596,8 @@ const grammarQuestions = {
       options: ["sonnig", "windig", "nass", "kühl"],
       correct: "sonnig",
       hint: { uk: "сонце", de: "" },
-      explanation: { uk: "Sonnig = сонячно.", de: "Sonnig = сонячно." },
+      explanation: { uk: "Sonnig = сонячно.", de: "Richtig: sonnig." },
+      teacherExplanation: { uk: "Sonnig = сонячно. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: sonnig." },
       points: 2
     },
     {
@@ -2431,7 +2610,8 @@ const grammarQuestions = {
       options: ["windig", "sonnig", "heißt", "grün"],
       correct: "windig",
       hint: { uk: "вітер", de: "" },
-      explanation: { uk: "Windig = вітряно.", de: "Windig = вітряно." },
+      explanation: { uk: "Windig = вітряно.", de: "Richtig: windig." },
+      teacherExplanation: { uk: "Windig = вітряно. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: windig." },
       points: 2
     },
     {
@@ -2444,7 +2624,8 @@ const grammarQuestions = {
       options: ["warm", "kalt", "schwarz", "spät"],
       correct: "warm",
       hint: { uk: "прогноз", de: "" },
-      explanation: { uk: "Warm = тепло.", de: "Warm = тепло." },
+      explanation: { uk: "Warm = тепло.", de: "Richtig: warm." },
+      teacherExplanation: { uk: "Warm = тепло. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: warm." },
       points: 3
     },
     {
@@ -2457,7 +2638,8 @@ const grammarQuestions = {
       options: ["kälter", "kalt", "kalte", "kälteste"],
       correct: "kälter",
       hint: { uk: "порівняння", de: "" },
-      explanation: { uk: "Порівняння: kalt → kälter.", de: "Порівняння: kalt → kälter." },
+      explanation: { uk: "Порівняння: kalt → kälter.", de: "Richtig: kälter." },
+      teacherExplanation: { uk: "Порівняння: kalt → kälter. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: kälter." },
       points: 3
     },
     {
@@ -2470,7 +2652,8 @@ const grammarQuestions = {
       options: ["Regenschirm", "Schlüssel", "Teller", "Stift"],
       correct: "Regenschirm",
       hint: { uk: "дощ", de: "" },
-      explanation: { uk: "Regenschirm = парасолька.", de: "Regenschirm = парасолька." },
+      explanation: { uk: "Regenschirm = парасолька.", de: "Richtig: Regenschirm." },
+      teacherExplanation: { uk: "Regenschirm = парасолька. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Regenschirm." },
       points: 3
     }
   ],
@@ -2487,7 +2670,8 @@ const grammarQuestions = {
       options: ["spiele", "lese", "sehe", "höre"],
       correct: "spiele",
       hint: { uk: "ich + -e", de: "ich + -e" },
-      explanation: { uk: "Ich spiele ...", de: "Ich spiele ..." },
+      explanation: { uk: "Ich spiele ...", de: "Richtig: spiele. (ich + -e)" },
+      teacherExplanation: { uk: "Ich spiele ... Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: spiele. (ich + -e)" },
       points: 1
     },
     {
@@ -2500,7 +2684,8 @@ const grammarQuestions = {
       options: ["spielt", "hört", "sieht", "liest"],
       correct: "hört",
       hint: { uk: "sie (вона) + -t", de: "" },
-      explanation: { uk: "Sie hört Musik.", de: "Sie hört Musik." },
+      explanation: { uk: "Sie hört Musik.", de: "Richtig: hört." },
+      teacherExplanation: { uk: "Sie hört Musik. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: hört." },
       points: 1
     },
     {
@@ -2513,7 +2698,8 @@ const grammarQuestions = {
       options: ["spielt", "hört", "sieht", "liest"],
       correct: "liest",
       hint: { uk: "er + -t", de: "er + -t" },
-      explanation: { uk: "Er liest ein Buch.", de: "Er liest ein Buch." },
+      explanation: { uk: "Er liest ein Buch.", de: "Richtig: liest. (er + -t)" },
+      teacherExplanation: { uk: "Er liest ein Buch. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: liest. (er + -t)" },
       points: 2
     },
     {
@@ -2526,7 +2712,8 @@ const grammarQuestions = {
       options: ["spielen", "sehen", "lesen", "hören"],
       correct: "sehen",
       hint: { uk: "wir = infinitiv", de: "" },
-      explanation: { uk: "Wir sehen fern.", de: "Wir sehen fern." },
+      explanation: { uk: "Wir sehen fern.", de: "Richtig: sehen." },
+      teacherExplanation: { uk: "Wir sehen fern. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: sehen." },
       points: 2
     },
     {
@@ -2539,7 +2726,8 @@ const grammarQuestions = {
       options: ["spiele", "spielst", "spielt", "spielen"],
       correct: "spiele",
       hint: { uk: "ich", de: "ich" },
-      explanation: { uk: "Я: ich spiele.", de: "Я: ich spiele." },
+      explanation: { uk: "Я: ich spiele.", de: "Richtig: spiele. (ich)" },
+      teacherExplanation: { uk: "Я: ich spiele. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: spiele. (ich)" },
       points: 2
     },
     {
@@ -2552,7 +2740,8 @@ const grammarQuestions = {
       options: ["gehe", "geht", "gehen", "gehst"],
       correct: "gehe",
       hint: { uk: "ich + gehe", de: "ich + gehe" },
-      explanation: { uk: "Ich gehe schwimmen.", de: "Ich gehe schwimmen." },
+      explanation: { uk: "Ich gehe schwimmen.", de: "Richtig: gehe. (ich + gehe)" },
+      teacherExplanation: { uk: "Ich gehe schwimmen. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: gehe. (ich + gehe)" },
       points: 2
     },
     {
@@ -2565,7 +2754,8 @@ const grammarQuestions = {
       options: ["macht", "mache", "machst", "machen"],
       correct: "macht",
       hint: { uk: "er + -t", de: "er + -t" },
-      explanation: { uk: "Er macht Fitness.", de: "Er macht Fitness." },
+      explanation: { uk: "Er macht Fitness.", de: "Richtig: macht. (er + -t)" },
+      teacherExplanation: { uk: "Er macht Fitness. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: macht. (er + -t)" },
       points: 2
     },
     {
@@ -2578,7 +2768,8 @@ const grammarQuestions = {
       options: ["starten", "starte", "startet", "startest"],
       correct: "starten",
       hint: { uk: "wir", de: "wir" },
-      explanation: { uk: "Wir starten heute ein Spiel.", de: "Wir starten heute ein Spiel." },
+      explanation: { uk: "Wir starten heute ein Spiel.", de: "Richtig: starten. (wir)" },
+      teacherExplanation: { uk: "Wir starten heute ein Spiel. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: starten. (wir)" },
       points: 3
     },
     {
@@ -2591,7 +2782,8 @@ const grammarQuestions = {
       options: ["schaue", "schaut", "schaust", "schauen"],
       correct: "schaue",
       hint: { uk: "ich + -e", de: "ich + -e" },
-      explanation: { uk: "Ich schaue gern ...", de: "Ich schaue gern ..." },
+      explanation: { uk: "Ich schaue gern ...", de: "Richtig: schaue. (ich + -e)" },
+      teacherExplanation: { uk: "Ich schaue gern ... Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: schaue. (ich + -e)" },
       points: 3
     },
     {
@@ -2604,7 +2796,8 @@ const grammarQuestions = {
       options: ["spielt", "spiele", "spielen", "spielst"],
       correct: "spielt",
       hint: { uk: "ihr + -t", de: "ihr + -t" },
-      explanation: { uk: "Ihr spielt ...", de: "Ihr spielt ..." },
+      explanation: { uk: "Ihr spielt ...", de: "Richtig: spielt. (ihr + -t)" },
+      teacherExplanation: { uk: "Ihr spielt ... Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: spielt. (ihr + -t)" },
       points: 3
     }
   ],
@@ -2621,7 +2814,8 @@ const grammarQuestions = {
       options: ["Stadt", "Dorf", "Haus", "Buch"],
       correct: "Stadt",
       hint: { uk: "місто", de: "" },
-      explanation: { uk: "In einer Stadt = у місті.", de: "In einer Stadt = у місті." },
+      explanation: { uk: "In einer Stadt = у місті.", de: "Richtig: Stadt." },
+      teacherExplanation: { uk: "In einer Stadt = у місті. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Stadt." },
       points: 1
     },
     {
@@ -2634,7 +2828,8 @@ const grammarQuestions = {
       options: ["Park", "Haus", "Auto", "Buch"],
       correct: "Park",
       hint: { uk: "місце", de: "" },
-      explanation: { uk: "Da ist ein Park. (Там парк)", de: "Da ist ein Park. (Там парк)" },
+      explanation: { uk: "Da ist ein Park. (Там парк).", de: "Richtig: Park." },
+      teacherExplanation: { uk: "Da ist ein Park. (Там парк). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Park." },
       points: 1
     },
     {
@@ -2647,7 +2842,8 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Der",
       hint: { uk: "Bus = maskulin", de: "der Bus" },
-      explanation: { uk: "Правильно: Der Bus fährt ...", de: "Правильно: Der Bus fährt ..." },
+      explanation: { uk: "Правильно: Der Bus fährt ...", de: "Richtig: Der. (der Bus)" },
+      teacherExplanation: { uk: "Правильно: Der Bus fährt ... Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Der. (der Bus)" },
       points: 2
     },
     {
@@ -2660,7 +2856,8 @@ const grammarQuestions = {
       options: ["Park", "Supermarkt", "Schule", "Haus"],
       correct: "Supermarkt",
       hint: { uk: "магазин", de: "" },
-      explanation: { uk: "Im Supermarkt einkaufen = купувати в супермаркеті.", de: "Im Supermarkt einkaufen = купувати в супермаркеті." },
+      explanation: { uk: "Im Supermarkt einkaufen = купувати в супермаркеті.", de: "Richtig: Supermarkt." },
+      teacherExplanation: { uk: "Im Supermarkt einkaufen = купувати в супермаркеті. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Supermarkt." },
       points: 2
     },
     {
@@ -2673,7 +2870,8 @@ const grammarQuestions = {
       options: ["Geschäft", "Haus", "Auto", "Buch"],
       correct: "Geschäft",
       hint: { uk: "shop", de: "shop" },
-      explanation: { uk: "Das Geschäft ist groß.", de: "Das Geschäft ist groß." },
+      explanation: { uk: "Das Geschäft ist groß.", de: "Richtig: Geschäft. (shop)" },
+      teacherExplanation: { uk: "Das Geschäft ist groß. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: Geschäft. (shop)" },
       points: 2
     },
     {
@@ -2686,7 +2884,8 @@ const grammarQuestions = {
       options: ["der", "die", "das", "den"],
       correct: "der",
       hint: { uk: "mit + Dativ", de: "mit der/mit dem" },
-      explanation: { uk: "Mit + Dativ: mit der U-Bahn.", de: "Mit + Dativ: mit der U-Bahn." },
+      explanation: { uk: "Mit + Dativ: mit der U-Bahn.", de: "Richtig: der. (mit der/mit dem)" },
+      teacherExplanation: { uk: "Mit + Dativ: mit der U-Bahn. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: der. (mit der/mit dem)" },
       points: 2
     },
     {
@@ -2699,7 +2898,8 @@ const grammarQuestions = {
       options: ["zum", "zur", "in den", "im"],
       correct: "zum",
       hint: { uk: "Bahnhof = der", de: "" },
-      explanation: { uk: "Zu + Dativ: zum Bahnhof (zu dem).", de: "Zu + Dativ: zum Bahnhof (zu dem)." },
+      explanation: { uk: "Zu + Dativ: zum Bahnhof (zu dem).", de: "Richtig: zum." },
+      teacherExplanation: { uk: "Zu + Dativ: zum Bahnhof (zu dem). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: zum." },
       points: 2
     },
     {
@@ -2712,7 +2912,8 @@ const grammarQuestions = {
       options: ["die", "der", "das", "den"],
       correct: "die",
       hint: { uk: "Bäckerei = feminin", de: "die Bäckerei" },
-      explanation: { uk: "Die Bäckerei (fem.) → die nächste Bäckerei.", de: "Die Bäckerei (fem.) → die nächste Bäckerei." },
+      explanation: { uk: "Die Bäckerei (fem.) → die nächste Bäckerei.", de: "Richtig: die. (die Bäckerei)" },
+      teacherExplanation: { uk: "Die Bäckerei (fem.) → die nächste Bäckerei. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: die. (die Bäckerei)" },
       points: 3
     },
     {
@@ -2725,7 +2926,8 @@ const grammarQuestions = {
       options: ["in den", "im", "auf den", "an den"],
       correct: "in den",
       hint: { uk: "einsteigen in + Akk", de: "in den Bus einsteigen" },
-      explanation: { uk: "Einsteigen: in den Bus (Akk).", de: "Einsteigen: in den Bus (Akk)." },
+      explanation: { uk: "Einsteigen: in den Bus (Akk).", de: "Richtig: in den. (in den Bus einsteigen)" },
+      teacherExplanation: { uk: "Einsteigen: in den Bus (Akk). Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: in den. (in den Bus einsteigen)" },
       points: 3
     },
     {
@@ -2738,7 +2940,8 @@ const grammarQuestions = {
       options: ["am", "im", "um", "zu"],
       correct: "am",
       hint: { uk: "am = an dem", de: "am …" },
-      explanation: { uk: "Am Hauptbahnhof = біля головного вокзалу.", de: "Am Hauptbahnhof = біля головного вокзалу." },
+      explanation: { uk: "Am Hauptbahnhof = біля головного вокзалу.", de: "Richtig: am. (am …)" },
+      teacherExplanation: { uk: "Am Hauptbahnhof = біля головного вокзалу. Поясни правило на прикладі цього речення і попроси учнів проговорити вголос правильну форму.", de: "Richtig: am. (am …)" },
       points: 3
     }
   ]
