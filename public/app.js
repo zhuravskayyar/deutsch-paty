@@ -74,6 +74,17 @@
       feedbackIncorrectPrefix: "❌ Неправильно.",
       explanationPrefix: "Правильна відповідь:"
       ,
+      // index
+      subtitle: "Мультиплеєрна вікторина німецької",
+      selectRole: "ВИБЕРІТЬ РОЛЬ",
+      selectRoleSub: "Приєднуйтесь до гри або створіть власну кімнату",
+      iAmHost: "🎭 Я — Хост",
+      iAmPlayer: "🎮 Я — Гравець",
+      clockQuestion: "Котра година?",
+      selectLanguage: "Оберіть мову",
+      chooseInterfaceLanguage: "Виберіть мову інтерфейсу",
+      ukrainian: "Українська",
+      german: "Deutsch",
       // player UI
       joinTitle: "Вхід у кімнату",
       joinDesc: "Введи код і нік. Потім натисни “Готовий”.",
@@ -121,6 +132,17 @@
       feedbackIncorrectPrefix: "❌ Falsch.",
       explanationPrefix: "Richtige Antwort:"
       ,
+      // index
+      subtitle: "Mehrspielerviktory Deutsch",
+      selectRole: "ROLLE WÄHLEN",
+      selectRoleSub: "Trete einem Spiel bei oder erstelle deinen eigenen Raum",
+      iAmHost: "🎭 Ich bin Host",
+      iAmPlayer: "🎮 Ich bin Spieler",
+      clockQuestion: "Wie spät ist es?",
+      selectLanguage: "Sprache wählen",
+      chooseInterfaceLanguage: "Wähle die Schnittstellensprache",
+      ukrainian: "Ukrainisch",
+      german: "Deutsch",
       // player UI
       joinTitle: "Raum beitreten",
       joinDesc: "Gib den Code und deinen Namen ein. Danach auf „Bereit“ klicken.",
@@ -146,6 +168,32 @@
     return "";
   }
 
+  // ===== LANG SYSTEM =====
+  const LANG = {
+    current: 'uk'
+  };
+
+  function setLanguage(lang) {
+    LANG.current = lang;
+    localStorage.setItem('dp_lang', lang);
+    applyLanguage(lang);
+    renderDynamicTexts();
+  }
+
+  function t(key) {
+    return I18N[LANG.current]?.[key] ?? key;
+  }
+
+  function getLocalizedField(field) {
+    if (!field) return "";
+    if (typeof field === "string") return field;
+    return field[LANG.current] || "";
+  }
+
+  function renderDynamicTexts() {
+    // TODO: update any dynamic texts not covered by data-i18n
+  }
+
   function applyLanguage(lang) {
     const dict = I18N[lang] || I18N.uk;
     document.documentElement.lang = lang;
@@ -160,10 +208,10 @@
 
   // Expose and auto-apply language for player UI
   try {
-    window.applyLanguage = applyLanguage;
+    window.setLanguage = setLanguage;
     const savedLang = (function(){ try { return localStorage.getItem('dp_lang'); } catch(e){ return null; }})();
     const browserLang = (navigator.language || (navigator.userLanguage || '')).startsWith('de') ? 'de' : 'uk';
-    applyLanguage(savedLang || browserLang);
+    setLanguage(savedLang || browserLang);
   } catch(e) {}
   
   // Вимкнення всіх сервіс-воркерів (тимчасово, для дебагу)
@@ -1449,8 +1497,8 @@ function hostStartRoundDefault() {
     } else {
       const lang = document.documentElement.lang || 'uk';
       const t =
-        resolveLocalizedText(state.currentQuestion?.hint, lang) ||
-        resolveLocalizedText(state.currentQuestion?.explanation, lang);
+        getLocalizedField(state.currentQuestion?.hint) ||
+        getLocalizedField(state.currentQuestion?.explanation);
 
       showHint(t);
     }
@@ -1899,8 +1947,8 @@ function hostStartRoundDefault() {
     if (note) {
       const lang = document.documentElement.lang || "uk";
       const hintText =
-        resolveLocalizedText(q.hint, lang) ||
-        resolveLocalizedText(q.explanation, lang);
+        getLocalizedField(q.hint) ||
+        getLocalizedField(q.explanation);
 
       note.textContent = hintText;
     }
@@ -1916,7 +1964,7 @@ function hostStartRoundDefault() {
       if (q.clock) {
         const clockHtml = `
           <div class="clock-wrap" id="clockWidget">
-            <div class="clock-title">Wie spät ist es?</div>
+            <div class="clock-title" data-i18n="clockQuestion"></div>
             <div class="clock-card">
               <svg id="analogClock" viewBox="0 0 200 200" class="clock">
                 <circle cx="100" cy="100" r="92" class="clock-face"/>
@@ -2114,7 +2162,7 @@ function hostStartRoundDefault() {
     // 1) якщо мова вже збережена — застосувати і прибрати екран вибору
     let saved = null;
     try { saved = localStorage.getItem('dp_lang'); } catch {}
-    if (saved) applyLanguage(saved);
+    if (saved) setLanguage(saved);
 
     if (!screenLang) return;
 
@@ -2129,7 +2177,7 @@ function hostStartRoundDefault() {
     screenLang.querySelectorAll('button[data-lang]').forEach(btn => {
       btn.addEventListener('click', () => {
         const lang = btn.dataset.lang || 'uk';
-        applyLanguage(lang);
+        setLanguage(lang);
 
         // ✅ прибираємо весь екран (кнопки зникли)
         screenLang.remove();

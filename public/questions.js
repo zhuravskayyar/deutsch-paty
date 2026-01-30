@@ -15,7 +15,7 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "seid"],
       correct: "bin",
       hint: { uk: "Ich + sein", de: "Ich bin …" },
-      explanation: "З ich використовується форма дієслова sein: ich bin.",
+      explanation: { uk: "З ich використовується форма дієслова sein: ich bin.", de: "З ich використовується форма дієслова sein: ich bin." },
       points: 1
     },
     {
@@ -28,7 +28,7 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "sind"],
       correct: "bist",
       hint: { uk: "Du + sein", de: "Du bist …" },
-      explanation: "З du використовується bist: du bist.",
+      explanation: { uk: "З du використовується bist: du bist.", de: "З du використовується bist: du bist." },
       points: 1
     },
     {
@@ -41,7 +41,7 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "sind"],
       correct: "ist",
       hint: { uk: "Er/Sie/Es + sein", de: "Er/Sie/Es ist …" },
-      explanation: "З er/sie/es використовується ist.",
+      explanation: { uk: "З er/sie/es використовується ist.", de: "З er/sie/es використовується ist." },
       points: 1
     },
     {
@@ -54,7 +54,7 @@ const grammarQuestions = {
       options: ["bin", "seid", "sind", "ist"],
       correct: "sind",
       hint: { uk: "Wir + sein", de: "Wir sind …" },
-      explanation: "З wir використовується sind: wir sind.",
+      explanation: { uk: "З wir використовується sind: wir sind.", de: "З wir використовується sind: wir sind." },
       points: 1
     },
     {
@@ -67,7 +67,7 @@ const grammarQuestions = {
       options: ["seid", "sind", "ist", "bist"],
       correct: "seid",
       hint: { uk: "Ihr + sein", de: "Ihr seid …" },
-      explanation: "З ihr використовується seid: ihr seid.",
+      explanation: { uk: "З ihr використовується seid: ihr seid.", de: "З ihr використовується seid: ihr seid." },
       points: 1
     },
     {
@@ -80,7 +80,7 @@ const grammarQuestions = {
       options: ["bin", "bist", "sind", "seid"],
       correct: "sind",
       hint: { uk: "sie (вони) = plural", de: "Sie (Plural) sind …" },
-      explanation: "Sie (вони) = sind.",
+      explanation: { uk: "Sie (вони) = sind.", de: "Sie (вони) = sind." },
       points: 2
     },
     {
@@ -93,7 +93,7 @@ const grammarQuestions = {
       options: ["bist", "sind", "seid", "ist"],
       correct: "sind",
       hint: { uk: "Sie (Ви) = як plural", de: "" },
-      explanation: "Формальне Sie вживається як множина: Sie sind.",
+      explanation: { uk: "Формальне Sie вживається як множина: Sie sind.", de: "Формальне Sie вживається як множина: Sie sind." },
       points: 2
     },
     {
@@ -106,7 +106,7 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "seid"],
       correct: "bin",
       hint: { uk: "„nicht“ після дієслова", de: "" },
-      explanation: "Ich bin nicht sicher. Дієслово на 2-му місці.",
+      explanation: { uk: "Ich bin nicht sicher. Дієслово на 2-му місці.", de: "Ich bin nicht sicher. Дієслово на 2-му місці." },
       points: 2
     },
     {
@@ -119,7 +119,7 @@ const grammarQuestions = {
       options: ["bin", "bist", "ist", "sind"],
       correct: "bist",
       hint: { uk: "Питання: дієслово на 1-му місці", de: "" },
-      explanation: "У питанні дієслово стоїть першим: Wo bist du?",
+      explanation: { uk: "У питанні дієслово стоїть першим: Wo bist du?", de: "У питанні дієслово стоїть першим: Wo bist du?" },
       points: 3
     },
     {
@@ -132,7 +132,7 @@ const grammarQuestions = {
       options: ["sind", "seid", "bin", "ist"],
       correct: "sind",
       hint: { uk: "Heute (обставина) + V2", de: "" },
-      explanation: "Коли речення починається з Heute, дієслово все одно друге: Heute sind wir ...",
+      explanation: { uk: "Коли речення починається з Heute, дієслово все одно друге: Heute sind wir ...", de: "Коли речення починається з Heute, дієслово все одно друге: Heute sind wir ..." },
       points: 3
     }
   ],
@@ -149,7 +149,7 @@ const grammarQuestions = {
       options: ["habe", "hast", "hat", "haben"],
       correct: "habe",
       hint: { uk: "Ich + haben", de: "Ich + haben" },
-      explanation: "З ich: ich habe.",
+      explanation: { uk: "З ich: ich habe.", de: "З ich: ich habe." },
       points: 1
     },
     {
@@ -162,7 +162,7 @@ const grammarQuestions = {
       options: ["habe", "hast", "hat", "habt"],
       correct: "hast",
       hint: { uk: "Du + haben", de: "Du + haben" },
-      explanation: "З du: du hast.",
+      explanation: { uk: "З du: du hast.", de: "З du: du hast." },
       points: 1
     },
     {
@@ -175,7 +175,7 @@ const grammarQuestions = {
       options: ["habe", "hast", "hat", "haben"],
       correct: "hat",
       hint: { uk: "Er/Sie/Es + haben", de: "Er/Sie/Es + haben" },
-      explanation: "З er/sie/es: hat.",
+      explanation: { uk: "З er/sie/es: hat.", de: "З er/sie/es: hat." },
       points: 1
     },
     {
@@ -188,7 +188,7 @@ const grammarQuestions = {
       options: ["habe", "habt", "haben", "hat"],
       correct: "haben",
       hint: { uk: "Wir + haben", de: "Wir + haben" },
-      explanation: "З wir: wir haben.",
+      explanation: { uk: "З wir: wir haben.", de: "З wir: wir haben." },
       points: 1
     },
     {
@@ -201,7 +201,7 @@ const grammarQuestions = {
       options: ["habt", "haben", "hat", "hast"],
       correct: "habt",
       hint: { uk: "Ihr + haben", de: "Ihr + haben" },
-      explanation: "З ihr: ihr habt.",
+      explanation: { uk: "З ihr: ihr habt.", de: "З ihr: ihr habt." },
       points: 1
     },
     {
@@ -214,7 +214,7 @@ const grammarQuestions = {
       options: ["habt", "haben", "hat", "hast"],
       correct: "haben",
       hint: { uk: "sie (вони) = plural", de: "Sie (Plural) sind …" },
-      explanation: "Sie (вони) = haben.",
+      explanation: { uk: "Sie (вони) = haben.", de: "Sie (вони) = haben." },
       points: 2
     },
     {
@@ -227,7 +227,7 @@ const grammarQuestions = {
       options: ["haben", "hat", "hast", "habt"],
       correct: "haben",
       hint: { uk: "Sie (Ви) як plural", de: "" },
-      explanation: "Формальне Sie: Sie haben.",
+      explanation: { uk: "Формальне Sie: Sie haben.", de: "Формальне Sie: Sie haben." },
       points: 2
     },
     {
@@ -240,7 +240,7 @@ const grammarQuestions = {
       options: ["Habe", "Hast", "Hat", "Habt"],
       correct: "Hast",
       hint: { uk: "Питання: дієслово перше", de: "" },
-      explanation: "Hast du ...? — у питанні дієслово на 1-му місці.",
+      explanation: { uk: "Hast du ...? — у питанні дієслово на 1-му місці.", de: "Hast du ...? — у питанні дієслово на 1-му місці." },
       points: 2
     },
     {
@@ -253,7 +253,7 @@ const grammarQuestions = {
       options: ["habe", "hat", "haben", "hast"],
       correct: "habe",
       hint: { uk: "haben", de: "haben" },
-      explanation: "Heute habe ich ... (дієслово друге).",
+      explanation: { uk: "Heute habe ich ... (дієслово друге).", de: "Heute habe ich ... (дієслово друге)." },
       points: 3
     },
     {
@@ -266,7 +266,7 @@ const grammarQuestions = {
       options: ["habt", "haben", "hat", "hast"],
       correct: "haben",
       hint: { uk: "wir + haben", de: "wir + haben" },
-      explanation: "Wir haben ...",
+      explanation: { uk: "Wir haben ...", de: "Wir haben ..." },
       points: 3
     }
   ],
@@ -283,7 +283,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Der",
       hint: { uk: "Hund = maskulin", de: "der Hund" },
-      explanation: "У Nominativ: der Hund.",
+      explanation: { uk: "У Nominativ: der Hund.", de: "У Nominativ: der Hund." },
       points: 1
     },
     {
@@ -296,7 +296,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Die",
       hint: { uk: "Katze = feminin", de: "die Katze" },
-      explanation: "У Nominativ: die Katze.",
+      explanation: { uk: "У Nominativ: die Katze.", de: "У Nominativ: die Katze." },
       points: 1
     },
     {
@@ -309,7 +309,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Dem"],
       correct: "Das",
       hint: { uk: "Haus = neutrum", de: "das Haus" },
-      explanation: "У Nominativ: das Haus.",
+      explanation: { uk: "У Nominativ: das Haus.", de: "У Nominativ: das Haus." },
       points: 1
     },
     {
@@ -322,7 +322,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Die",
       hint: { uk: "Kinder = plural", de: "" },
-      explanation: "У Nominativ plural: die Kinder.",
+      explanation: { uk: "У Nominativ plural: die Kinder.", de: "У Nominativ plural: die Kinder." },
       points: 1
     },
     {
@@ -335,7 +335,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Der",
       hint: { uk: "Tisch = maskulin", de: "der Tisch" },
-      explanation: "Правильно: der Tisch.",
+      explanation: { uk: "Правильно: der Tisch.", de: "Правильно: der Tisch." },
       points: 2
     },
     {
@@ -348,7 +348,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Dem"],
       correct: "Das",
       hint: { uk: "Buch = neutrum", de: "das Buch" },
-      explanation: "Правильно: das Buch.",
+      explanation: { uk: "Правильно: das Buch.", de: "Правильно: das Buch." },
       points: 2
     },
     {
@@ -361,7 +361,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Die",
       hint: { uk: "Sonne = feminin", de: "die Sonne" },
-      explanation: "Правильно: die Sonne.",
+      explanation: { uk: "Правильно: die Sonne.", de: "Правильно: die Sonne." },
       points: 2
     },
     {
@@ -374,7 +374,7 @@ const grammarQuestions = {
       options: ["Das / die", "Die / das", "Der / die", "Das / der"],
       correct: "Das / die",
       hint: { uk: "Wetter (das), Stimmung (die)", de: "" },
-      explanation: "Das Wetter, die Stimmung.",
+      explanation: { uk: "Das Wetter, die Stimmung.", de: "Das Wetter, die Stimmung." },
       points: 2
     },
     {
@@ -387,7 +387,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Das",
       hint: { uk: "Mädchen = neutrum ( -chen )", de: "" },
-      explanation: "Зменшувальні на -chen/-lein завжди das: das Mädchen.",
+      explanation: { uk: "Зменшувальні на -chen/-lein завжди das: das Mädchen.", de: "Зменшувальні на -chen/-lein завжди das: das Mädchen." },
       points: 3
     },
     {
@@ -400,7 +400,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Die",
       hint: { uk: "Leute = plural", de: "" },
-      explanation: "Die Leute (множина).",
+      explanation: { uk: "Die Leute (множина).", de: "Die Leute (множина)." },
       points: 3
     }
   ],
@@ -417,7 +417,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Hund (mask.)", de: "Hund (mask.)" },
-      explanation: "Nominativ maskulin: ein Hund.",
+      explanation: { uk: "Nominativ maskulin: ein Hund.", de: "Nominativ maskulin: ein Hund." },
       points: 1
     },
     {
@@ -430,7 +430,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Katze (fem.)", de: "Katze (fem.)" },
-      explanation: "Nominativ feminin: eine Katze.",
+      explanation: { uk: "Nominativ feminin: eine Katze.", de: "Nominativ feminin: eine Katze." },
       points: 1
     },
     {
@@ -443,7 +443,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Haus (neut.)", de: "Haus (neut.)" },
-      explanation: "Nominativ neutrum: ein Haus.",
+      explanation: { uk: "Nominativ neutrum: ein Haus.", de: "Nominativ neutrum: ein Haus." },
       points: 1
     },
     {
@@ -456,7 +456,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Idee (fem.)", de: "Idee (fem.)" },
-      explanation: "Eine Idee (fem.).",
+      explanation: { uk: "Eine Idee (fem.).", de: "Eine Idee (fem.)." },
       points: 2
     },
     {
@@ -469,7 +469,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Lehrer (mask.)", de: "Lehrer (mask.)" },
-      explanation: "Ein Lehrer (mask.).",
+      explanation: { uk: "Ein Lehrer (mask.).", de: "Ein Lehrer (mask.)." },
       points: 2
     },
     {
@@ -482,7 +482,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Studentin (fem.)", de: "Studentin (fem.)" },
-      explanation: "Eine Studentin (fem.).",
+      explanation: { uk: "Eine Studentin (fem.).", de: "Eine Studentin (fem.)." },
       points: 2
     },
     {
@@ -495,7 +495,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Mädchen = neutrum", de: "das Mädchen" },
-      explanation: "Das Mädchen → ein Mädchen (neutrum).",
+      explanation: { uk: "Das Mädchen → ein Mädchen (neutrum).", de: "Das Mädchen → ein Mädchen (neutrum)." },
       points: 3
     },
     {
@@ -508,7 +508,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "einen",
       hint: { uk: "Accusativ maskulin", de: "einen/den …" },
-      explanation: "Після brauchen часто Akkusativ: einen Stift.",
+      explanation: { uk: "Після brauchen часто Akkusativ: einen Stift.", de: "Після brauchen часто Akkusativ: einen Stift." },
       points: 3
     },
     {
@@ -521,7 +521,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Brot = neutrum (Akk=ein)", de: "" },
-      explanation: "Neutrum у Akkusativ = як Nominativ: ein Brot.",
+      explanation: { uk: "Neutrum у Akkusativ = як Nominativ: ein Brot.", de: "Neutrum у Akkusativ = як Nominativ: ein Brot." },
       points: 3
     },
     {
@@ -534,7 +534,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Akkusativ feminin = eine", de: "" },
-      explanation: "Feminin у Akkusativ не змінюється: eine Frau.",
+      explanation: { uk: "Feminin у Akkusativ не змінюється: eine Frau.", de: "Feminin у Akkusativ не змінюється: eine Frau." },
       points: 3
     }
   ],
@@ -551,7 +551,7 @@ const grammarQuestions = {
       options: ["der", "den", "dem", "die"],
       correct: "den",
       hint: { uk: "Akkusativ mask.: den", de: "" },
-      explanation: "Akkusativ maskulin: den Hund.",
+      explanation: { uk: "Akkusativ maskulin: den Hund.", de: "Akkusativ maskulin: den Hund." },
       points: 2
     },
     {
@@ -564,7 +564,7 @@ const grammarQuestions = {
       options: ["die", "den", "das", "dem"],
       correct: "die",
       hint: { uk: "Akkusativ fem.: die", de: "" },
-      explanation: "Akkusativ feminin не змінюється: die Katze.",
+      explanation: { uk: "Akkusativ feminin не змінюється: die Katze.", de: "Akkusativ feminin не змінюється: die Katze." },
       points: 2
     },
     {
@@ -577,7 +577,7 @@ const grammarQuestions = {
       options: ["das", "den", "dem", "die"],
       correct: "das",
       hint: { uk: "Akkusativ neut.: das", de: "" },
-      explanation: "Neutrum у Akkusativ: das Haus.",
+      explanation: { uk: "Neutrum у Akkusativ: das Haus.", de: "Neutrum у Akkusativ: das Haus." },
       points: 2
     },
     {
@@ -590,7 +590,7 @@ const grammarQuestions = {
       options: ["der", "den", "das", "die"],
       correct: "den",
       hint: { uk: "Apfel = maskulin", de: "der Apfel" },
-      explanation: "Wir kaufen den Apfel.",
+      explanation: { uk: "Wir kaufen den Apfel.", de: "Wir kaufen den Apfel." },
       points: 2
     },
     {
@@ -603,7 +603,7 @@ const grammarQuestions = {
       options: ["das", "den", "der", "dem"],
       correct: "das",
       hint: { uk: "Buch = neutrum", de: "das Buch" },
-      explanation: "Er liest das Buch.",
+      explanation: { uk: "Er liest das Buch.", de: "Er liest das Buch." },
       points: 2
     },
     {
@@ -616,7 +616,7 @@ const grammarQuestions = {
       options: ["der", "den", "das", "dem"],
       correct: "den",
       hint: { uk: "Schlüssel = maskulin", de: "der Schlüssel" },
-      explanation: "Akkusativ: den Schlüssel.",
+      explanation: { uk: "Akkusativ: den Schlüssel.", de: "Akkusativ: den Schlüssel." },
       points: 3
     },
     {
@@ -629,7 +629,7 @@ const grammarQuestions = {
       options: ["der", "den", "das", "die"],
       correct: "den",
       hint: { uk: "treffen + Akk", de: "treffen + Akk" },
-      explanation: "Treffen → Akkusativ: den Lehrer.",
+      explanation: { uk: "Treffen → Akkusativ: den Lehrer.", de: "Treffen → Akkusativ: den Lehrer." },
       points: 3
     },
     {
@@ -642,7 +642,7 @@ const grammarQuestions = {
       options: ["die", "den", "das", "dem"],
       correct: "die",
       hint: { uk: "Idee (fem.)", de: "Idee (fem.)" },
-      explanation: "Ich finde die Idee gut.",
+      explanation: { uk: "Ich finde die Idee gut.", de: "Ich finde die Idee gut." },
       points: 3
     },
     {
@@ -655,7 +655,7 @@ const grammarQuestions = {
       options: ["der", "die", "das", "den"],
       correct: "die",
       hint: { uk: "Musik = feminin", de: "die Musik" },
-      explanation: "Er hört die Musik.",
+      explanation: { uk: "Er hört die Musik.", de: "Er hört die Musik." },
       points: 3
     },
     {
@@ -668,7 +668,7 @@ const grammarQuestions = {
       options: ["die", "den", "das", "der"],
       correct: "die",
       hint: { uk: "Plural: die (Akk = die)", de: "" },
-      explanation: "Plural у Akkusativ: die Kinder.",
+      explanation: { uk: "Plural у Akkusativ: die Kinder.", de: "Plural у Akkusativ: die Kinder." },
       points: 3
     }
   ],
@@ -685,7 +685,7 @@ const grammarQuestions = {
       options: ["Ich", "Du", "Er", "Sie"],
       correct: "Ich",
       hint: { uk: "Про себе", de: "" },
-      explanation: "Коли говоримо про себе: Ich.",
+      explanation: { uk: "Коли говоримо про себе: Ich.", de: "Коли говоримо про себе: Ich." },
       points: 1
     },
     {
@@ -698,7 +698,7 @@ const grammarQuestions = {
       options: ["Ich", "Du", "Er", "Wir"],
       correct: "Du",
       hint: { uk: "До співрозмовника", de: "" },
-      explanation: "Коли звертаємось до людини: Du.",
+      explanation: { uk: "Коли звертаємось до людини: Du.", de: "Коли звертаємось до людини: Du." },
       points: 1
     },
     {
@@ -711,7 +711,7 @@ const grammarQuestions = {
       options: ["Er", "Sie", "Es", "Wir"],
       correct: "Sie",
       hint: { uk: "Maria = вона", de: "" },
-      explanation: "Для Maria: Sie.",
+      explanation: { uk: "Для Maria: Sie.", de: "Для Maria: Sie." },
       points: 1
     },
     {
@@ -724,7 +724,7 @@ const grammarQuestions = {
       options: ["Er", "Sie", "Es", "Wir"],
       correct: "Es",
       hint: { uk: "Buch = das", de: "das Buch" },
-      explanation: "Buch (das) → es.",
+      explanation: { uk: "Buch (das) → es.", de: "Buch (das) → es." },
       points: 1
     },
     {
@@ -737,7 +737,7 @@ const grammarQuestions = {
       options: ["Er", "Sie", "Wir", "Ihr"],
       correct: "Sie",
       hint: { uk: "вони", de: "" },
-      explanation: "Max und Tom → Sie (вони).",
+      explanation: { uk: "Max und Tom → Sie (вони).", de: "Max und Tom → Sie (вони)." },
       points: 2
     },
     {
@@ -750,7 +750,7 @@ const grammarQuestions = {
       options: ["Wir", "Ihr", "Sie", "Er"],
       correct: "Wir",
       hint: { uk: "ми", de: "" },
-      explanation: "Anna und ich → wir.",
+      explanation: { uk: "Anna und ich → wir.", de: "Anna und ich → wir." },
       points: 2
     },
     {
@@ -763,7 +763,7 @@ const grammarQuestions = {
       options: ["Wir", "Ihr", "Sie", "Er"],
       correct: "Ihr",
       hint: { uk: "ви (множина)", de: "" },
-      explanation: "Du und Tom → ihr.",
+      explanation: { uk: "Du und Tom → ihr.", de: "Du und Tom → ihr." },
       points: 2
     },
     {
@@ -776,7 +776,7 @@ const grammarQuestions = {
       options: ["wer", "wie", "wo", "was"],
       correct: "wer",
       hint: { uk: "Питання про особу", de: "" },
-      explanation: "Wer sind Sie? — Хто ви?",
+      explanation: { uk: "Wer sind Sie? — Хто ви?", de: "Wer sind Sie? — Хто ви?" },
       points: 2
     },
     {
@@ -789,7 +789,7 @@ const grammarQuestions = {
       options: ["ich", "du", "er", "sie"],
       correct: "du",
       hint: { uk: "звертання до співрозмовника", de: "" },
-      explanation: "Kommst du mit? — Ти йдеш з нами?",
+      explanation: { uk: "Kommst du mit? — Ти йдеш з нами?", de: "Kommst du mit? — Ти йдеш з нами?" },
       points: 3
     },
     {
@@ -802,7 +802,7 @@ const grammarQuestions = {
       options: ["ihr", "er", "es", "ich"],
       correct: "ihr",
       hint: { uk: "до групи людей", de: "" },
-      explanation: "Kommt ihr auch? — Ви теж прийдете?",
+      explanation: { uk: "Kommt ihr auch? — Ви теж прийдете?", de: "Kommt ihr auch? — Ви теж прийдете?" },
       points: 3
     }
   ],
@@ -819,7 +819,7 @@ const grammarQuestions = {
       options: ["mache", "ich mache", "machen", "mache ich"],
       correct: "mache",
       hint: { uk: "V2 правило", de: "" },
-      explanation: "У простому реченні дієслово 2-ге: Heute mache ich Sport.",
+      explanation: { uk: "У простому реченні дієслово 2-ге: Heute mache ich Sport.", de: "У простому реченні дієслово 2-ге: Heute mache ich Sport." },
       points: 2
     },
     {
@@ -832,7 +832,7 @@ const grammarQuestions = {
       options: ["trinken", "trinkt", "trinke", "trinkt ihr"],
       correct: "trinken",
       hint: { uk: "wir + trinken", de: "wir + trinken" },
-      explanation: "Am Morgen trinken wir Kaffee.",
+      explanation: { uk: "Am Morgen trinken wir Kaffee.", de: "Am Morgen trinken wir Kaffee." },
       points: 2
     },
     {
@@ -845,7 +845,7 @@ const grammarQuestions = {
       options: ["wohnt", "wohnen", "wohnst", "wohne"],
       correct: "wohnt",
       hint: { uk: "sie (вона) + -t", de: "" },
-      explanation: "In Berlin wohnt sie.",
+      explanation: { uk: "In Berlin wohnt sie.", de: "In Berlin wohnt sie." },
       points: 2
     },
     {
@@ -858,7 +858,7 @@ const grammarQuestions = {
       options: ["habe", "bin", "hat", "haben"],
       correct: "habe",
       hint: { uk: "haben", de: "haben" },
-      explanation: "Morgen habe ich keine Zeit.",
+      explanation: { uk: "Morgen habe ich keine Zeit.", de: "Morgen habe ich keine Zeit." },
       points: 2
     },
     {
@@ -871,7 +871,7 @@ const grammarQuestions = {
       options: ["Gehst", "Du gehst", "Gehst du", "Heute gehst"],
       correct: "Gehst",
       hint: { uk: "Питання: дієслово 1-ше", de: "" },
-      explanation: "У yes/no питанні: Gehst du heute ins Kino?",
+      explanation: { uk: "У yes/no питанні: Gehst du heute ins Kino?", de: "У yes/no питанні: Gehst du heute ins Kino?" },
       points: 3
     },
     {
@@ -884,7 +884,7 @@ const grammarQuestions = {
       options: ["bist", "ist", "sind", "seid"],
       correct: "bist",
       hint: { uk: "du + bist", de: "du + bist" },
-      explanation: "Warum bist du so müde?",
+      explanation: { uk: "Warum bist du so müde?", de: "Warum bist du so müde?" },
       points: 3
     },
     {
@@ -897,7 +897,7 @@ const grammarQuestions = {
       options: ["ist", "sind", "bist", "seid"],
       correct: "ist",
       hint: { uk: "es + ist", de: "es + ist" },
-      explanation: "Heute ist es sehr kalt.",
+      explanation: { uk: "Heute ist es sehr kalt.", de: "Heute ist es sehr kalt." },
       points: 3
     },
     {
@@ -910,7 +910,7 @@ const grammarQuestions = {
       options: ["gehe", "geht", "gehen", "gehst"],
       correct: "gehe",
       hint: { uk: "ich + gehe", de: "ich + gehe" },
-      explanation: "Nach der Schule gehe ich nach Hause.",
+      explanation: { uk: "Nach der Schule gehe ich nach Hause.", de: "Nach der Schule gehe ich nach Hause." },
       points: 3
     },
     {
@@ -923,7 +923,7 @@ const grammarQuestions = {
       options: ["spielen", "spielt", "spielst", "spiele"],
       correct: "spielen",
       hint: { uk: "Kinder = plural", de: "" },
-      explanation: "Im Park spielen die Kinder.",
+      explanation: { uk: "Im Park spielen die Kinder.", de: "Im Park spielen die Kinder." },
       points: 3
     },
     {
@@ -936,7 +936,7 @@ const grammarQuestions = {
       options: ["treffen", "trifft", "treffe", "trefft"],
       correct: "treffen",
       hint: { uk: "wir + treffen", de: "wir + treffen" },
-      explanation: "Am Wochenende treffen wir oft Freunde.",
+      explanation: { uk: "Am Wochenende treffen wir oft Freunde.", de: "Am Wochenende treffen wir oft Freunde." },
       points: 3
     }
   ],
@@ -953,7 +953,7 @@ const grammarQuestions = {
       options: ["Wo", "Wie", "Wer", "Was"],
       correct: "Wie",
       hint: { uk: "Як тебе звати?", de: "Name?" },
-      explanation: "Wie heißt du? — Як тебе звати?",
+      explanation: { uk: "Wie heißt du? — Як тебе звати?", de: "Wie heißt du? — Як тебе звати?" },
       points: 1
     },
     {
@@ -966,7 +966,7 @@ const grammarQuestions = {
       options: ["Woher", "Warum", "Wann", "Wieviel"],
       correct: "Woher",
       hint: { uk: "Звідки?", de: "Herkunft?" },
-      explanation: "Woher kommst du? — Звідки ти?",
+      explanation: { uk: "Woher kommst du? — Звідки ти?", de: "Woher kommst du? — Звідки ти?" },
       points: 1
     },
     {
@@ -979,7 +979,7 @@ const grammarQuestions = {
       options: ["Wie", "Wo", "Was", "Wer"],
       correct: "Wo",
       hint: { uk: "Де?", de: "Ort?" },
-      explanation: "Wo wohnst du? — Де ти живеш?",
+      explanation: { uk: "Wo wohnst du? — Де ти живеш?", de: "Wo wohnst du? — Де ти живеш?" },
       points: 2
     },
     {
@@ -992,7 +992,7 @@ const grammarQuestions = {
       options: ["Was", "Wer", "Wie", "Wann"],
       correct: "Was",
       hint: { uk: "Що це?", de: "Was ist das?" },
-      explanation: "Was ist das? — Що це?",
+      explanation: { uk: "Was ist das? — Що це?", de: "Was ist das? — Що це?" },
       points: 2
     },
     {
@@ -1005,7 +1005,7 @@ const grammarQuestions = {
       options: ["Wer", "Wo", "Wie", "Was"],
       correct: "Wer",
       hint: { uk: "Хто?", de: "Person?" },
-      explanation: "Wer kommt heute? — Хто прийде сьогодні?",
+      explanation: { uk: "Wer kommt heute? — Хто прийде сьогодні?", de: "Wer kommt heute? — Хто прийде сьогодні?" },
       points: 2
     },
     {
@@ -1018,7 +1018,7 @@ const grammarQuestions = {
       options: ["Wann", "Was", "Wo", "Wer"],
       correct: "Wann",
       hint: { uk: "Коли?", de: "" },
-      explanation: "Wann beginnt der Film? — Коли починається фільм?",
+      explanation: { uk: "Wann beginnt der Film? — Коли починається фільм?", de: "Wann beginnt der Film? — Коли починається фільм?" },
       points: 2
     },
     {
@@ -1031,7 +1031,7 @@ const grammarQuestions = {
       options: ["Warum", "Wann", "Wie", "Woher"],
       correct: "Warum",
       hint: { uk: "Чому?", de: "" },
-      explanation: "Warum bist du heute zu spät? — Чому ти сьогодні запізнився?",
+      explanation: { uk: "Warum bist du heute zu spät? — Чому ти сьогодні запізнився?", de: "Warum bist du heute zu spät? — Чому ти сьогодні запізнився?" },
       points: 2
     },
     {
@@ -1044,7 +1044,7 @@ const grammarQuestions = {
       options: ["Was", "Wie", "Wo", "Wer"],
       correct: "Wie",
       hint: { uk: "Wie viel = скільки коштує", de: "" },
-      explanation: "Wie viel kostet das? — Скільки це коштує?",
+      explanation: { uk: "Wie viel kostet das? — Скільки це коштує?", de: "Wie viel kostet das? — Скільки це коштує?" },
       points: 3
     },
     {
@@ -1057,7 +1057,7 @@ const grammarQuestions = {
       options: ["Wie", "Was", "Wo", "Wer"],
       correct: "Wie",
       hint: { uk: "Wie lange = як довго", de: "" },
-      explanation: "Wie lange dauert es? — Як довго це триває?",
+      explanation: { uk: "Wie lange dauert es? — Як довго це триває?", de: "Wie lange dauert es? — Як довго це триває?" },
       points: 3
     },
     {
@@ -1070,7 +1070,7 @@ const grammarQuestions = {
       options: ["Wohin", "Woher", "Wann", "Warum"],
       correct: "Wohin",
       hint: { uk: "Куди?", de: "" },
-      explanation: "Wohin gehst du gern? — Куди ти любиш ходити?",
+      explanation: { uk: "Wohin gehst du gern? — Куди ти любиш ходити?", de: "Wohin gehst du gern? — Куди ти любиш ходити?" },
       points: 3
     }
   ],
@@ -1087,7 +1087,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "nicht",
       hint: { uk: "не + прикметник", de: "" },
-      explanation: "Nicht заперечує прикметник/дієслово: nicht müde.",
+      explanation: { uk: "Nicht заперечує прикметник/дієслово: nicht müde.", de: "Nicht заперечує прикметник/дієслово: nicht müde." },
       points: 2
     },
     {
@@ -1100,7 +1100,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "keine",
       hint: { uk: "Zeit (fem.)", de: "Zeit (fem.)" },
-      explanation: "Kein/keine заперечує іменник: keine Zeit.",
+      explanation: { uk: "Kein/keine заперечує іменник: keine Zeit.", de: "Kein/keine заперечує іменник: keine Zeit." },
       points: 2
     },
     {
@@ -1113,7 +1113,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "kein",
       hint: { uk: "Kaffee (mask.)", de: "Kaffee (mask.)" },
-      explanation: "Kein + іменник (mask.): kein Kaffee.",
+      explanation: { uk: "Kein + іменник (mask.): kein Kaffee.", de: "Kein + іменник (mask.): kein Kaffee." },
       points: 2
     },
     {
@@ -1126,7 +1126,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keinen", "keine"],
       correct: "keinen",
       hint: { uk: "Hunger (mask.) Akk", de: "Hunger (mask.) Akk" },
-      explanation: "Hunger (mask.) часто як Akk: keinen Hunger.",
+      explanation: { uk: "Hunger (mask.) часто як Akk: keinen Hunger.", de: "Hunger (mask.) часто як Akk: keinen Hunger." },
       points: 2
     },
     {
@@ -1139,7 +1139,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "nicht",
       hint: { uk: "заперечення дії", de: "" },
-      explanation: "Заперечуємо дію/обставину: nicht ins Kino.",
+      explanation: { uk: "Заперечуємо дію/обставину: nicht ins Kino.", de: "Заперечуємо дію/обставину: nicht ins Kino." },
       points: 2
     },
     {
@@ -1152,7 +1152,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "keinen"],
       correct: "kein",
       hint: { uk: "Auto (neut.) → kein", de: "" },
-      explanation: "Neutrum: kein Auto.",
+      explanation: { uk: "Neutrum: kein Auto.", de: "Neutrum: kein Auto." },
       points: 2
     },
     {
@@ -1165,7 +1165,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "nicht",
       hint: { uk: "заперечення займенника", de: "" },
-      explanation: "Nicht заперечує присвійний: nicht mein Problem.",
+      explanation: { uk: "Nicht заперечує присвійний: nicht mein Problem.", de: "Nicht заперечує присвійний: nicht mein Problem." },
       points: 3
     },
     {
@@ -1178,7 +1178,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "keinen"],
       correct: "keine",
       hint: { uk: "Menschen = plural", de: "" },
-      explanation: "Plural: keine Menschen.",
+      explanation: { uk: "Plural: keine Menschen.", de: "Plural: keine Menschen." },
       points: 3
     },
     {
@@ -1191,7 +1191,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "nichts"],
       correct: "nicht",
       hint: { uk: "заперечення дієслова", de: "" },
-      explanation: "Ich verstehe das nicht. (не розумію цього)",
+      explanation: { uk: "Ich verstehe das nicht. (не розумію цього)", de: "Ich verstehe das nicht. (не розумію цього)" },
       points: 3
     },
     {
@@ -1204,7 +1204,7 @@ const grammarQuestions = {
       options: ["nicht", "kein", "keine", "keinen"],
       correct: "keine",
       hint: { uk: "Lust (fem.)", de: "Lust (fem.)" },
-      explanation: "Keine Lust (фемінін).",
+      explanation: { uk: "Keine Lust (фемінін).", de: "Keine Lust (фемінін)." },
       points: 3
     }
   ],
@@ -1221,7 +1221,7 @@ const grammarQuestions = {
       options: ["drei", "vier", "fünf", "sechs"],
       correct: "drei",
       hint: { uk: "1,2,3", de: "" },
-      explanation: "1–3: eins, zwei, drei.",
+      explanation: { uk: "1–3: eins, zwei, drei.", de: "1–3: eins, zwei, drei." },
       points: 1
     },
     {
@@ -1234,7 +1234,7 @@ const grammarQuestions = {
       options: ["zwölf", "zwanzig", "dreizehn", "neun"],
       correct: "zwölf",
       hint: { uk: "10–12", de: "" },
-      explanation: "10–12: zehn, elf, zwölf.",
+      explanation: { uk: "10–12: zehn, elf, zwölf.", de: "10–12: zehn, elf, zwölf." },
       points: 1
     },
     {
@@ -1247,7 +1247,7 @@ const grammarQuestions = {
       options: ["bist", "ist", "bin", "sind"],
       correct: "bist",
       hint: { uk: "du + bist", de: "du + bist" },
-      explanation: "Wie alt bist du?",
+      explanation: { uk: "Wie alt bist du?", de: "Wie alt bist du?" },
       points: 2
     },
     {
@@ -1260,7 +1260,7 @@ const grammarQuestions = {
       options: ["zwanzig", "zwei", "zweite", "zwanzigste"],
       correct: "zwanzig",
       hint: { uk: "20 = ...", de: "" },
-      explanation: "20 = zwanzig.",
+      explanation: { uk: "20 = zwanzig.", de: "20 = zwanzig." },
       points: 2
     },
     {
@@ -1273,7 +1273,7 @@ const grammarQuestions = {
       options: ["fünfzehn", "vierzehn", "sechzehn", "dreizehn"],
       correct: "fünfzehn",
       hint: { uk: "7+8", de: "7+8" },
-      explanation: "7 + 8 = 15 → fünfzehn.",
+      explanation: { uk: "7 + 8 = 15 → fünfzehn.", de: "7 + 8 = 15 → fünfzehn." },
       points: 2
     },
     {
@@ -1286,7 +1286,7 @@ const grammarQuestions = {
       options: ["drei", "vier", "fünf", "sechs"],
       correct: "drei",
       hint: { uk: "0–3", de: "" },
-      explanation: "0–3: null, eins, zwei, drei.",
+      explanation: { uk: "0–3: null, eins, zwei, drei.", de: "0–3: null, eins, zwei, drei." },
       points: 2
     },
     {
@@ -1299,7 +1299,7 @@ const grammarQuestions = {
       options: ["zwölf", "zwanzig", "zwei", "elf"],
       correct: "zwölf",
       hint: { uk: "12 = ...", de: "" },
-      explanation: "12 = zwölf.",
+      explanation: { uk: "12 = zwölf.", de: "12 = zwölf." },
       points: 2
     },
     {
@@ -1312,7 +1312,7 @@ const grammarQuestions = {
       options: ["einundzwanzig", "zwanzigeins", "einszwanzig", "zweieins"],
       correct: "einundzwanzig",
       hint: { uk: "1 і 20", de: "" },
-      explanation: "21 = ein-und-zwanzig.",
+      explanation: { uk: "21 = ein-und-zwanzig.", de: "21 = ein-und-zwanzig." },
       points: 3
     },
     {
@@ -1325,7 +1325,7 @@ const grammarQuestions = {
       options: ["fünfunddreißig", "dreißigfünf", "fünfdreißig", "dreiundfünfzig"],
       correct: "fünfunddreißig",
       hint: { uk: "5 і 30", de: "" },
-      explanation: "35 = fünf-und-dreißig.",
+      explanation: { uk: "35 = fünf-und-dreißig.", de: "35 = fünf-und-dreißig." },
       points: 3
     },
     {
@@ -1338,7 +1338,7 @@ const grammarQuestions = {
       options: ["3", "5", "7", "9"],
       correct: "3",
       hint: { uk: "послідовність", de: "Reihe" },
-      explanation: "Після 0-1-2 логічно 3.",
+      explanation: { uk: "Після 0-1-2 логічно 3.", de: "Після 0-1-2 логічно 3." },
       points: 3
     }
   ],
@@ -1355,7 +1355,7 @@ const grammarQuestions = {
       options: ["spät", "alt", "viel", "viele"],
       correct: "spät",
       hint: { uk: "Котра година?", de: "Wie spät?" },
-      explanation: "Wie spät ist es? — Котра година?",
+      explanation: { uk: "Wie spät ist es? — Котра година?", de: "Wie spät ist es? — Котра година?" },
       points: 1
     },
     {
@@ -1368,7 +1368,7 @@ const grammarQuestions = {
       options: ["Uhr", "Tag", "Woche", "Jahr"],
       correct: "Uhr",
       hint: { uk: "година", de: "" },
-      explanation: "Es ist drei Uhr.",
+      explanation: { uk: "Es ist drei Uhr.", de: "Es ist drei Uhr." },
       points: 1
     },
     {
@@ -1381,7 +1381,7 @@ const grammarQuestions = {
       options: ["um", "am", "im", "zu"],
       correct: "um",
       hint: { uk: "точний час", de: "um … Uhr" },
-      explanation: "Um + Uhrzeit: um 7 Uhr.",
+      explanation: { uk: "Um + Uhrzeit: um 7 Uhr.", de: "Um + Uhrzeit: um 7 Uhr." },
       points: 2
     },
     {
@@ -1394,7 +1394,7 @@ const grammarQuestions = {
       options: ["Am", "Um", "Im", "Zu"],
       correct: "Am",
       hint: { uk: "частина дня", de: "am Morgen/Abend" },
-      explanation: "Am Morgen = вранці.",
+      explanation: { uk: "Am Morgen = вранці.", de: "Am Morgen = вранці." },
       points: 2
     },
     {
@@ -1407,7 +1407,7 @@ const grammarQuestions = {
       options: ["Im", "Am", "Um", "Zu"],
       correct: "Im",
       hint: { uk: "пора року", de: "im Sommer/Winter" },
-      explanation: "Im Sommer = влітку.",
+      explanation: { uk: "Im Sommer = влітку.", de: "Im Sommer = влітку." },
       points: 2
     },
     {
@@ -1420,7 +1420,7 @@ const grammarQuestions = {
       options: ["Montag", "Sonntag", "Freitag", "Dienst"],
       correct: "Montag",
       hint: { uk: "день тижня", de: "Wochentag" },
-      explanation: "Montag = понеділок.",
+      explanation: { uk: "Montag = понеділок.", de: "Montag = понеділок." },
       points: 2
     },
     {
@@ -1433,7 +1433,7 @@ const grammarQuestions = {
       options: ["Dienstag", "Sonntag", "Samstag", "Freitag"],
       correct: "Dienstag",
       hint: { uk: "послідовність", de: "Reihe" },
-      explanation: "Після Montag йде Dienstag.",
+      explanation: { uk: "Після Montag йде Dienstag.", de: "Після Montag йде Dienstag." },
       points: 2
     },
     {
@@ -1446,7 +1446,7 @@ const grammarQuestions = {
       options: ["am", "um", "im", "zu"],
       correct: "am",
       hint: { uk: "am Abend", de: "am Abend" },
-      explanation: "Am Abend = ввечері.",
+      explanation: { uk: "Am Abend = ввечері.", de: "Am Abend = ввечері." },
       points: 3
     },
     {
@@ -1459,7 +1459,7 @@ const grammarQuestions = {
       options: ["um", "am", "im", "zu"],
       correct: "um",
       hint: { uk: "точний час", de: "um … Uhr" },
-      explanation: "Um 18:00 = о 18:00.",
+      explanation: { uk: "Um 18:00 = о 18:00.", de: "Um 18:00 = о 18:00." },
       points: 3
     },
     {
@@ -1472,7 +1472,7 @@ const grammarQuestions = {
       options: ["Am", "Um", "Im", "Zu"],
       correct: "Am",
       hint: { uk: "am Wochenende", de: "am Wochenende" },
-      explanation: "Am Wochenende = на вихідних.",
+      explanation: { uk: "Am Wochenende = на вихідних.", de: "Am Wochenende = на вихідних." },
       points: 3
     },
     {
@@ -1492,7 +1492,7 @@ const grammarQuestions = {
       ],
       correct: "Viertel vor acht",
       hint: { uk: "Годинна стрілка між 7 та 8, хвилинна на 9", de: "" },
-      explanation: "45 хвилин = Viertel vor наступної години",
+      explanation: { uk: "45 хвилин = Viertel vor наступної години", de: "45 хвилин = Viertel vor наступної години" },
       points: 2
     },
     {
@@ -1512,7 +1512,7 @@ const grammarQuestions = {
       ],
       correct: "Viertel nach drei",
       hint: { uk: "Годинна стрілка на 3, хвилинна на 3", de: "" },
-      explanation: "15 хвилин = Viertel nach",
+      explanation: { uk: "15 хвилин = Viertel nach", de: "15 хвилин = Viertel nach" },
       points: 2
     },
     {
@@ -1532,7 +1532,7 @@ const grammarQuestions = {
       ],
       correct: "Halb elf",
       hint: { uk: "Минутна стрілка на 6, годинна між 10 та 11", de: "" },
-      explanation: "30 хвилин = halb наступної години",
+      explanation: { uk: "30 хвилин = halb наступної години", de: "30 хвилин = halb наступної години" },
       points: 3
     }
   ],
@@ -1549,7 +1549,7 @@ const grammarQuestions = {
       options: ["Mutter", "Vater", "Bruder", "Schwester"],
       correct: "Mutter",
       hint: { uk: "мама", de: "" },
-      explanation: "Meine Mutter heißt Maria.",
+      explanation: { uk: "Meine Mutter heißt Maria.", de: "Meine Mutter heißt Maria." },
       points: 1
     },
     {
@@ -1562,7 +1562,7 @@ const grammarQuestions = {
       options: ["Vater", "Mütter", "Schwestern", "Eltern"],
       correct: "Vater",
       hint: { uk: "тато", de: "" },
-      explanation: "Das ist mein Vater.",
+      explanation: { uk: "Das ist mein Vater.", de: "Das ist mein Vater." },
       points: 1
     },
     {
@@ -1575,7 +1575,7 @@ const grammarQuestions = {
       options: ["Brüder", "Bruder", "Schwester", "Schwestern"],
       correct: "Brüder",
       hint: { uk: "множина", de: "" },
-      explanation: "Zwei → множина: Brüder.",
+      explanation: { uk: "Zwei → множина: Brüder.", de: "Zwei → множина: Brüder." },
       points: 2
     },
     {
@@ -1588,7 +1588,7 @@ const grammarQuestions = {
       options: ["Schwester", "Bruder", "Vater", "Mutter"],
       correct: "Schwester",
       hint: { uk: "сестра", de: "" },
-      explanation: "Meine Schwester ist sieben Jahre alt.",
+      explanation: { uk: "Meine Schwester ist sieben Jahre alt.", de: "Meine Schwester ist sieben Jahre alt." },
       points: 2
     },
     {
@@ -1601,7 +1601,7 @@ const grammarQuestions = {
       options: ["Eltern", "Vater", "Mutter", "Bruder"],
       correct: "Eltern",
       hint: { uk: "батьки", de: "" },
-      explanation: "Das sind meine Eltern.",
+      explanation: { uk: "Das sind meine Eltern.", de: "Das sind meine Eltern." },
       points: 2
     },
     {
@@ -1614,7 +1614,7 @@ const grammarQuestions = {
       options: ["Mutter", "Schwester", "Tochter", "Freundin"],
       correct: "Mutter",
       hint: { uk: "родинні звʼязки", de: "" },
-      explanation: "Oma = мама твоєї мами/тата.",
+      explanation: { uk: "Oma = мама твоєї мами/тата.", de: "Oma = мама твоєї мами/тата." },
       points: 2
     },
     {
@@ -1627,7 +1627,7 @@ const grammarQuestions = {
       options: ["Bruder", "Sohn", "Freund", "Lehrer"],
       correct: "Bruder",
       hint: { uk: "onkel", de: "onkel" },
-      explanation: "Onkel = брат батька/матері.",
+      explanation: { uk: "Onkel = брат батька/матері.", de: "Onkel = брат батька/матері." },
       points: 2
     },
     {
@@ -1640,7 +1640,7 @@ const grammarQuestions = {
       options: ["Freundin", "Freund", "Bruder", "Vater"],
       correct: "Freundin",
       hint: { uk: "female partner", de: "female partner" },
-      explanation: "Freundin = дівчина/подруга (жіноча форма).",
+      explanation: { uk: "Freundin = дівчина/подруга (жіноча форма).", de: "Freundin = дівчина/подруга (жіноча форма)." },
       points: 3
     },
     {
@@ -1653,7 +1653,7 @@ const grammarQuestions = {
       options: ["unsere", "unser", "meine", "meinen"],
       correct: "unsere",
       hint: { uk: "Großeltern = plural", de: "" },
-      explanation: "Plural: unsere Großeltern.",
+      explanation: { uk: "Plural: unsere Großeltern.", de: "Plural: unsere Großeltern." },
       points: 3
     },
     {
@@ -1666,7 +1666,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Kind = neutrum", de: "das Kind" },
-      explanation: "Kind (das) → ein Kind.",
+      explanation: { uk: "Kind (das) → ein Kind.", de: "Kind (das) → ein Kind." },
       points: 3
     }
   ],
@@ -1683,7 +1683,7 @@ const grammarQuestions = {
       options: ["Wasser", "Milch", "Saft", "Tee"],
       correct: "Wasser",
       hint: { uk: "найпростіше слово", de: "" },
-      explanation: "Trinken → напої. Wasser = вода.",
+      explanation: { uk: "Trinken → напої. Wasser = вода.", de: "Trinken → напої. Wasser = вода." },
       points: 1
     },
     {
@@ -1696,7 +1696,7 @@ const grammarQuestions = {
       options: ["Brot", "Wasser", "Tee", "Milch"],
       correct: "Brot",
       hint: { uk: "їжа", de: "" },
-      explanation: "Essen → їжа. Brot = хліб.",
+      explanation: { uk: "Essen → їжа. Brot = хліб.", de: "Essen → їжа. Brot = хліб." },
       points: 1
     },
     {
@@ -1709,7 +1709,7 @@ const grammarQuestions = {
       options: ["Tee", "gehen", "wohnen", "sehen"],
       correct: "Tee",
       hint: { uk: "питання в кафе", de: "" },
-      explanation: "Möchtest du Tee? — Хочеш чаю?",
+      explanation: { uk: "Möchtest du Tee? — Хочеш чаю?", de: "Möchtest du Tee? — Хочеш чаю?" },
       points: 2
     },
     {
@@ -1722,7 +1722,7 @@ const grammarQuestions = {
       options: ["schmeckt", "geht", "liest", "fliegt"],
       correct: "schmeckt",
       hint: { uk: "про смак", de: "" },
-      explanation: "Schmecken = смакувати: Das Essen schmeckt gut.",
+      explanation: { uk: "Schmecken = смакувати: Das Essen schmeckt gut.", de: "Schmecken = смакувати: Das Essen schmeckt gut." },
       points: 2
     },
     {
@@ -1735,7 +1735,7 @@ const grammarQuestions = {
       options: ["einen", "ein", "eine", "einem"],
       correct: "einen",
       hint: { uk: "Apfel (mask.) Akk", de: "Apfel (mask.) Akk" },
-      explanation: "Akk mask.: einen Apfel.",
+      explanation: { uk: "Akk mask.: einen Apfel.", de: "Akk mask.: einen Apfel." },
       points: 2
     },
     {
@@ -1748,7 +1748,7 @@ const grammarQuestions = {
       options: ["einen", "ein", "eine", "einem"],
       correct: "einen",
       hint: { uk: "Kaffee (mask.)", de: "Kaffee (mask.)" },
-      explanation: "Ich hätte gern einen Kaffee. (ввічливо)",
+      explanation: { uk: "Ich hätte gern einen Kaffee. (ввічливо)", de: "Ich hätte gern einen Kaffee. (ввічливо)" },
       points: 2
     },
     {
@@ -1761,7 +1761,7 @@ const grammarQuestions = {
       options: ["ein", "eine", "einen", "einem"],
       correct: "ein",
       hint: { uk: "Brot = neutrum", de: "das Brot" },
-      explanation: "Ein Brot (neutrum).",
+      explanation: { uk: "Ein Brot (neutrum).", de: "Ein Brot (neutrum)." },
       points: 2
     },
     {
@@ -1774,7 +1774,7 @@ const grammarQuestions = {
       options: ["das", "den", "die", "dem"],
       correct: "das",
       hint: { uk: "Salz = das", de: "das Salz" },
-      explanation: "Das Salz (neutrum).",
+      explanation: { uk: "Das Salz (neutrum).", de: "Das Salz (neutrum)." },
       points: 3
     },
     {
@@ -1787,7 +1787,7 @@ const grammarQuestions = {
       options: ["den", "das", "die", "der"],
       correct: "den",
       hint: { uk: "Akk mask.", de: "Akk mask." },
-      explanation: "Ich esse den Käse. (Käse часто маск.)",
+      explanation: { uk: "Ich esse den Käse. (Käse часто маск.)", de: "Ich esse den Käse. (Käse часто маск.)" },
       points: 3
     },
     {
@@ -1800,7 +1800,7 @@ const grammarQuestions = {
       options: ["Tee", "gehen", "lesen", "schnell"],
       correct: "Tee",
       hint: { uk: "альтернатива напою", de: "" },
-      explanation: "Sondern = а навпаки: ... sondern Tee.",
+      explanation: { uk: "Sondern = а навпаки: ... sondern Tee.", de: "Sondern = а навпаки: ... sondern Tee." },
       points: 3
     }
   ],
@@ -1817,7 +1817,7 @@ const grammarQuestions = {
       options: ["blau", "grün", "rot", "schwarz"],
       correct: "blau",
       hint: { uk: "небо", de: "" },
-      explanation: "Der Himmel ist blau.",
+      explanation: { uk: "Der Himmel ist blau.", de: "Der Himmel ist blau." },
       points: 1
     },
     {
@@ -1830,7 +1830,7 @@ const grammarQuestions = {
       options: ["gelb", "blau", "schwarz", "grün"],
       correct: "gelb",
       hint: { uk: "сонце", de: "" },
-      explanation: "Die Sonne ist gelb.",
+      explanation: { uk: "Die Sonne ist gelb.", de: "Die Sonne ist gelb." },
       points: 1
     },
     {
@@ -1843,7 +1843,7 @@ const grammarQuestions = {
       options: ["grün", "rot", "blau", "weiß"],
       correct: "grün",
       hint: { uk: "трава", de: "" },
-      explanation: "Das Gras ist grün.",
+      explanation: { uk: "Das Gras ist grün.", de: "Das Gras ist grün." },
       points: 2
     },
     {
@@ -1856,7 +1856,7 @@ const grammarQuestions = {
       options: ["weiß", "schwarz", "rot", "blau"],
       correct: "weiß",
       hint: { uk: "сніг", de: "" },
-      explanation: "Schnee ist weiß.",
+      explanation: { uk: "Schnee ist weiß.", de: "Schnee ist weiß." },
       points: 2
     },
     {
@@ -1869,7 +1869,7 @@ const grammarQuestions = {
       options: ["schwarz", "weiß", "gelb", "grün"],
       correct: "schwarz",
       hint: { uk: "ніч", de: "" },
-      explanation: "Die Nacht ist schwarz.",
+      explanation: { uk: "Die Nacht ist schwarz.", de: "Die Nacht ist schwarz." },
       points: 2
     },
     {
@@ -1882,7 +1882,7 @@ const grammarQuestions = {
       options: ["weiß", "laufen", "sieben", "heute"],
       correct: "weiß",
       hint: { uk: "колір", de: "" },
-      explanation: "Weiß = білий.",
+      explanation: { uk: "Weiß = білий.", de: "Weiß = білий." },
       points: 2
     },
     {
@@ -1895,7 +1895,7 @@ const grammarQuestions = {
       options: ["rot", "blau", "weiß", "schwarz"],
       correct: "rot",
       hint: { uk: "яблуко", de: "" },
-      explanation: "Der Apfel ist rot. (часто так кажуть)",
+      explanation: { uk: "Der Apfel ist rot. (часто так кажуть)", de: "Der Apfel ist rot. (часто так кажуть)" },
       points: 2
     },
     {
@@ -1908,7 +1908,7 @@ const grammarQuestions = {
       options: ["grün", "grüne", "Grün", "grünen"],
       correct: "Grün",
       hint: { uk: "як іменник", de: "" },
-      explanation: "Коли колір як іменник → з великої: das Grün / Grün.",
+      explanation: { uk: "Коли колір як іменник → з великої: das Grün / Grün.", de: "Коли колір як іменник → з великої: das Grün / Grün." },
       points: 3
     },
     {
@@ -1921,7 +1921,7 @@ const grammarQuestions = {
       options: ["grau", "grün", "braun", "lila"],
       correct: "grau",
       hint: { uk: "сірий", de: "" },
-      explanation: "Grau = сірий.",
+      explanation: { uk: "Grau = сірий.", de: "Grau = сірий." },
       points: 3
     },
     {
@@ -1934,7 +1934,7 @@ const grammarQuestions = {
       options: ["lila", "blau", "gelb", "weiß"],
       correct: "lila",
       hint: { uk: "violett/lila", de: "violett/lila" },
-      explanation: "Lila = фіолетовий (розмовно).",
+      explanation: { uk: "Lila = фіолетовий (розмовно).", de: "Lila = фіолетовий (розмовно)." },
       points: 3
     }
   ],
@@ -1951,7 +1951,7 @@ const grammarQuestions = {
       options: ["Haus", "Auto", "Buch", "Baum"],
       correct: "Haus",
       hint: { uk: "де живуть", de: "" },
-      explanation: "Ich wohne in einem Haus.",
+      explanation: { uk: "Ich wohne in einem Haus.", de: "Ich wohne in einem Haus." },
       points: 1
     },
     {
@@ -1964,7 +1964,7 @@ const grammarQuestions = {
       options: ["Zimmer", "Küche", "Bad", "Balkon"],
       correct: "Zimmer",
       hint: { uk: "кімната", de: "" },
-      explanation: "Im Zimmer (кімната).",
+      explanation: { uk: "Im Zimmer (кімната).", de: "Im Zimmer (кімната)." },
       points: 1
     },
     {
@@ -1977,7 +1977,7 @@ const grammarQuestions = {
       options: ["Tisch", "Hund", "Himmel", "Film"],
       correct: "Tisch",
       hint: { uk: "меблі", de: "" },
-      explanation: "Правильно: Der Tisch steht in der Küche.",
+      explanation: { uk: "Правильно: Der Tisch steht in der Küche.", de: "Правильно: Der Tisch steht in der Küche." },
       points: 2
     },
     {
@@ -1990,7 +1990,7 @@ const grammarQuestions = {
       options: ["Waschbecken", "Tisch", "Auto", "Brot"],
       correct: "Waschbecken",
       hint: { uk: "ванна", de: "" },
-      explanation: "Das Waschbecken ist im Bad.",
+      explanation: { uk: "Das Waschbecken ist im Bad.", de: "Das Waschbecken ist im Bad." },
       points: 2
     },
     {
@@ -2003,7 +2003,7 @@ const grammarQuestions = {
       options: ["Wohnzimmer", "Keller", "Bad", "Schlafzimmer"],
       correct: "Wohnzimmer",
       hint: { uk: "вітальня", de: "" },
-      explanation: "Wir essen im Wohnzimmer.",
+      explanation: { uk: "Wir essen im Wohnzimmer.", de: "Wir essen im Wohnzimmer." },
       points: 2
     },
     {
@@ -2016,7 +2016,7 @@ const grammarQuestions = {
       options: ["Decke", "Tür", "Wand", "Straße"],
       correct: "Decke",
       hint: { uk: "стеля", de: "" },
-      explanation: "Decke = стеля/ковдра (тут стеля).",
+      explanation: { uk: "Decke = стеля/ковдра (тут стеля).", de: "Decke = стеля/ковдра (тут стеля)." },
       points: 2
     },
     {
@@ -2029,7 +2029,7 @@ const grammarQuestions = {
       options: ["Fenster", "Tisch", "Bett", "Schrank"],
       correct: "Fenster",
       hint: { uk: "відкрити", de: "" },
-      explanation: "Fenster aufmachen = відкрити вікно.",
+      explanation: { uk: "Fenster aufmachen = відкрити вікно.", de: "Fenster aufmachen = відкрити вікно." },
       points: 2
     },
     {
@@ -2042,7 +2042,7 @@ const grammarQuestions = {
       options: ["auf dem", "in dem", "unter dem", "an dem"],
       correct: "auf dem",
       hint: { uk: "auf = на", de: "" },
-      explanation: "Auf dem Tisch = на столі.",
+      explanation: { uk: "Auf dem Tisch = на столі.", de: "Auf dem Tisch = на столі." },
       points: 3
     },
     {
@@ -2055,7 +2055,7 @@ const grammarQuestions = {
       options: ["in der", "auf der", "unter der", "an der"],
       correct: "in der",
       hint: { uk: "in = в", de: "" },
-      explanation: "In der Tasche = в сумці.",
+      explanation: { uk: "In der Tasche = в сумці.", de: "In der Tasche = в сумці." },
       points: 3
     },
     {
@@ -2068,7 +2068,7 @@ const grammarQuestions = {
       options: ["an der", "in der", "auf der", "unter der"],
       correct: "an der",
       hint: { uk: "an = біля/при", de: "" },
-      explanation: "An der Wand = біля стіни/при стіні.",
+      explanation: { uk: "An der Wand = біля стіни/при стіні.", de: "An der Wand = біля стіни/при стіні." },
       points: 3
     }
   ],
@@ -2085,7 +2085,7 @@ const grammarQuestions = {
       options: ["Hund", "Katze", "Maus", "Vogel"],
       correct: "Hund",
       hint: { uk: "звук", de: "" },
-      explanation: "Der Hund bellt. (собака гавкає)",
+      explanation: { uk: "Der Hund bellt. (собака гавкає)", de: "Der Hund bellt. (собака гавкає)" },
       points: 1
     },
     {
@@ -2098,7 +2098,7 @@ const grammarQuestions = {
       options: ["Katze", "Hund", "Pferd", "Vogel"],
       correct: "Katze",
       hint: { uk: "звук", de: "" },
-      explanation: "Die Katze miaut. (кішка нявкає)",
+      explanation: { uk: "Die Katze miaut. (кішка нявкає)", de: "Die Katze miaut. (кішка нявкає)" },
       points: 1
     },
     {
@@ -2111,7 +2111,7 @@ const grammarQuestions = {
       options: ["Vogel", "Fisch", "Pferd", "Hund"],
       correct: "Vogel",
       hint: { uk: "літає", de: "" },
-      explanation: "Правильно: Der Vogel fliegt.",
+      explanation: { uk: "Правильно: Der Vogel fliegt.", de: "Правильно: Der Vogel fliegt." },
       points: 2
     },
     {
@@ -2124,7 +2124,7 @@ const grammarQuestions = {
       options: ["Fisch", "Hund", "Kuh", "Hase"],
       correct: "Fisch",
       hint: { uk: "плаває", de: "" },
-      explanation: "Der Fisch schwimmt.",
+      explanation: { uk: "Der Fisch schwimmt.", de: "Der Fisch schwimmt." },
       points: 2
     },
     {
@@ -2137,7 +2137,7 @@ const grammarQuestions = {
       options: ["Pferd", "Buch", "Tisch", "Milch"],
       correct: "Pferd",
       hint: { uk: "тварина", de: "" },
-      explanation: "Das Pferd läuft schnell.",
+      explanation: { uk: "Das Pferd läuft schnell.", de: "Das Pferd läuft schnell." },
       points: 2
     },
     {
@@ -2150,7 +2150,7 @@ const grammarQuestions = {
       options: ["einen", "ein", "eine", "einem"],
       correct: "einen",
       hint: { uk: "Hund (mask.)", de: "Hund (mask.)" },
-      explanation: "Ich habe einen Hund.",
+      explanation: { uk: "Ich habe einen Hund.", de: "Ich habe einen Hund." },
       points: 2
     },
     {
@@ -2163,7 +2163,7 @@ const grammarQuestions = {
       options: ["auf dem", "in dem", "unter dem", "an dem"],
       correct: "auf dem",
       hint: { uk: "на дивані", de: "" },
-      explanation: "Auf dem Sofa = на дивані.",
+      explanation: { uk: "Auf dem Sofa = на дивані.", de: "Auf dem Sofa = на дивані." },
       points: 2
     },
     {
@@ -2176,7 +2176,7 @@ const grammarQuestions = {
       options: ["im", "am", "um", "zu"],
       correct: "im",
       hint: { uk: "всередині місця", de: "" },
-      explanation: "Im Garten = в саду.",
+      explanation: { uk: "Im Garten = в саду.", de: "Im Garten = в саду." },
       points: 3
     },
     {
@@ -2189,7 +2189,7 @@ const grammarQuestions = {
       options: ["die", "den", "das", "der"],
       correct: "die",
       hint: { uk: "plural Akk", de: "plural Akk" },
-      explanation: "Plural Akk: die Vögel.",
+      explanation: { uk: "Plural Akk: die Vögel.", de: "Plural Akk: die Vögel." },
       points: 3
     },
     {
@@ -2202,7 +2202,7 @@ const grammarQuestions = {
       options: ["eine", "ein", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Ente (die)", de: "Ente (die)" },
-      explanation: "Die Ente → eine Ente.",
+      explanation: { uk: "Die Ente → eine Ente.", de: "Die Ente → eine Ente." },
       points: 3
     }
   ],
@@ -2219,7 +2219,7 @@ const grammarQuestions = {
       options: ["Jacke", "Hemd", "Hose", "Schuhe"],
       correct: "Jacke",
       hint: { uk: "одяг", de: "" },
-      explanation: "Ich trage eine Jacke.",
+      explanation: { uk: "Ich trage eine Jacke.", de: "Ich trage eine Jacke." },
       points: 1
     },
     {
@@ -2232,7 +2232,7 @@ const grammarQuestions = {
       options: ["Hemd", "Jacke", "Hose", "Schuhe"],
       correct: "Hemd",
       hint: { uk: "ein + neutrum", de: "ein + neutrum" },
-      explanation: "Das Hemd → ein Hemd.",
+      explanation: { uk: "Das Hemd → ein Hemd.", de: "Das Hemd → ein Hemd." },
       points: 1
     },
     {
@@ -2245,7 +2245,7 @@ const grammarQuestions = {
       options: ["blau", "laufen", "lesen", "heute"],
       correct: "blau",
       hint: { uk: "колір", de: "" },
-      explanation: "Das T-Shirt ist blau.",
+      explanation: { uk: "Das T-Shirt ist blau.", de: "Das T-Shirt ist blau." },
       points: 2
     },
     {
@@ -2258,7 +2258,7 @@ const grammarQuestions = {
       options: ["Hose", "Jacke", "Kleid", "Schuhe"],
       correct: "Hose",
       hint: { uk: "штани", de: "" },
-      explanation: "Er trägt eine Hose.",
+      explanation: { uk: "Er trägt eine Hose.", de: "Er trägt eine Hose." },
       points: 2
     },
     {
@@ -2271,7 +2271,7 @@ const grammarQuestions = {
       options: ["Kleid", "Hose", "Jacke", "Schuhe"],
       correct: "Kleid",
       hint: { uk: "сукня", de: "" },
-      explanation: "Sie trägt ein Kleid.",
+      explanation: { uk: "Sie trägt ein Kleid.", de: "Sie trägt ein Kleid." },
       points: 2
     },
     {
@@ -2284,7 +2284,7 @@ const grammarQuestions = {
       options: ["Schuhe", "Hose", "Jacke", "Hemd"],
       correct: "Schuhe",
       hint: { uk: "plural", de: "plural" },
-      explanation: "Die Schuhe sind neu.",
+      explanation: { uk: "Die Schuhe sind neu.", de: "Die Schuhe sind neu." },
       points: 2
     },
     {
@@ -2297,7 +2297,7 @@ const grammarQuestions = {
       options: ["eine", "ein", "einen", "einem"],
       correct: "eine",
       hint: { uk: "Jacke (die)", de: "Jacke (die)" },
-      explanation: "Akk fem.: eine Jacke.",
+      explanation: { uk: "Akk fem.: eine Jacke.", de: "Akk fem.: eine Jacke." },
       points: 2
     },
     {
@@ -2310,7 +2310,7 @@ const grammarQuestions = {
       options: ["den", "das", "die", "dem"],
       correct: "den",
       hint: { uk: "Mantel = mask", de: "" },
-      explanation: "Akk mask.: den Mantel.",
+      explanation: { uk: "Akk mask.: den Mantel.", de: "Akk mask.: den Mantel." },
       points: 3
     },
     {
@@ -2323,7 +2323,7 @@ const grammarQuestions = {
       options: ["keine", "kein", "nicht", "keinen"],
       correct: "keine",
       hint: { uk: "plural", de: "plural" },
-      explanation: "Plural: keine Schuhe.",
+      explanation: { uk: "Plural: keine Schuhe.", de: "Plural: keine Schuhe." },
       points: 3
     },
     {
@@ -2336,7 +2336,7 @@ const grammarQuestions = {
       options: ["auf dem", "in dem", "unter dem", "an dem"],
       correct: "auf dem",
       hint: { uk: "на стільці", de: "" },
-      explanation: "Auf dem Stuhl = на стільці.",
+      explanation: { uk: "Auf dem Stuhl = на стільці.", de: "Auf dem Stuhl = на стільці." },
       points: 3
     }
   ],
@@ -2353,7 +2353,7 @@ const grammarQuestions = {
       options: ["scheint", "regnet", "schneit", "stürmt"],
       correct: "scheint",
       hint: { uk: "сонце", de: "" },
-      explanation: "Heute scheint die Sonne.",
+      explanation: { uk: "Heute scheint die Sonne.", de: "Heute scheint die Sonne." },
       points: 1
     },
     {
@@ -2366,7 +2366,7 @@ const grammarQuestions = {
       options: ["scheint", "regnet", "sonnig", "warm"],
       correct: "regnet",
       hint: { uk: "дощ", de: "" },
-      explanation: "Es regnet.",
+      explanation: { uk: "Es regnet.", de: "Es regnet." },
       points: 1
     },
     {
@@ -2379,7 +2379,7 @@ const grammarQuestions = {
       options: ["regnet", "scheint", "schneit", "warm"],
       correct: "schneit",
       hint: { uk: "зима", de: "" },
-      explanation: "Im Winter schneit es.",
+      explanation: { uk: "Im Winter schneit es.", de: "Im Winter schneit es." },
       points: 2
     },
     {
@@ -2392,7 +2392,7 @@ const grammarQuestions = {
       options: ["kalt", "Sonne", "Regen", "schneit"],
       correct: "kalt",
       hint: { uk: "температура", de: "" },
-      explanation: "Es ist sehr kalt.",
+      explanation: { uk: "Es ist sehr kalt.", de: "Es ist sehr kalt." },
       points: 2
     },
     {
@@ -2405,7 +2405,7 @@ const grammarQuestions = {
       options: ["kalt", "warm", "Wetter", "schneit"],
       correct: "Wetter",
       hint: { uk: "погода", de: "" },
-      explanation: "Das Wetter ist gut.",
+      explanation: { uk: "Das Wetter ist gut.", de: "Das Wetter ist gut." },
       points: 2
     },
     {
@@ -2418,7 +2418,7 @@ const grammarQuestions = {
       options: ["sonnig", "windig", "nass", "kühl"],
       correct: "sonnig",
       hint: { uk: "сонце", de: "" },
-      explanation: "Sonnig = сонячно.",
+      explanation: { uk: "Sonnig = сонячно.", de: "Sonnig = сонячно." },
       points: 2
     },
     {
@@ -2431,7 +2431,7 @@ const grammarQuestions = {
       options: ["windig", "sonnig", "heißt", "grün"],
       correct: "windig",
       hint: { uk: "вітер", de: "" },
-      explanation: "Windig = вітряно.",
+      explanation: { uk: "Windig = вітряно.", de: "Windig = вітряно." },
       points: 2
     },
     {
@@ -2444,7 +2444,7 @@ const grammarQuestions = {
       options: ["warm", "kalt", "schwarz", "spät"],
       correct: "warm",
       hint: { uk: "прогноз", de: "" },
-      explanation: "Warm = тепло.",
+      explanation: { uk: "Warm = тепло.", de: "Warm = тепло." },
       points: 3
     },
     {
@@ -2457,7 +2457,7 @@ const grammarQuestions = {
       options: ["kälter", "kalt", "kalte", "kälteste"],
       correct: "kälter",
       hint: { uk: "порівняння", de: "" },
-      explanation: "Порівняння: kalt → kälter.",
+      explanation: { uk: "Порівняння: kalt → kälter.", de: "Порівняння: kalt → kälter." },
       points: 3
     },
     {
@@ -2470,7 +2470,7 @@ const grammarQuestions = {
       options: ["Regenschirm", "Schlüssel", "Teller", "Stift"],
       correct: "Regenschirm",
       hint: { uk: "дощ", de: "" },
-      explanation: "Regenschirm = парасолька.",
+      explanation: { uk: "Regenschirm = парасолька.", de: "Regenschirm = парасолька." },
       points: 3
     }
   ],
@@ -2487,7 +2487,7 @@ const grammarQuestions = {
       options: ["spiele", "lese", "sehe", "höre"],
       correct: "spiele",
       hint: { uk: "ich + -e", de: "ich + -e" },
-      explanation: "Ich spiele ...",
+      explanation: { uk: "Ich spiele ...", de: "Ich spiele ..." },
       points: 1
     },
     {
@@ -2500,7 +2500,7 @@ const grammarQuestions = {
       options: ["spielt", "hört", "sieht", "liest"],
       correct: "hört",
       hint: { uk: "sie (вона) + -t", de: "" },
-      explanation: "Sie hört Musik.",
+      explanation: { uk: "Sie hört Musik.", de: "Sie hört Musik." },
       points: 1
     },
     {
@@ -2513,7 +2513,7 @@ const grammarQuestions = {
       options: ["spielt", "hört", "sieht", "liest"],
       correct: "liest",
       hint: { uk: "er + -t", de: "er + -t" },
-      explanation: "Er liest ein Buch.",
+      explanation: { uk: "Er liest ein Buch.", de: "Er liest ein Buch." },
       points: 2
     },
     {
@@ -2526,7 +2526,7 @@ const grammarQuestions = {
       options: ["spielen", "sehen", "lesen", "hören"],
       correct: "sehen",
       hint: { uk: "wir = infinitiv", de: "" },
-      explanation: "Wir sehen fern.",
+      explanation: { uk: "Wir sehen fern.", de: "Wir sehen fern." },
       points: 2
     },
     {
@@ -2539,7 +2539,7 @@ const grammarQuestions = {
       options: ["spiele", "spielst", "spielt", "spielen"],
       correct: "spiele",
       hint: { uk: "ich", de: "ich" },
-      explanation: "Я: ich spiele.",
+      explanation: { uk: "Я: ich spiele.", de: "Я: ich spiele." },
       points: 2
     },
     {
@@ -2552,7 +2552,7 @@ const grammarQuestions = {
       options: ["gehe", "geht", "gehen", "gehst"],
       correct: "gehe",
       hint: { uk: "ich + gehe", de: "ich + gehe" },
-      explanation: "Ich gehe schwimmen.",
+      explanation: { uk: "Ich gehe schwimmen.", de: "Ich gehe schwimmen." },
       points: 2
     },
     {
@@ -2565,7 +2565,7 @@ const grammarQuestions = {
       options: ["macht", "mache", "machst", "machen"],
       correct: "macht",
       hint: { uk: "er + -t", de: "er + -t" },
-      explanation: "Er macht Fitness.",
+      explanation: { uk: "Er macht Fitness.", de: "Er macht Fitness." },
       points: 2
     },
     {
@@ -2578,7 +2578,7 @@ const grammarQuestions = {
       options: ["starten", "starte", "startet", "startest"],
       correct: "starten",
       hint: { uk: "wir", de: "wir" },
-      explanation: "Wir starten heute ein Spiel.",
+      explanation: { uk: "Wir starten heute ein Spiel.", de: "Wir starten heute ein Spiel." },
       points: 3
     },
     {
@@ -2591,7 +2591,7 @@ const grammarQuestions = {
       options: ["schaue", "schaut", "schaust", "schauen"],
       correct: "schaue",
       hint: { uk: "ich + -e", de: "ich + -e" },
-      explanation: "Ich schaue gern ...",
+      explanation: { uk: "Ich schaue gern ...", de: "Ich schaue gern ..." },
       points: 3
     },
     {
@@ -2604,7 +2604,7 @@ const grammarQuestions = {
       options: ["spielt", "spiele", "spielen", "spielst"],
       correct: "spielt",
       hint: { uk: "ihr + -t", de: "ihr + -t" },
-      explanation: "Ihr spielt ...",
+      explanation: { uk: "Ihr spielt ...", de: "Ihr spielt ..." },
       points: 3
     }
   ],
@@ -2621,7 +2621,7 @@ const grammarQuestions = {
       options: ["Stadt", "Dorf", "Haus", "Buch"],
       correct: "Stadt",
       hint: { uk: "місто", de: "" },
-      explanation: "In einer Stadt = у місті.",
+      explanation: { uk: "In einer Stadt = у місті.", de: "In einer Stadt = у місті." },
       points: 1
     },
     {
@@ -2634,7 +2634,7 @@ const grammarQuestions = {
       options: ["Park", "Haus", "Auto", "Buch"],
       correct: "Park",
       hint: { uk: "місце", de: "" },
-      explanation: "Da ist ein Park. (Там парк)",
+      explanation: { uk: "Da ist ein Park. (Там парк)", de: "Da ist ein Park. (Там парк)" },
       points: 1
     },
     {
@@ -2647,7 +2647,7 @@ const grammarQuestions = {
       options: ["Der", "Die", "Das", "Den"],
       correct: "Der",
       hint: { uk: "Bus = maskulin", de: "der Bus" },
-      explanation: "Правильно: Der Bus fährt ...",
+      explanation: { uk: "Правильно: Der Bus fährt ...", de: "Правильно: Der Bus fährt ..." },
       points: 2
     },
     {
@@ -2660,7 +2660,7 @@ const grammarQuestions = {
       options: ["Park", "Supermarkt", "Schule", "Haus"],
       correct: "Supermarkt",
       hint: { uk: "магазин", de: "" },
-      explanation: "Im Supermarkt einkaufen = купувати в супермаркеті.",
+      explanation: { uk: "Im Supermarkt einkaufen = купувати в супермаркеті.", de: "Im Supermarkt einkaufen = купувати в супермаркеті." },
       points: 2
     },
     {
@@ -2673,7 +2673,7 @@ const grammarQuestions = {
       options: ["Geschäft", "Haus", "Auto", "Buch"],
       correct: "Geschäft",
       hint: { uk: "shop", de: "shop" },
-      explanation: "Das Geschäft ist groß.",
+      explanation: { uk: "Das Geschäft ist groß.", de: "Das Geschäft ist groß." },
       points: 2
     },
     {
@@ -2686,7 +2686,7 @@ const grammarQuestions = {
       options: ["der", "die", "das", "den"],
       correct: "der",
       hint: { uk: "mit + Dativ", de: "mit der/mit dem" },
-      explanation: "Mit + Dativ: mit der U-Bahn.",
+      explanation: { uk: "Mit + Dativ: mit der U-Bahn.", de: "Mit + Dativ: mit der U-Bahn." },
       points: 2
     },
     {
@@ -2699,7 +2699,7 @@ const grammarQuestions = {
       options: ["zum", "zur", "in den", "im"],
       correct: "zum",
       hint: { uk: "Bahnhof = der", de: "" },
-      explanation: "Zu + Dativ: zum Bahnhof (zu dem).",
+      explanation: { uk: "Zu + Dativ: zum Bahnhof (zu dem).", de: "Zu + Dativ: zum Bahnhof (zu dem)." },
       points: 2
     },
     {
@@ -2712,7 +2712,7 @@ const grammarQuestions = {
       options: ["die", "der", "das", "den"],
       correct: "die",
       hint: { uk: "Bäckerei = feminin", de: "die Bäckerei" },
-      explanation: "Die Bäckerei (fem.) → die nächste Bäckerei.",
+      explanation: { uk: "Die Bäckerei (fem.) → die nächste Bäckerei.", de: "Die Bäckerei (fem.) → die nächste Bäckerei." },
       points: 3
     },
     {
@@ -2725,7 +2725,7 @@ const grammarQuestions = {
       options: ["in den", "im", "auf den", "an den"],
       correct: "in den",
       hint: { uk: "einsteigen in + Akk", de: "in den Bus einsteigen" },
-      explanation: "Einsteigen: in den Bus (Akk).",
+      explanation: { uk: "Einsteigen: in den Bus (Akk).", de: "Einsteigen: in den Bus (Akk)." },
       points: 3
     },
     {
@@ -2738,7 +2738,7 @@ const grammarQuestions = {
       options: ["am", "im", "um", "zu"],
       correct: "am",
       hint: { uk: "am = an dem", de: "am …" },
-      explanation: "Am Hauptbahnhof = біля головного вокзалу.",
+      explanation: { uk: "Am Hauptbahnhof = біля головного вокзалу.", de: "Am Hauptbahnhof = біля головного вокзалу." },
       points: 3
     }
   ]

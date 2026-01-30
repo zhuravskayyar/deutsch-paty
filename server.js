@@ -25,7 +25,7 @@ app.use(express.static('public'));
 // ===== DUEL RULES =====
 const DUEL_RULES = {
   QUESTION_TIME_MS: 25000,     // 25s на відповідь
-  STEAL_WINDOW_MS: 3500,       // 3.5s на "вкрасти"
+  STEAL_WINDOW_MS: 1500,       // 1.5s на "вкрасти"
   HINT_PENALTY: 1,             // -1 очко за підказку
   COMBO_STEP: 3,               // кожні 3 правильних підряд
   COMBO_MULT: 0.5              // +50% очок за активний комбо-бонус
