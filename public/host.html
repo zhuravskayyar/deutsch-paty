@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="uk" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Deutsch Party — Host</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="broadcast">
+  <div class="app">
+    <div class="shell">
+
+      <div class="topbar">
+        <div class="topbar-inner">
+          <div class="brand">
+            <div class="logo-gear" aria-hidden="true"></div>
+            <div style="min-width:0">
+              <h1>Deutsch Party — Host</h1>
+              <p id="hostSub">Кімната • Лобі • Матч</p>
+            </div>
+          </div>
+
+          <div class="topbar-spacer"></div>
+
+          <div class="pill" id="serverPill" title="Статус підключення">
+            <span class="label">Сервер</span>
+            <span class="value" id="serverStatus">offline</span>
+          </div>
+
+          <div class="pill theme-toggle" title="Змінити тему" id="themeToggle">
+            <span class="value" id="themeIcon">🌙</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <!-- ===== Screen 0: LANGUAGE SELECT ===== -->
+        <section class="card screen screen-lang" id="screenLang">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Select language / Оберіть мову</h2>
+              <p class="card-sub">Choose interface language</p>
+            </div>
+          </div>
+
+          <div class="card-body" style="display:flex; gap:16px; justify-content:center">
+            <button class="btn primary" data-lang="uk" type="button">Українська</button>
+            <button class="btn primary" data-lang="de" type="button">Deutsch</button>
+          </div>
+        </section>
+
+        <!-- ===== Screen 1: HOST LOBBY (перший екран) ===== -->
+        <section class="card screen screen-lobby hidden" id="screenLobby">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title" data-i18n="room">Кімната</h2>
+              <p class="card-sub" data-i18n="roomDesc">Гравці заходять з телефонів по коду. Після цього запускай матч і раунди.</p>
+            </div>
+            <div class="btn-row">
+              <button class="btn primary" id="btnCreateRoom" type="button" data-i18n="createRoom">Створити кімнату</button>
+              <button class="btn" id="btnReset" type="button" data-i18n="reset">Скинути</button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="codebox">
+              <div>
+                <div class="hint" data-i18n="roomCode">Код кімнати</div>
+                <div class="code" id="roomCode">— — — — — —</div>
+              </div>
+              <button class="btn" id="btnCopy" type="button" data-i18n="copy">Копіювати</button>
+            </div>
+
+            <div style="height:14px"></div>
+
+            <div class="card-title" style="margin:0 0 10px" data-i18n="players">Гравці</div>
+            <div class="list" id="playersList"></div>
+          </div>
+
+          <div class="card-foot">
+            <div class="btn-row">
+              <button class="btn primary" id="btnStartMatch" type="button" data-i18n="startMatch">Почати матч</button>
+            </div>
+
+            <div style="height:10px"></div>
+            <div class="note" id="hostHint">
+              Натисни "Почати матч" — питання підуть нонстоп.
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== Screen 2: QUIZ DASHBOARD (другий екран) ===== -->
+        <section class="card screen screen-quiz hidden" id="screenQuiz">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title" data-i18n="quizHost">Quiz — Панель хоста</h2>
+              <p class="card-sub" data-i18n="quizDesc">Питання, таймер, хто відповів.</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Верхня панель з кодом і статистикою -->
+            <div class="quiz-top">
+              <div class="roomcode">
+                <div class="label" data-i18n="room">Кімната</div>
+                <div class="codebig" id="roomCodeBig">— — — — — —</div>
+                <div class="label" data-i18n="openForPlayers">Відкрито для гравців</div>
+              </div>
+              <div class="roundbox">
+                <div class="stat">
+                  <div class="label" data-i18n="round">Раунд</div>
+                  <div class="value" id="roundNumber">—/—</div>
+                </div>
+                <div class="stat">
+                  <div class="label" data-i18n="timer">Таймер</div>
+                  <div class="value" id="quizTimer">15s</div>
+                </div>
+                <div class="stat">
+                  <div class="label" data-i18n="players">Гравці</div>
+                  <div class="value" id="playersCount">0/8</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Основна частина з питанням і результатами -->
+            <div class="quiz-main">
+              <!-- Ліва колонка - питання та варіанти -->
+              <div class="questionbox">
+                <div class="q-head">
+                  <div class="pill" data-i18n="question">Питання</div>
+                  <div class="pill alt" id="questionTheme" data-i18n="theme">Grammar</div>
+                  <div class="pill" id="questionDifficulty" data-i18n="difficulty">Легко</div>
+                </div>
+                <div class="q-text" id="quizQuestion" data-i18n="questionText">
+                  Текст питання буде тут...
+                </div>
+                <!-- BIG TIMER BAR (broadcast) -->
+                <div class="big-timer" aria-hidden="true">
+                  <div class="big-timer-fill" id="quizTimerFill"></div>
+                </div>
+                <div class="answers" id="quizAnswers">
+                  <!-- Варіанти відповідей JS -->
+                </div>
+              </div>
+              <!-- Права колонка - таблиця результатів -->
+              <div class="scorebox">
+                <div class="scoretable">
+                  <div class="srow head">
+                    <div data-i18n="number">#</div>
+                    <div data-i18n="player">Гравець</div>
+                    <div class="right" data-i18n="points">Бали</div>
+                  </div>
+                  <div id="scoreList">
+                    <!-- Список гравців з балами -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-foot">
+            <div class="note">
+              <strong data-i18n="roundStats">Статистика раунду:</strong> 
+              <span id="roundStats">0 правильних • 0 неправильних • 0 не відповіли</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="./questions.js"></script>
+  <script>window.APP_MODE = "host";</script>
+  <script src="./app.js"></script>
+
+  <script>
+    // Додатковий скрипт для синхронізації та управління UI
+    let hostTimerInterval = null;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ініціалізація вибору мови
+      initLanguageOverlay();
+      
+      // Синхронізація коду кімнати між двома екранами
+      const roomCodeEl = document.getElementById('roomCode');
+      const roomCodeBig = document.getElementById('roomCodeBig');
+      const btnCopyBig = document.getElementById('btnCopyBig');
+      const btnBack = document.getElementById('btnBackToLobby');
+      const screenLobby = document.getElementById('screenLobby');
+      const screenQuiz = document.getElementById('screenQuiz');
+
+      // Функція синхронізації коду
+      function syncRoomCode() {
+        if (!roomCodeEl || !roomCodeBig) return;
+        roomCodeBig.textContent = roomCodeEl.textContent;
+      }
+
+      // Спостерігач за змінами коду кімнати
+      if (roomCodeEl) {
+        new MutationObserver(syncRoomCode).observe(roomCodeEl, {
+          childList: true,
+          characterData: true,
+          subtree: true
+        });
+      }
+
+      // Копіювання коду з другого екрану
+      btnCopyBig?.addEventListener('click', async function() {
+        const code = (roomCodeEl?.textContent || '').replace(/\s+/g, '').trim();
+        if (!code) return;
+        try {
+          await navigator.clipboard.writeText(code);
+          // Показати toast повідомлення
+          showToast('Код скопійовано!', code);
+        } catch (err) {
+          showToast('Помилка копіювання', 'Спробуйте вручну');
+        }
+      });
+
+      // Кнопка назад до лобі
+      btnBack?.addEventListener('click', function() {
+        // Явно показуємо лобі та ховаємо quiz
+        screenLobby?.classList.remove('hidden');
+        screenQuiz?.classList.add('hidden');
+        
+        // Зупиняємо таймер якщо він працює
+        const hostRound = document.getElementById('hostRound');
+        if (hostRound) {
+          hostRound.classList.add('hidden');
+          clearInterval(hostTimerInterval); // Додаємо глобальну змінну
+        }
+        
+        // Повертаємо кнопку "Почати матч"
+        const btnStartMatch = document.getElementById('btnStartMatch');
+        if (btnStartMatch) {
+          btnStartMatch.style.display = '';
+        }
+      });
+
+      // Функція для показу toast повідомлень
+      function showToast(title, message) {
+        // Створюємо toast елемент якщо його немає
+        let toastEl = document.querySelector('.toast');
+        if (!toastEl) {
+          toastEl = document.createElement('div');
+          toastEl.className = 'toast';
+          toastEl.innerHTML = '<b></b><div class="muted"></div>';
+          document.body.appendChild(toastEl);
+        }
+
+        toastEl.querySelector('b').textContent = title;
+        toastEl.querySelector('.muted').textContent = message;
+        toastEl.classList.add('show');
+
+        clearTimeout(toastEl.timeout);
+        toastEl.timeout = setTimeout(() => {
+          toastEl.classList.remove('show');
+        }, 2000);
+      }
+
+      // Оновлення статусу сервера
+      function updateServerStatus(status) {
+        const serverPill = document.getElementById('serverPill');
+        const serverStatus = document.getElementById('serverStatus');
+        
+        if (serverPill && serverStatus) {
+          serverStatus.textContent = status;
+          serverPill.className = `pill ${status === 'online' ? 'online' : 'offline'}`;
+        }
+      }
+
+      // Ініціалізація статусу сервера
+      updateServerStatus('offline');
+
+      // Перехід на quiz екран при старті матчу
+      document.getElementById('btnStartMatch')?.addEventListener('click', function() {
+        setTimeout(() => {
+          screenLobby?.classList.add('hidden');
+          screenQuiz?.classList.remove('hidden');
+        }, 500);
+      });
+    });
+
+    // Функція для ініціалізації вибору мови
+    function initLanguageOverlay() {
+      const screenLang = document.getElementById('screenLang');
+      const screenLobby = document.getElementById('screenLobby');
+
+      // 1) якщо мова вже збережена — застосувати і прибрати екран вибору
+      let saved = null;
+      try { saved = localStorage.getItem('dp_lang'); } catch {}
+      if (saved) applyLanguage(saved);
+
+      if (!screenLang) return;
+
+      if (saved) {
+        screenLang.remove(); // ✅ кнопки повністю зникають
+        // Показуємо лобі
+        if (screenLobby) screenLobby.classList.remove('hidden');
+        return;
+      }
+
+      // 2) якщо мови нема — ховаємо лобі до вибору
+      if (screenLobby) screenLobby.classList.add('hidden');
+
+      screenLang.querySelectorAll('button[data-lang]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const lang = btn.dataset.lang || 'uk';
+          applyLanguage(lang);
+
+          // ✅ прибираємо весь екран (кнопки зникли)
+          screenLang.remove();
+
+          // показуємо лобі
+          if (screenLobby) screenLobby.classList.remove('hidden');
+        });
+      });
+    }
+
+    // Функція застосування мови (додай, якщо ще немає в app.js)
+    function applyLanguage(lang) {
+      const dict = {
+        uk: {
+          // Загальні
+          room: "Кімната",
+          roomDesc: "Гравці заходять з телефонів по коду. Після цього запускай матч і раунди.",
+          createRoom: "Створити кімнату",
+          reset: "Скинути",
+          roomCode: "Код кімнати",
+          copy: "Копіювати",
+          players: "Гравці",
+          startMatch: "Почати матч",
+          
+          // Quiz екран
+          quizHost: "Quiz — Панель хоста",
+          quizDesc: "Питання, таймер, хто відповів.",
+          round: "Раунд",
+          timer: "Таймер",
+          openForPlayers: "Відкрито для гравців",
+          question: "Питання",
+          theme: "Тема",
+          difficulty: "Складність",
+          number: "#",
+          player: "Гравець",
+          points: "Бали",
+          roundStats: "Статистика раунду:",
+          correct: "правильних",
+          incorrect: "неправильних",
+          noAnswer: "не відповіли",
+          
+          // Додаткові
+          lobby: "Лобі",
+          match: "Матч",
+          easy: "Легко",
+          medium: "Середньо",
+          hard: "Важко"
+        },
+        de: {
+          // Загальні
+          room: "Raum",
+          roomDesc: "Spieler treten per Code über ihre Handys bei. Dann startest du das Match und die Runden.",
+          createRoom: "Raum erstellen",
+          reset: "Zurücksetzen",
+          roomCode: "Raumcode",
+          copy: "Kopieren",
+          players: "Spieler",
+          startMatch: "Spiel starten",
+          
+          // Quiz екран
+          quizHost: "Quiz — Host-Panel",
+          quizDesc: "Fragen, Timer, wer geantwortet hat.",
+          round: "Runde",
+          timer: "Timer",
+          openForPlayers: "Offen für Spieler",
+          question: "Frage",
+          theme: "Thema",
+          difficulty: "Schwierigkeit",
+          number: "#",
+          player: "Spieler",
+          points: "Punkte",
+          roundStats: "Rundenstatistik:",
+          correct: "richtig",
+          incorrect: "falsch",
+          noAnswer: "nicht geantwortet",
+          
+          // Додаткові
+          lobby: "Lobby",
+          match: "Match",
+          easy: "Leicht",
+          medium: "Mittel",
+          hard: "Schwer"
+        }
+      };
+
+      const currentDict = dict[lang] || dict.uk;
+      
+      // 1. Переклад елементів з data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (currentDict[key]) {
+          el.textContent = currentDict[key];
+        }
+      });
+      
+      // 2. Додаткові переклади для елементів без data-i18n
+      const hostSub = document.getElementById('hostSub');
+      if (hostSub && currentDict.room && currentDict.lobby && currentDict.match) {
+        hostSub.textContent = `${currentDict.room} • ${currentDict.lobby} • ${currentDict.match}`;
+      }
+      
+      // 3. Оновлення тексту підказки (якщо він є в DOM)
+      const hostHint = document.getElementById('hostHint');
+      if (hostHint) {
+        hostHint.innerHTML = lang === 'de' 
+          ? 'Klicke auf "Spiel starten" — Fragen laufen nonstop.'
+          : 'Натисни "Почати матч" — питання підуть нонстоп.';
+      }
+      
+      // 4. Оновлення roundStats, якщо він існує
+      updateRoundStats(lang);
+      
+      // 5. Оновлення difficulty, якщо встановлено
+      updateDifficulty(lang);
+      
+      // 6. Збереження мови
+      try { 
+        localStorage.setItem('dp_lang', lang); 
+      } catch(e) {
+        console.warn('Не вдалося зберегти мову в localStorage:', e);
+      }
+      
+      // 7. Перевірка, чи є якісь питання вже завантажені
+      // Якщо так - оновити їх мову
+      if (window.currentQuestion) {
+        updateQuestionLanguage(lang);
+      }
+    }
+
+    // Допоміжна функція для оновлення мови питання
+    function updateQuestionLanguage(lang) {
+      // Тут потрібно реалізувати логіку оновлення питання
+      // Це залежить від структури questions.js
+      // Наприклад:
+      const questionText = document.getElementById('quizQuestion');
+      const themeEl = document.getElementById('questionTheme');
+      const difficultyEl = document.getElementById('questionDifficulty');
+      
+      if (window.currentQuestion) {
+        const question = window.currentQuestion;
+        
+        // Оновлення тексту питання (якщо є переклад)
+        if (question.text && question.text[lang]) {
+          questionText.textContent = question.text[lang];
+        }
+        
+        // Оновлення теми
+        if (themeEl && question.theme && question.theme[lang]) {
+          themeEl.textContent = question.theme[lang];
+        }
+        
+        // Оновлення складності
+        if (difficultyEl && question.difficulty && question.difficulty[lang]) {
+          difficultyEl.textContent = question.difficulty[lang];
+        }
+      }
+    }
+
+    // Функція для оновлення статистики раунду
+    function updateRoundStats(lang) {
+      const roundStatsEl = document.getElementById('roundStats');
+      if (!roundStatsEl) return;
+      
+      const dict = {
+        uk: { correct: "правильних", incorrect: "неправильних", noAnswer: "не відповіли" },
+        de: { correct: "richtig", incorrect: "falsch", noAnswer: "nicht geantwortet" }
+      };
+      
+      const currentDict = dict[lang] || dict.uk;
+      
+      // Припускаємо, що статистика зберігається глобально або в елементі
+      // Якщо є window.hostRoundStats, використовуємо його
+      if (window.hostRoundStats) {
+        const { correct, wrong, noAnswer } = window.hostRoundStats;
+        roundStatsEl.textContent = `${correct} ${currentDict.correct} • ${wrong} ${currentDict.incorrect} • ${noAnswer} ${currentDict.noAnswer}`;
+      }
+    }
+
+    // Функція для оновлення складності
+    function updateDifficulty(lang) {
+      const difficultyEl = document.getElementById('questionDifficulty');
+      if (!difficultyEl) return;
+      
+      const dict = {
+        uk: { easy: "Легко", medium: "Середньо", hard: "Важко" },
+        de: { easy: "Leicht", medium: "Mittel", hard: "Schwer" }
+      };
+      
+      const currentDict = dict[lang] || dict.uk;
+      
+      // Припускаємо, що поточна складність зберігається
+      if (window.currentDifficulty) {
+        difficultyEl.textContent = currentDict[window.currentDifficulty] || window.currentDifficulty;
+      }
+    }
+  </script>
+  <audio id="bgMusic" src="/audio/theme.mp3" loop preload="auto"></audio>
+
+  <script>
+    const bgMusic = document.getElementById('bgMusic');
+    document.addEventListener('click', () => {
+      if (!bgMusic) return;
+      bgMusic.volume = 0.35;
+      bgMusic.play().catch(() => {});
+    }, { once: true });
+  </script>
+
+  <div class="hud-signature">
+    <span class="sig-text">by Yaroslav Zhuravskyi © 2026</span>
+    <a class="sig-ig" href="https://instagram.com/delta.yarick" target="_blank" rel="noopener">inst @delta.yarick</a>
+  </div>
+</body>
+</html>

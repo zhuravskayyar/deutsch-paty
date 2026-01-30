@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock Test</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./clock.js"></script>
+</head>
+<body>
+    <div class="clock-container">
+        <div id="test-clock"></div>
+    </div>
+
+    <div style="margin: 20px;">
+        <button onclick="setTime()">Set to 3:45</button>
+        <button onclick="setTime2()">Set to 10:15</button>
+        <button onclick="setTime3()">Set to 6:30</button>
+        <button onclick="startClock()">Start Real Time</button>
+    </div>
+
+    <script>
+        let clock;
+
+        function initClock() {
+            clock = new AnalogClock('test-clock', {
+                size: 200,
+                showDigital: true,
+                showSeconds: false,
+                smoothAnimation: true
+            });
+        }
+
+        function setTime() {
+            if (clock) {
+                console.log('Setting time to 3:45');
+                clock.setTime(3, 45);
+                clock.setQuestionInfo('Clock Question', 'What time is shown on the clock?');
+            }
+        }
+
+        function setTime2() {
+            if (clock) {
+                console.log('Setting time to 10:15');
+                clock.setTime(10, 15);
+                clock.setQuestionInfo('Time Reading', 'Can you tell the time?');
+            }
+        }
+
+        function setTime3() {
+            if (clock) {
+                console.log('Setting time to 6:30');
+                clock.setTime(6, 30);
+                clock.setQuestionInfo('German Time', 'Wie spät ist es?');
+            }
+        }
+
+        function startClock() {
+            if (clock) {
+                clock.startClock();
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('load', initClock);
+    </script>
+</body>
+</html>
