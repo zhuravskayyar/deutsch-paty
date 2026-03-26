@@ -172,7 +172,7 @@
 
   // ===== LANG SYSTEM =====
   const LANG = {
-    current: 'uk'
+    current: 'de'
   };
 
   let isTeacherMode = false; // Teacher mode toggle
@@ -189,6 +189,112 @@
     return I18N[LANG.current]?.[key] ?? key;
   }
 
+  function uiText(key) {
+    const copy = LANG.current === 'de'
+      ? {
+          hostSub: 'Raum • Lobby • Match',
+          hostHint: 'Klicke auf "Spiel starten" - Fragen laufen nonstop.',
+          serverLabel: 'Server',
+          playerSub: 'Beitritt • Lobby • Runde',
+          codeLabel: 'Code',
+          roomCodeLabel: 'Raumcode',
+          roomCodePlaceholder: 'z.B. 483921',
+          roomCodeHelper: '6 Ziffern, ohne Leerzeichen.',
+          nicknameLabel: 'Name',
+          nicknamePlaceholder: 'Dein Name',
+          nicknameHelper: 'Kurz, damit es in die Liste passt.',
+          roomMetaLabel: 'Raum',
+          youLabel: 'Du',
+          waitingPanelTitle: 'Warten auf den Start...',
+          timerLabel: 'Zeit',
+          yourPoints: 'Deine Punkte',
+          rankLabel: 'Rang',
+          answeredLabel: 'Geantwortet',
+          clockType: 'Uhr',
+          clockPrompt: 'Wähle die richtige Uhrzeit',
+          resultSub: 'Rundenergebnis',
+          you: 'Du',
+          added: 'Dazu',
+          total: 'Gesamt',
+          correctStat: 'Richtig',
+          progressToNextLevel: 'Fortschritt bis zum nächsten Level',
+          topPlayers: 'Top-Spieler',
+          nextRound: 'Nächste Runde',
+          tap: 'Tippen',
+          sendAnswer: 'Senden',
+          sent: 'Gesendet',
+          waitingOthers: 'Warten auf die anderen...',
+          roundStarted: 'Runde gestartet',
+          seconds: 'Sek.',
+          timeUp: 'Zeit ist um',
+          timeUpSub: 'Du hast nicht rechtzeitig geantwortet',
+          readyWaitingOthers: 'Du bist bereit. Wir warten auf die anderen...',
+          pressReady: 'Klicke auf "Bereit", damit der Lehrer starten kann.',
+          waitingReady: 'Warten, bis alle auf "Bereit" klicken.',
+          allReadyPrefix: 'Alle sind bereit! Start in',
+          noData: 'Keine Daten',
+          noAnswers: 'Keine Antworten'
+        }
+      : {
+          hostSub: 'Кімната • Лобі • Матч',
+          hostHint: 'Натисни "Почати матч" - питання підуть нонстоп.',
+          serverLabel: 'Сервер',
+          playerSub: 'Вхід • Лобі • Раунд',
+          codeLabel: 'Код',
+          roomCodeLabel: 'Код кімнати',
+          roomCodePlaceholder: 'Напр. 483921',
+          roomCodeHelper: '6 цифр, без пробілів.',
+          nicknameLabel: 'Нік',
+          nicknamePlaceholder: 'Твій нік',
+          nicknameHelper: 'Коротко, щоб помістилось у таблицю.',
+          roomMetaLabel: 'Кімната',
+          youLabel: 'Ти',
+          waitingPanelTitle: 'Очікуємо старт...',
+          timerLabel: 'Час',
+          yourPoints: 'Ваші бали',
+          rankLabel: 'Рейтинг',
+          answeredLabel: 'Відповіли',
+          clockType: 'Час',
+          clockPrompt: 'Оберіть правильний час',
+          resultSub: 'Результат раунду',
+          you: 'Ви',
+          added: 'Додано',
+          total: 'Загалом',
+          correctStat: 'Правильно',
+          progressToNextLevel: 'Прогрес до наступного рівня',
+          topPlayers: 'Топ гравців',
+          nextRound: 'Наступний раунд',
+          tap: 'натисни',
+          sendAnswer: 'Надіслати',
+          sent: 'Надіслано',
+          waitingOthers: 'Чекаємо інших...',
+          roundStarted: 'Раунд почався',
+          seconds: 'сек.',
+          timeUp: 'Час вийшов',
+          timeUpSub: 'Не встигли відповісти',
+          readyWaitingOthers: 'Ти готовий. Чекаємо інших...',
+          pressReady: 'Натисни "Готовий", щоб вчитель міг почати раунд.',
+          waitingReady: 'Чекаємо, поки всі натиснуть "Готовий".',
+          allReadyPrefix: 'Всі готові! Старт через',
+          noData: 'Немає даних',
+          noAnswers: 'Немає відповідей'
+        };
+
+    return copy[key] ?? t(key);
+  }
+
+  function formatRank(rank) {
+    if (!rank) return '-';
+    return LANG.current === 'de' ? `${rank}.` : `${rank}-ий`;
+  }
+
+  function formatDifficultyLabel(level) {
+    const map = LANG.current === 'de'
+      ? { easy: 'Leicht', normal: 'Mittel', hard: 'Schwer' }
+      : { easy: 'Легко', normal: 'Середньо', hard: 'Важко' };
+    return map[level] || level || t('difficulty');
+  }
+
   function getLocalizedField(field, isTeacher = false) {
     if (!field) return "";
     if (typeof field === "string") return field;
@@ -196,15 +302,67 @@
     if (isTeacher && field.teacherExplanation) {
       return field.teacherExplanation[LANG.current] || "";
     }
-    return field[LANG.current] || "";
+    return field[LANG.current] || field.de || field.uk || "";
   }
 
   function renderDynamicTexts() {
-    // TODO: update any dynamic texts not covered by data-i18n
+    const setText = (selector, value) => {
+      const el = document.querySelector(selector);
+      if (el && value != null) el.textContent = value;
+    };
+    const setPlaceholder = (selector, value) => {
+      const el = document.querySelector(selector);
+      if (el && value != null) el.setAttribute('placeholder', value);
+    };
+
+    setText('#hostSub', uiText('hostSub'));
+    setText('#hostHint', uiText('hostHint'));
+    setText('#serverPill .label', uiText('serverLabel'));
+
+    setText('#playerSub', uiText('playerSub'));
+    setText('body.player .pill .label', uiText('codeLabel'));
+    setText('label[for="roomInput"]', uiText('roomCodeLabel'));
+    setText('label[for="nameInput"]', uiText('nicknameLabel'));
+    setPlaceholder('#roomInput', uiText('roomCodePlaceholder'));
+    setPlaceholder('#nameInput', uiText('nicknamePlaceholder'));
+    setText('.field:nth-of-type(1) .helper', uiText('roomCodeHelper'));
+    setText('.field:nth-of-type(2) .helper', uiText('nicknameHelper'));
+    setText('.player-status .status-item:nth-child(1) .status-label', uiText('yourPoints'));
+    setText('.player-status .status-item:nth-child(2) .status-label', uiText('rankLabel'));
+    setText('.player-status .status-item:nth-child(3) .status-label', uiText('answeredLabel'));
+    setText('#lobbyCard .waiting-title', uiText('waitingPanelTitle'));
+    setText('.timer-label span', uiText('timerLabel'));
+    setText('#clockQuestionType', uiText('clockType'));
+    setText('#clockPrompt', uiText('clockPrompt'));
+    setText('#resultSub', uiText('resultSub'));
+    setText('#resultPlayerName', uiText('you'));
+    setText('.result-stats .stat:nth-child(1) span', uiText('added'));
+    setText('.result-stats .stat:nth-child(2) span', uiText('total'));
+    setText('.result-stats .stat:nth-child(3) span', uiText('correctStat'));
+    setText('.result-stats .stat:nth-child(4) span', uiText('rankLabel'));
+    setText('.progress-label span:first-child', uiText('progressToNextLevel'));
+    setText('.leaderboard-compact h4', uiText('topPlayers'));
+    setText('#btnNextRound span', uiText('nextRound'));
+
+    const playerLobbyMeta = document.querySelector('#lobbyCard .card-sub');
+    if (playerLobbyMeta) {
+      const roomValue = state.roomCode || document.getElementById('roomText')?.textContent || '—';
+      const meValue = state.nickname || document.getElementById('meText')?.textContent || '—';
+      playerLobbyMeta.innerHTML = `${uiText('roomMetaLabel')}: <b id="roomText">${roomValue}</b> • ${uiText('youLabel')}: <b id="meText">${meValue}</b>`;
+    }
+
+    const lobbyStatus = document.getElementById('lobbyStatus');
+    if (lobbyStatus) {
+      lobbyStatus.textContent = state.isReady ? uiText('readyWaitingOthers') : t('waitingSub');
+    }
+
+    if (btnReady) {
+      btnReady.textContent = state.isReady ? `${t('readyBtn')} ✅` : t('readyBtn');
+    }
   }
 
   function applyLanguage(lang) {
-    const dict = I18N[lang] || I18N.uk;
+    const dict = I18N[lang] || I18N.de;
     document.documentElement.lang = lang;
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -218,9 +376,9 @@
   // Expose and auto-apply language for player UI
   try {
     window.setLanguage = setLanguage;
+    window.applyLanguage = setLanguage;
     const savedLang = (function(){ try { return localStorage.getItem('dp_lang'); } catch(e){ return null; }})();
-    const browserLang = (navigator.language || (navigator.userLanguage || '')).startsWith('de') ? 'de' : 'uk';
-    setLanguage(savedLang || browserLang);
+    setLanguage(savedLang || 'de');
   } catch(e) {}
   
   // Вимкнення всіх сервіс-воркерів (тимчасово, для дебагу)
@@ -578,7 +736,7 @@ const PartyDuel = {
   const elQuizTimer = $("#quizTimer");
   const elQuizTimerFill = $("#quizTimerFill");
   const elQuestionTheme = $("#questionTheme");
-  const elQuestionDiff = $("#questionDiff");
+  const elQuestionDiff = $("#questionDifficulty");
   const elRoundNumber = $("#roundNumber");
   const elPlayersCount = $("#playersCount");
   const elRoomCodeBig = $("#roomCodeBig");
@@ -632,6 +790,40 @@ const PartyDuel = {
   
   function lockAnswers() {
     $$('.answer-btn').forEach(btn => btn.disabled = true);
+  }
+
+  function clearFeedback() {
+    const el = $('#feedback');
+    if (!el) return;
+    el.hidden = true;
+    el.className = 'feedback';
+    el.innerHTML = '';
+    el.removeAttribute('style');
+  }
+
+  function showFeedback(message, type = '') {
+    let el = $('#feedback');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'feedback';
+      el.className = 'feedback';
+      const roundEl = document.querySelector('.round');
+      if (roundEl) {
+        roundEl.appendChild(el);
+      }
+    }
+    el.hidden = false;
+    el.className = `feedback${type ? ` ${type}` : ''} show`;
+    el.removeAttribute('style');
+    el.innerHTML = message;
+  }
+
+  function setQuestionNote(text = '') {
+    const note = document.getElementById('hintText') || answerCard?.querySelector('.note');
+    if (!note) return;
+    note.textContent = text || '';
+    note.hidden = !text;
+    note.style.display = text ? '' : 'none';
   }
   
   function showResults(data) {
@@ -728,8 +920,8 @@ const PartyDuel = {
         // waiting status (якщо є)
         const lobbyStatus = document.getElementById('lobbyStatus');
         if (lobbyStatus) lobbyStatus.textContent = state.isReady
-          ? 'Ти готовий ✅ Чекаємо інших…'
-          : 'Натисни “Готовий”, щоб вчитель міг почати раунд';
+          ? uiText('readyWaitingOthers')
+          : uiText('pressReady');
 
         break;
       case 'QUESTION':
@@ -743,37 +935,33 @@ const PartyDuel = {
   
   function startTimer(duration, endsAt = null) {
     clearInterval(state.timerInterval);
-    state.timeLeft = duration;
+    state.timeLeft = Math.max(0, Number(duration) || 0);
 
-    const timerFill = $('.timer > div');
-    const timerText = $('.timer > span');
+    const timerFill = document.getElementById('timerFill') || answerCard?.querySelector('.timer-fill');
     const tText = document.getElementById('timerText');
-    const setUI = (leftSec) => {
-      const clamped = Math.max(0, leftSec);
-      state.timeLeft = clamped;
-      const percent = duration > 0 ? (clamped / duration) * 100 : 0;
+    const totalMs = Math.max(1000, state.timeLeft * 1000);
+    const finishAt = endsAt || (Date.now() + totalMs);
+    const setUI = (msLeft) => {
+      const safeMs = Math.max(0, msLeft);
+      const leftSec = Math.ceil(safeMs / 1000);
+      state.timeLeft = leftSec;
+      const percent = totalMs > 0 ? (safeMs / totalMs) * 100 : 0;
       if (timerFill) timerFill.style.width = `${percent}%`;
-      if (timerText) timerText.textContent = clamped;
-      if (tText) tText.textContent = `${clamped}s`;
+      if (tText) tText.textContent = `${leftSec}s`;
     };
 
-    setUI(duration);
+    setUI(finishAt - Date.now());
 
     state.timerInterval = setInterval(() => {
-      let left = state.timeLeft - 1;
-      if (endsAt) {
-        left = Math.ceil((endsAt - Date.now()) / 1000);
-      }
-      setUI(left);
+      const msLeft = finishAt - Date.now();
+      setUI(msLeft);
 
-      if (state.timeLeft <= 0) {
-        console.log('Timer reached 0, clearing interval');
+      if (msLeft <= 0) {
         clearInterval(state.timerInterval);
         state.timerInterval = null;
 
         // Якщо гравець ще не відповів — надсилаємо порожню відповідь
         if (!state.answered && state.selectedAnswer == null) {
-          console.log('Player did not answer, sending null answer');
           socket.emit('player:answer', {
             playerId: state.playerId || state.socketId,
             answer: null,
@@ -787,12 +975,18 @@ const PartyDuel = {
         // $$('.answer-btn').forEach(btn => btn.disabled = true);
 
         const submitBtn = $('.card-foot .btn');
+        const timerEndedLabel = uiText('timeUp');
         if (submitBtn && !state.answered) {
           submitBtn.disabled = true;
+          submitBtn.textContent = timerEndedLabel;
           submitBtn.textContent = 'Час вийшов';
         }
 
         // Показуємо повідомлення тільки якщо не відповіли
+        if (submitBtn && !state.answered) {
+          submitBtn.textContent = timerEndedLabel;
+        }
+
         if (!state.answered) {
           let feedback = $('#feedback');
           if (!feedback) {
@@ -810,8 +1004,11 @@ const PartyDuel = {
           feedback.style.marginTop = '10px';
           feedback.style.fontSize = '14px';
         }
+        if (!state.answered) {
+          showFeedback(`⏰ ${uiText('timeUp')}<br><small>${uiText('timeUpSub')}</small>`, 'error');
+        }
       }
-    }, 1000);
+    }, 200);
   }
 
   // ===== Analog clock (SVG) helper =====
@@ -1026,10 +1223,16 @@ function renderHostQuestion(question) {
 
   // якщо бек віддає theme/difficulty — показуємо
   if (elQuestionTheme) elQuestionTheme.textContent = question.theme ?? 'Grammar';
-  if (elQuestionDiff)  elQuestionDiff.textContent  = question.difficulty ?? 'Легко';
+  if (elQuestionDiff)  elQuestionDiff.textContent  = formatDifficultyLabel(question.difficulty);
 }
 
 function renderHostScoreboard(scores = []) {
+  if (!elScoreList) return;
+  if (!scores.length) {
+    elScoreList.innerHTML = `<div class="srow empty"><div></div><div class="muted">${uiText('noData')}</div><div></div></div>`;
+    return;
+  }
+
   const sorted = [...scores].sort((a,b) => (b.score ?? 0) - (a.score ?? 0));
   elScoreList.innerHTML = sorted.map((p, idx) => `
     <div class="score-row">
@@ -1041,12 +1244,32 @@ function renderHostScoreboard(scores = []) {
 }
 
 function setRoundStatsUI() {
-  // Assuming there are elements to update, e.g., #roundStatsCorrect, etc.
-  // For now, just log or do nothing if not defined
+  const roundStatsEl = document.getElementById('roundStats');
+  if (!roundStatsEl) return;
+  roundStatsEl.textContent = `${hostRoundStats.correct} ${t('correct')} • ${hostRoundStats.wrong} ${t('incorrect')} • ${hostRoundStats.noAnswer} ${t('noAnswer')}`;
 }
 
 function renderHostRoundResults(results, scores) {
-  // Render round results for host
+  if (!elScoreList) return;
+
+  const nameById = new Map((scores || []).map((p) => [p.id || p.playerId, p.name]));
+  if (!results?.length) {
+    elScoreList.innerHTML = `<div class="srow empty"><div></div><div class="muted">${uiText('noAnswers')}</div><div></div></div>`;
+    return;
+  }
+
+  const sorted = [...results].sort((a, b) => (b.points ?? 0) - (a.points ?? 0));
+  elScoreList.innerHTML = sorted.map((r, idx) => {
+    const name = r.name || nameById.get(r.playerId) || '—';
+    const icon = r.correct ? '✅' : '❌';
+    return `
+      <div class="srow">
+        <div>${idx + 1}</div>
+        <div>${icon} ${name}</div>
+        <div class="right">+${r.points ?? 0}</div>
+      </div>
+    `;
+  }).join('');
 }
 
 
@@ -1218,10 +1441,15 @@ function hostStartRoundDefault() {
       btn.style.pointerEvents = 'none';
     });
 
+    $$('.answer-btn').forEach(btn => {
+      btn.classList.remove('correct');
+      btn.style.opacity = '';
+    });
+
     const submitBtn = $('.card-foot .btn');
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Надіслано';
+      submitBtn.textContent = uiText('submitAnswer');
     }
 
     // Додати фідбек елемент, якщо його немає
@@ -1235,11 +1463,12 @@ function hostStartRoundDefault() {
         roundEl.appendChild(feedback);
       }
     }
-    feedback.innerHTML = '✅ Відповідь надіслано<br><small>Чекаємо інших...</small>';
+    feedback.innerHTML = `✅ ${uiText('sent')}<br><small>${uiText('waitingOthers')}</small>`;
     feedback.style.color = 'var(--success)';
     feedback.style.textAlign = 'center';
     feedback.style.marginTop = '10px';
     feedback.style.fontSize = '14px';
+    clearFeedback();
   }
   
   // ==================== SOCKET ПОДІЇ ====================
@@ -1376,7 +1605,7 @@ function hostStartRoundDefault() {
     // ✅ if endsAt present -> timer is perfectly synced with server
     startTimer(data.duration, data.endsAt);
 
-    toast('Раунд почався!', `${data.duration} секунд`);
+    toast(uiText('roundStarted'), `${data.duration} ${uiText('seconds')}`);
   });
   
   socket.on('round-ended', (data) => {
@@ -1461,7 +1690,7 @@ function hostStartRoundDefault() {
     if (data.playerId === state.playerId || data.playerId === state.socketId) {
       state.isReady = data.ready;
       if (btnReady) {
-        btnReady.textContent = data.ready ? 'Готовий ✅' : 'Готовий';
+        btnReady.textContent = data.ready ? `${t('readyBtn')} ✅` : t('readyBtn');
         btnReady.disabled = data.ready;
       }
     }
@@ -1473,32 +1702,48 @@ function hostStartRoundDefault() {
     if (!note) return;
 
     if (!data.allReady) {
-      note.textContent = 'Чекаємо поки всі натиснуть "Готовий".';
+      note.textContent = uiText('waitingReady');
       return;
     }
 
-    note.textContent = `Всі готові! Старт через ${data.countdownSec}...`;
+    note.textContent = `${uiText('allReadyPrefix')} ${data.countdownSec}...`;
 
     const lobbyStatus = document.getElementById('lobbyStatus');
     if (lobbyStatus) {
       lobbyStatus.textContent = !data.allReady
-        ? 'Чекаємо, поки всі натиснуть "Готовий"…'
-        : `Всі готові! Старт через ${data.countdownSec}…`;
+        ? uiText('waitingReady')
+        : `${uiText('allReadyPrefix')} ${data.countdownSec}...`;
     }
   });
 
   socket.on('round-started', (data) => {
+    if (isHost || state.phase === 'QUESTION') return;
+
     state.currentQuestion = data.question;
     state.selectedAnswer = null;
     
     setPhase('QUESTION');
     renderQuestion(data.question, data.duration);
-    startTimer(data.duration);
+    startTimer(data.duration, data.endsAt);
     
-    toast('Раунд почався!', `${data.duration} секунд`);
+    toast(uiText('roundStarted'), `${data.duration} ${uiText('seconds')}`);
   });
   
   socket.on('answer-received', ({ correct }) => {
+    lockAnswers();
+    clearFeedback();
+    if (correct) {
+      setQuestionNote('');
+      return;
+    }
+
+    const noteText =
+      getLocalizedField(state.currentQuestion?.hint) ||
+      getLocalizedField(state.currentQuestion?.explanation, isTeacherMode);
+
+    setQuestionNote(noteText);
+    return;
+
     clearInterval(state.timerInterval);
     
     if (correct) {
@@ -1551,27 +1796,39 @@ function hostStartRoundDefault() {
     // data.results — масив з усіма гравцями
     const myResult = data.results.find(r => r.id === state.playerId);
     if (myResult) {
+      const lang = document.documentElement.lang || 'de';
+      const roundPoints = Number(myResult.lastRoundPoints || 0);
+      const answeredCorrectly = !!myResult.correct;
+
       // Оновлюємо загальний рахунок
       state.score = myResult.score;
       
       // Показуємо, скільки додано саме в цьому раунді
       const addedPointsEl = document.getElementById('resultPoints');
       if (addedPointsEl) {
-        addedPointsEl.textContent = myResult.lastRoundPoints > 0 
-          ? `+${myResult.lastRoundPoints}` 
-          : myResult.lastRoundPoints < 0 
-            ? myResult.lastRoundPoints 
-            : '0';
-        addedPointsEl.style.color = myResult.lastRoundPoints > 0 ? 'var(--success)' : 'var(--danger)';
+        addedPointsEl.textContent = roundPoints > 0 ? `+${roundPoints}` : `${roundPoints}`;
+        addedPointsEl.style.color = roundPoints > 0
+          ? 'var(--success)'
+          : roundPoints < 0
+            ? 'var(--danger)'
+            : 'var(--text)';
       }
       
       // Загальний рахунок (можна додати окремий елемент, наприклад #totalScore)
-      const totalScoreEl = document.getElementById('totalScore') || addedPointsEl.parentElement.querySelector('.total');
+      const totalScoreEl = document.getElementById('totalScore') || addedPointsEl?.parentElement?.querySelector('.total');
       if (totalScoreEl) totalScoreEl.textContent = myResult.score;
+
+      const correctEl = document.getElementById('resultCorrect');
+      if (correctEl) {
+        correctEl.textContent = answeredCorrectly
+          ? (lang === 'de' ? 'Ja' : 'Так')
+          : (lang === 'de' ? 'Nein' : 'Ні');
+        correctEl.style.color = answeredCorrectly ? 'var(--success)' : 'var(--danger)';
+      }
       
       // Рейтинг
       const rankEl = document.getElementById('resultRank');
-      if (rankEl) rankEl.textContent = `${myResult.rank || calculateRank(data.results, state.playerId)}-ий`;
+      if (rankEl) rankEl.textContent = formatRank(myResult.rank || calculateRank(data.results, state.playerId));
       
       // Медаль
       const medalEl = document.getElementById('resultMedal');
@@ -1584,7 +1841,7 @@ function hostStartRoundDefault() {
     }
     
     // Анімація додавання балів
-    if (myResult) animatePointsAdded(myResult.lastRoundPoints);
+    if (myResult) animatePointsAdded(Number(myResult.lastRoundPoints || 0));
     
     // Прогрес (приклад: кожні 100 балів рівень)
     const progress = (state.score % 100);
@@ -1849,7 +2106,7 @@ function hostStartRoundDefault() {
     setPhase('LOBBY');
     
     if (btnReady) {
-      btnReady.textContent = 'Готовий';
+      btnReady.textContent = t('readyBtn');
       btnReady.disabled = false;
     }
     
@@ -1948,25 +2205,20 @@ function hostStartRoundDefault() {
     const note = answerCard.querySelector(".note");
     const footBtn = answerCard.querySelector(".card-foot .btn");
     const timerFill = answerCard.querySelector(".timer > div");
+    clearFeedback();
+    setQuestionNote('');
     
     // Скидання
     state.selectedAnswer = null;
     state.answered = false; // Скидаємо стан відповіді
     if (timerFill) timerFill.style.width = "100%";
-    if (note) {
-      const lang = document.documentElement.lang || "uk";
-      const hintText =
-        getLocalizedField(q.hint) ||
-        getLocalizedField(q.explanation, isTeacherMode);
-
-      note.textContent = hintText;
-    }
+    if (note) note.hidden = true;
     
     // Питання
     if (qWrap) {
       qWrap.innerHTML = `
         ${q.question}
-        <small>Обери правильну відповідь • ${duration} сек</small>
+        <small>${t('chooseAnswer')} • ${duration} ${uiText('seconds')}</small>
       `;
 
       // insert clock widget when question has clock property
@@ -1983,8 +2235,8 @@ function hostStartRoundDefault() {
                 <line id="minHand"  x1="100" y1="100" x2="100" y2="38" class="clock-hand minute-hand"/>
               </svg>
               <div class="clock-meta">
-                <div class="clock-meta-row"><span class="label">Modus</span><span id="clockMode">—</span></div>
-                <div class="clock-meta-row"><span class="label">Time</span><span id="clockTime">—</span></div>
+                <div class="clock-meta-row"><span class="label">${t('question')}</span><span id="clockMode">—</span></div>
+                <div class="clock-meta-row"><span class="label">${t('time')}</span><span id="clockTime">—</span></div>
               </div>
             </div>
           </div>
@@ -2009,7 +2261,7 @@ function hostStartRoundDefault() {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "answer-btn";
-        btn.innerHTML = `<b>${opt}</b><span>tap</span>`;
+        btn.innerHTML = `<b>${opt}</b><span>${uiText('tap')}</span>`;
         
         btn.addEventListener("click", () => {
           // Якщо вже відповіли — ігноруємо
@@ -2021,10 +2273,7 @@ function hostStartRoundDefault() {
           state.selectedAnswer = opt;
           try { window.__lastPickedAnswer = opt; } catch(e){}
           
-          if (footBtn) {
-            footBtn.disabled = false;
-            footBtn.textContent = "Надіслати";
-          }
+          submitAnswer(opt);
         });
         answersWrap.appendChild(btn);
       });
@@ -2032,12 +2281,7 @@ function hostStartRoundDefault() {
     
     // Кнопка відправки
     if (footBtn) {
-      footBtn.disabled = true;
-      footBtn.textContent = "Обери відповідь";
-      footBtn.onclick = () => {
-        if (!state.selectedAnswer) return;
-        submitAnswer(state.selectedAnswer);
-      };
+      footBtn.remove();
     }
   }
   
@@ -2156,7 +2400,7 @@ function hostStartRoundDefault() {
     const { correct, wrong, noAnswer } = window.hostRoundStats;
     // Используем функцию из host.html для обновления
     if (typeof updateRoundStats === 'function') {
-      updateRoundStats(localStorage.getItem('dp_lang') || 'uk');
+      updateRoundStats(localStorage.getItem('dp_lang') || 'de');
     } else {
       // Fallback
       roundStatsEl.textContent = `${correct} правильних • ${wrong} неправильних • ${noAnswer} не відповіли`;
@@ -2185,7 +2429,7 @@ function hostStartRoundDefault() {
 
     screenLang.querySelectorAll('button[data-lang]').forEach(btn => {
       btn.addEventListener('click', () => {
-        const lang = btn.dataset.lang || 'uk';
+        const lang = btn.dataset.lang || 'de';
         setLanguage(lang);
 
         // ✅ прибираємо весь екран (кнопки зникли)
@@ -2199,12 +2443,15 @@ function hostStartRoundDefault() {
   
   // ==================== ІНІЦІАЛІЗАЦІЯ ====================
   function init() {
+    applyLanguage(LANG.current);
+    renderDynamicTexts();
+
     /* =========================
        PATCH B: Init
        ========================= */
     document.addEventListener("DOMContentLoaded", () => {
       // Дефолт язык, якщо не встановлений
-      if (!localStorage.getItem('dp_lang')) localStorage.setItem('dp_lang', 'uk');
+      if (!localStorage.getItem('dp_lang')) localStorage.setItem('dp_lang', 'de');
 
       PartyDuel.mountHUD();
 

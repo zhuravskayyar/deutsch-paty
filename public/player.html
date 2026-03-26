@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="uk" data-theme="dark">
+<html lang="de" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
@@ -28,8 +28,8 @@
             <span class="value" id="pillRoom">—</span>
           </div>
           <div class="lang-switch" style="margin-left:8px">
-            <button class="btn small" type="button" onclick="applyLanguage('uk')">UA</button>
-            <button class="btn small" type="button" onclick="applyLanguage('de')">DE</button>
+            <button class="btn small" type="button" onclick="setLanguage('uk')">UA</button>
+            <button class="btn small" type="button" onclick="setLanguage('de')">DE</button>
           </div>
         </div>
       </div>
@@ -194,10 +194,6 @@
 
             <div class="note" id="hintText">—</div>
           </div>
-        </div>
-
-        <div class="card-foot">
-          <button class="btn full" id="btnSubmit" type="button" disabled data-i18n="submitAnswer"></button>
         </div>
       </section>
 

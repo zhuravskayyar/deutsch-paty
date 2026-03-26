@@ -24,12 +24,13 @@ app.use(express.static('public'));
 
 // ===== DUEL RULES =====
 const DUEL_RULES = {
-  QUESTION_TIME_MS: 25000,     // 25s на відповідь
+  QUESTION_TIME_MS: 15000,     // 15s на відповідь
   STEAL_WINDOW_MS: 1500,       // 1.5s на "вкрасти"
   HINT_PENALTY: 1,             // -1 очко за підказку
   COMBO_STEP: 3,               // кожні 3 правильних підряд
   COMBO_MULT: 0.5              // +50% очок за активний комбо-бонус
 };
+const DEFAULT_QUESTION_TIME_SEC = 15;
 
 function ensurePlayerState(p) {
   if (!p) return;
@@ -68,7 +69,7 @@ class Room {
     this.state = 'lobby';
     this.currentQuestion = null;
     this.questionStartTime = null;
-    this.roundDuration = 25;
+    this.roundDuration = DEFAULT_QUESTION_TIME_SEC;
     this.theme = 'sein';
     this.answers = new Map();
     this.createdAt = Date.now();
@@ -286,8 +287,7 @@ function startRound(room, theme = null) {
   room.currentQuestion = question;
   room.questionStartTime = Date.now();
   // ✅ duration per question (priority: question.timeLimitSec/duration -> room.roundDuration)
-  const durationSec =
-    Number(question.timeLimitSec || question.duration || room.roundDuration || 15);
+  const durationSec = Number(question.timeLimitSec || question.duration || room.roundDuration || DEFAULT_QUESTION_TIME_SEC);
   const startedAt = Date.now();
   const endsAt = startedAt + (durationSec * 1000);
 
